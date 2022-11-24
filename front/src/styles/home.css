@@ -1,0 +1,27 @@
+.banner-container>img {
+    max-width: 80%;
+    max-height: 270px;
+}
+
+.banner-container{
+    /* background-color: #eceef9; */
+    background-color: #e7faff;
+    min-height: 60vh;
+}
+
+.banner-input>div> button,
+.banner-input>div> input{
+    padding: .7rem;
+}
+
+.banner-input>div> input{
+    width: 55%;
+    zoom: none;
+    border-radius: none;
+}
+
+.banner-input>div> button {
+    border-top-right-radius: .5rem;
+    border-bottom-right-radius: .5rem;
+    width: 45%;
+}
