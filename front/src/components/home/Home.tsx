@@ -32,7 +32,7 @@ const Home = () => {
             <Banner/>
             <br />
             <hr />
-            <div className="my-3">
+            <div className="my-3 shadow">
                 <h1 className='my-1 p-1 text-center'>Vous voulez ?</h1>
                 <ColocType/>
             </div>
@@ -43,7 +43,7 @@ const Home = () => {
             </div>
             
             <div className="my-3 flex center bg-light-blue pt-1">
-                <ButtonPrimary title={'Je m\'inscris Maintenant !'} to={''} classes={['bg-light-gold']}/>
+                <ButtonPrimary title={'Je m\'inscris Maintenant !'} to={'/app/register'} classes={['bg-light-gold']}/>
             </div>
             
             <div className="my-3">

@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { formatLongText } from '../../../functions/functions';
+import { formatLongText } from '../../../_utils/functions/functions';
 import { ButtonPrimary } from '../buttons/Buttons';
 
 import { CardProps } from "../Interfaces";

@@ -15,3 +15,21 @@ export const formatLongText = (text: string, nb: number) => {
 
     return results ;
 }
+
+export const replaceDotDot = (text: string, nbcharacters: number) => {
+    if(text.length<= nbcharacters){
+        return text
+    }
+    text= text.slice(0, nbcharacters);
+    return text.concat('...');
+}
+
+export const goUp=()=> {
+    window.scrollTo({
+        top:0,
+        left:0,
+        behavior:'smooth'
+    });
+
+}
+

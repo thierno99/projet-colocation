@@ -2,7 +2,7 @@ import { MdOutlineVerified } from 'react-icons/md';
 import { BsPiggyBank, BsPeople } from 'react-icons/bs';
 const ContributionValue = () => {
     return (
-        <div className="my-1">
+        <div className="my-1 shadow">
             <div className="text-center">
                 <div className="flex j-center p-1 wrap">
                     <div className="m-1">

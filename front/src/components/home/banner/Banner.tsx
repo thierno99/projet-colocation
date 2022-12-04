@@ -15,7 +15,7 @@ const BannerSearchComponent = ( ) => {
 
 const Banner = () => {
     return (
-        <div className='w-full text-center my-half'>
+        <div className='w-full text-center my-half shadow'>
            {/* <h1 className='py-1'>Find Your Soolmate Roomate </h1> */}
            <div className='banner-container relative flex space-around py-1 wrap ralative'>
                 {/* <img src={Banner1} alt='Banner' /> */}
