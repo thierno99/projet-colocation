@@ -1,9 +1,9 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
-import { FaSignInAlt } from 'react-icons/fa';
-import { RiLoginCircleFill, RiLogoutBoxRLine } from 'react-icons/ri';
+import { RiLogoutBoxRLine } from 'react-icons/ri';
 import AccountServices from '../../../services/account.service';
+import { BiUserCircle } from 'react-icons/bi';
 
 
 const Navigation = () => {
@@ -29,22 +29,12 @@ const Navigation = () => {
                     :
                     <>
                         <li className='px-half flex center pointer'>
-                            <RiLoginCircleFill/>
-                            <Link 
+                            <Link
                                 to={'/app/signin'}
-                                className='px-px text-light text-center' 
-                            >
-                                connexion
-                            </Link>
-                        </li>
-                        <li>
-                            |
-                        </li>
-
-                        <li className='px-half flex center text-center pointer'>
-                            <FaSignInAlt/>
-                            <Link className='px-px text-light text-center' to={'/app/register'}>
-                                Inscription
+                                className='px-px text-light text-center flex center' 
+                                >
+                                <BiUserCircle/>
+                                <span className="px-px pb-px">Connexion</span>
                             </Link>
                         </li>
                     </>
@@ -58,22 +48,14 @@ const Navigation = () => {
 const Header = () => {
     return(
         <div className='text-light p-1'>
-            <div
-                className='flex row space-between' 
-            >
-                {/* <div className='logo pointer'>
-                    ColocNow
-                </div> */}
-
+            <div className='flex row space-between'>
                 <h3 className='pointer'>
                     <Link 
                         className='text-light'
-                        to={'/app'}>C
+                        to={'/app'}>GoColoc
                     </Link>
                 </h3>
-
                 <Navigation/>
-
             </div>
         </div>
     );

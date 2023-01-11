@@ -5,8 +5,8 @@
   font-family: system-ui, '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 body {
-  padding: .5rem;
-  max-width: 1500px;
+  /* padding: .5rem; */
+  /* max-width: 1500px; */
   margin: 0 auto;
   color: #514f4f;
 }
@@ -85,6 +85,11 @@ li{
   padding-left: 3px;
   padding-right: 3px;
 }
+
+.pb-px{
+  padding-bottom: 3px;
+}
+
 .pl-half,
 .px-half{
   padding-left: .5rem;
@@ -166,6 +171,16 @@ li{
 .mr-1,
 .mx-1 {
   margin-right: 1rem;
+}
+
+.ml-2, 
+.mx-2{
+  margin-left: 2rem;
+}
+
+.mr-2,
+.mx-2 {
+  margin-right: 2rem;
 }
 
 .mt-1,

@@ -6,7 +6,7 @@
 .banner-container{
     /* background-color: #eceef9; */
     background-color: #e7faff;
-    min-height: 60vh;
+    min-height: 0vh;
 }
 
 .banner-input>div> button,
