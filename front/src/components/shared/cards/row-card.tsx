@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import React, { FC } from 'react';
 import { formatLongText } from '../../../_utils/functions/functions';
 import { ButtonPrimary } from '../buttons/Buttons';
 

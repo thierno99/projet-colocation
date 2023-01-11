@@ -1,4 +1,4 @@
-import { ChangeEvent, FormEvent, useState } from 'react';
+import React, { ChangeEvent, FormEvent, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 import AccountServices from '../../services/account.service';
@@ -45,7 +45,7 @@ function Login() {
                         onSubmit={(e)=>onSubmit(e)}
                     >
 
-                        <div className='my-1 flex column'>
+                        <div className='my-half flex column'>
                             <label htmlFor='email'>identifiant :</label>
                             <input 
                                 type='text' id='email' className='p-half mt-1 br-half' value={credentials.email} name='email'
@@ -53,7 +53,7 @@ function Login() {
                             />
                         </div>
 
-                        <div className='my-1 flex column'>
+                        <div className='my-half flex column'>
                             <label htmlFor='password'>Mot de passe :</label>
                             <>
                                 <input type='password' id='password' className='p-half mt-1 br-half' value={credentials.password} name='password'

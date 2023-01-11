@@ -1,3 +1,4 @@
+import React from 'react';
 import { goUp } from '../../_utils/functions/functions';
 import ShardForm, { ShardFormProps } from '../shared/forms/sharedForm';
 

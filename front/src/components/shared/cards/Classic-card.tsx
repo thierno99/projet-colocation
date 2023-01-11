@@ -1,12 +1,20 @@
-import { FC } from 'react';
+import React, { FC } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { formatLongText } from '../../../_utils/functions/functions';
 
 import { CardProps } from "../Interfaces";
 
 const ClassicCard:FC<CardProps> = (props) => {
-    const {image, title, description} = props;
+    const {image, title, description, urlStr} = props;
+
+    const navigate = useNavigate();
+
+    const goto = () => {
+        navigate(urlStr);
+    }
+
     return (
-        <div className='classic-card relative pointer sm-column'>
+        <div className='classic-card relative pointer sm-column' onClick={goto}>
             <div className="classic-card-image flex j-center w-full">
                 {
                     typeof image === 'string' ?(

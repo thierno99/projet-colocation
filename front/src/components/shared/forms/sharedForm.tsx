@@ -1,4 +1,4 @@
-import { FC, ReactElement } from "react";
+import React, { FC, ReactElement } from "react";
 
 
 export interface FormFieldProps {
@@ -27,7 +27,7 @@ const ShardForm: FC<ShardFormProps> = (props) => {
             {
                 fields.map ((field,i) => {
                     return(
-                        <div className='my-1 flex column' key={i}>
+                        <div className='my-half flex column' key={i}>
                             {field.label}
                             {field.field}
                         </div>

@@ -1,74 +1,129 @@
-import React from 'react';
+import React, { FC } from 'react';
 import { FaCalendarAlt } from 'react-icons/fa';
 import { ImLocation } from 'react-icons/im';
 import { AiOutlineMail } from 'react-icons/ai';
 
 import defaultProfile from '../../../assets/Images/defaultProfile.jpg';
-import defaultApt from '../../../assets/Images/Appart_2.jpeg';
-import { formatLongText, replaceDotDot } from '../../../_utils/functions/functions';
+import defaultpng from '../../../assets/Images/defaultpng.png';
+import { formatLongText, publishedAtFormatMsg, replaceDotDot } from '../../../_utils/functions/functions';
 import { BsFillTelephoneFill } from 'react-icons/bs';
 import { MdVerified } from 'react-icons/md';
 
-const ColumnCard = () => {
+const ColumnCard:FC<any> = (props) => {
+    const {cardValues, user} = props;
     return (
-        <div className='flex column'>
+        <div className='flex column my-1'>
             <div className='card relative border-1 p-half br-1'>
                 <div className="card-hearder relative">
-                    <img src={defaultApt} alt="profile" />
+                    <img src={!cardValues.principalPicture?defaultpng: '/Images/'+cardValues.principalPicture} alt="profile" />
                     <hr />
-                    <div className="absolute top-0 right-0 p-1 bg-light-blue">
-                        <h3>700€</h3>
-                    </div>
-
-                    <div className="absolute bottom-0 left-0 mb-1 ml-half">
-                        <img src={defaultProfile} alt="profile" className='small-card-profile-img br-1'/>
-                    </div>
+                    {
+                        cardValues.price?
+                            <div className="absolute top-0 right-0 p-1 bg-light-blue">
+                                <h3>{cardValues.price} €</h3>
+                            </div>
+                        :
+                        null
+                    }
+                    {
+                        user ?(
+                            <div className="absolute bottom-0 left-0 mb-1 ml-half">
+                                <img src={!user.profileImg? defaultProfile: '/Images/'+user.profileImg} alt="profile" className='small-card-profile-img br-1'/>
+                            </div>
+                        ):
+                        null
+                    }
                 </div>
                 <div className='card-body p-half'>
                     <h3 className="card-title">
-                        Appartement T3
+                        {cardValues.title}
                     </h3>
-                    <p className='pt-1'>
+                    <div className='pt-1'>
                         {
-                            formatLongText(replaceDotDot(`Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.`,70),3).map((des,i) => {
+                            formatLongText(replaceDotDot(cardValues.description,70),4).map((des,i) => {
                                 return <p key={i}>{des} <br/> </p>
                             })
                         }
                         
-                    </p>
-                    <p className='py-half'>
-                        <ImLocation
-                        color='green'/> Bordeaux
-                    </p>
+                    </div>
+                    {
+                        cardValues.city?
+                            <p className='py-half'>
+                                <ImLocation
+                                color='green'/> {cardValues.city}
+                            </p>
+                            :
+                            null
+                    }
 
-                    <p className='py-half'>
-                        <FaCalendarAlt
-                        color='tomato'/> Il 4 jours
-                    </p>
+                    {
+                        cardValues.publishedAt?
+                        (
+
+                            <div className='py-half flex items-center'>
+                                    <FaCalendarAlt
+                                    color='blue'/> 
+                                    <p className='text-center pl-half'>
+                                        {publishedAtFormatMsg(cardValues.publishedAt)}
+                                    </p>
+                            </div>
+                            
+                        ):
+                        null
+                    }
+
                 </div>
                 <div className='card-footer'>
-                    <div className="flex space-around">
+                    {
+                        user?(
+                        <>
+                            {
+                                user.iscertified?(
+                                    <div className="flex space-around">
+                                        {
+                                            user.autorizeHaldleTel ?
+                                            <div className='px-1 py-half mt-half flex center br-half border-1 text-center pointer'>
+                                                <BsFillTelephoneFill
+                                                    color='green'
+                                                    fontSize={20}
+                                                />
+                                            </div>
+                                            :null
 
-                        <div className='px-1 py-half mt-half flex center br-half border-1 text-center pointer' id='type'>
-                            <AiOutlineMail
-                                color='#042054'
-                                fontSize={20}
-                            />
-                        </div>
-                        <div className='px-1 py-half mt-half flex center br-half border-1 text-center pointer' id='type'>
-                            <MdVerified
-                                color='#25d0b4f9'
-                                fontSize={20}
-                            />
-                        </div>
-                        <div className='px-1 py-half mt-half flex center br-half border-1 text-center pointer' id='type'>
-                            <BsFillTelephoneFill
-                                color='green'
-                                fontSize={20}
-                            />
-                        </div>
+                                        }
+                                        {
+                                        user.autorizeHaldleEmail ?
+                                            <div className='px-1 py-half mt-half flex center br-half border-1 text-center pointer'>
+                                                <AiOutlineMail
+                                                    color='#042054'
+                                                    fontSize={20}
+                                                />
+                                            </div>
+                                            :null
+                                        }
+                                        {
+                                            <div className='px-1 py-half mt-half flex center br-half border-1 text-center pointer'>
+                                                <MdVerified
+                                                    color='#25d0b4f9'
+                                                    fontSize={20}
+                                                />
+                                            </div>
+                                        }
+                                    </div>
+                                )
+                                : 
+                                <div className='px-1 py-half mt-half flex center br-half border-1 text-center pointer'>
+                                    <MdVerified
+                                        color='red'
+                                        fontSize={20}
+                                    />
+                                </div>
+                            }
+                        </>
+                        ):
+                        null
+                    }
 
-                    </div>
                 </div>
             </div>
         

@@ -1,15 +1,23 @@
+import React from 'react';
 import Banner from './banner/Banner';
 import '../../styles/home.css';
 import ContributionValue from './contribution-values/Contribution-value';
 import OurService from './our-services/OurServices';
 import { ButtonPrimary } from '../shared/buttons/Buttons';
 import SampleAnnouncement from './sample-annoncement/SampleAnnouncement';
+import { useNavigate } from 'react-router-dom';
 
 const ColocType = () => {
+    const navigate = useNavigate();
+
+    const gotoRooms = () => {
+        navigate('/app/rooms');
+    }
+
     return(
         <div className='py-1'>
             <div className="flex row space-around wrap">
-                <div className='pointer py-1 bg-light-sucess p-1'>
+                <div className='pointer py-1 bg-light-sucess p-1' onClick={gotoRooms}>
                     <h2>Trouver un logement</h2>
                     <p>Créez votre profil, ajoutez vos critères de recherches et trouves votre perle Rare <br /> ENJOY !</p>
                 </div>
@@ -27,6 +35,7 @@ const ColocType = () => {
 }
 
 const Home = () => {
+
     return (
         <div className='container'>
             <Banner/>

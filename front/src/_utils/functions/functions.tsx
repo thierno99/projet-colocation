@@ -1,3 +1,5 @@
+import { nbDaysDateBeetween2Dates, nbMonthBeetween2Dates } from "../../services/date-service";
+
 export const formatLongText = (text: string, nb: number) => {
     if(text.length <= nb)
     return [text];
@@ -33,3 +35,18 @@ export const goUp=()=> {
 
 }
 
+export const publishedAtFormatMsg = (publishedAt: Date) => {
+    const nbdays = nbDaysDateBeetween2Dates(publishedAt);
+    if (nbdays === 0){
+        return 'aujourd\'hui';
+    }
+
+    if (nbdays === 1){
+        return 'Il y\'a 1 jour';
+    }
+    if (nbdays <= 31) {
+        return `Il y'a ${nbdays} jours`
+    }
+
+    return `Il y'a ${nbMonthBeetween2Dates(publishedAt)} mois`;
+}

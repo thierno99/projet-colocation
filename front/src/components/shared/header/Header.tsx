@@ -65,12 +65,12 @@ const Header = () => {
                     ColocNow
                 </div> */}
 
-                <h1 className='pointer'>
+                <h3 className='pointer'>
                     <Link 
                         className='text-light'
-                        to={'/app'}>Coloc-me-now
+                        to={'/app'}>C
                     </Link>
-                </h1>
+                </h3>
 
                 <Navigation/>
 
