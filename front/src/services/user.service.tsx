@@ -1,3 +1,4 @@
+import { USERS } from "../_utils/mocks/users-mock";
 import Axios from "./axios.service";
 
 
@@ -6,7 +7,11 @@ const getAllUsers = () => {
 }
 
 const getUser = (uid: number) => {
-    return Axios.get('/app/users/s'+ uid);
+    return Axios.get('/app/users/'+ uid);
+}
+
+export const getMockUser = (uid: number) => {
+    return USERS.find(user => user.id === uid);
 }
 
 

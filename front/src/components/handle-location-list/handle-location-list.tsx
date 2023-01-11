@@ -1,95 +1,169 @@
-import React, { ChangeEvent } from 'react';
+import React, { ChangeEvent, useState } from 'react';
 import { FaFilter, FaList, FaMapMarkedAlt } from 'react-icons/fa';
 import { BiGridAlt } from 'react-icons/bi';
+
 import ColumnCard from '../shared/cards/column-card';
+import { ROOMS } from '../../_utils/mocks/rooms-mock';
+import { getMockUser } from '../../services/user.service';
+import Modal from '../shared/modals/modals';
+import MoreFilterLocation from './More-filter-location';
 
-const SearchComponent = () => {
-    const handleCityChange = (e: ChangeEvent<HTMLInputElement>) => {
-
-    }
-    return (
-        
-        <div className='bg-light-blue shadow'>
-            <div className='container'>
-                <form className='flex space-around wrap'>
-                    <div className='my-1 flex column w-half'>
-                        <label htmlFor='city' className='bold pl-1'>ville</label>
-                        <input 
-                            type='text' id='city' className='p-half mt-half br-half' value={'Bordeaux'} name='city'
-                            onChange={(e) =>handleCityChange(e)}
-                        />
-                    </div>
-
-                    <div className='my-1 flex column'>
-                        <label htmlFor='minRentPerMonth' className='bold pl-1'>loyer min / mois</label>
-                        <input 
-                            type='number' id='minRentPerMonth' className='p-half mt-half br-half' value={600} name='minRentPerMonth'
-                            onChange={(e) =>handleCityChange(e)}
-                        />
-                    </div>
-
-                    <div className='my-1 flex column'>
-                        <label htmlFor='maxRentPerMonth' className='bold pl-1'>loyer max / mois</label>
-                        <input 
-                            type='number' id='maxRentPerMonth' className='p-half mt-half br-half' value={1000} name='maxRentPerMonth'
-                            onChange={(e) =>handleCityChange(e)}
-                        />
-                    </div>
-
-                    <div className='my-1 flex column'>
-                        <label htmlFor='searchtype' className='bold pl-1'>je cherche un coloc</label>
-                        <select name="searchtype" id="searchtype" className='p-half mt-half br-half'>
-                            <option value="tous">tout type</option>
-                            <option value="haveRoom">ayant une location</option>
-                            <option value="needRoom">qui cherche une location</option>
-                        </select>
-                    </div>
-
-                    <div className='my-1 flex column'>
-                        <label htmlFor="recherche" className='bold'>recherche</label>
-                        <button className='p-half br-half pointer mt-half bg-primary text-light bold' id='recherche'> 
-                            recherche
-                        </button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    );
-}
 
 const HandleLocationList = () => {
+
+    const [moreFilter, setMoreFilter] = useState(false);
+    const [announces, setAnnounces] = useState(ROOMS);
+
+    const closeModal = () => {
+        const body = document.querySelector('body');
+        if(body) {
+            body.classList.remove('active-modal');
+        }
+        setMoreFilter(false);
+    }
+    
+    const [filters, setfilters] = useState({
+        city: '',
+        minRentPerMonth: 100,
+        maxRentPerMonth: 10000,
+        ageMin: 18,
+        ageMax: 90,
+        searchtype: '',
+        profileState: 'all-profile',
+        roomType: '',
+        roomfurnishedType:''
+    })
+    
+    const handleFilterChange = (e: ChangeEvent<HTMLInputElement>) => {
+        setfilters({
+            ...filters,
+            [e.target.name]: e.target.value
+        })
+    }
+
+    const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        const selectedIndex = e.target.options.selectedIndex;
+
+        setfilters({
+            ...filters,
+            [e.target.name]: e.target.options[selectedIndex].value
+        })
+    }
+
+    const ApplyMoreFilter = (allMoreFilters: {
+        title: string
+        isactive: boolean
+        id: string
+    }[]) => {
+        //FIXME manage gender filter 
+        // let ances = announces.filter(announce => (
+        //     (allMoreFilters[0].isactive && announce.genderSearched.toLowerCase().includes(allMoreFilters[0].title.toLowerCase())) ||
+        //     (allMoreFilters[1].isactive && announce.genderSearched.toLowerCase().includes(allMoreFilters[1].title.toLowerCase()))
+        // ));
+        // if(allMoreFilters[0].isactive || allMoreFilters[0].isactive){
+        //     setAnnounces(ances);        
+        // }
+    }
+    
+    const ApplyFilter = (e: React.MouseEvent<HTMLButtonElement, globalThis.MouseEvent>) => {
+        e.preventDefault();
+        const ances = ROOMS.filter(
+            room => 
+            room.price>=filters.minRentPerMonth && 
+            room.price<=filters.maxRentPerMonth &&
+            (
+                filters.profileState==='checked'? room.isOwnerCertified===true : 
+                filters.profileState==='no-checked'?room.isOwnerCertified===false: 
+                (room.isOwnerCertified || !room.isOwnerCertified)
+            ) &&
+            (
+                filters.roomfurnishedType==='furnished'? room.roomfurnishedType===true : 
+                filters.roomfurnishedType==='no-furnished'?room.roomfurnishedType===false: 
+                (room.roomfurnishedType || !room.roomfurnishedType)
+            ) &&
+            room.roomType.trim().toLowerCase().includes(filters.roomType.toLowerCase().trim()) &&    
+            room.city.trim().toLowerCase().includes(filters.city.toLowerCase().trim()) && 
+            room.announceType.trim().toLowerCase().includes(filters.searchtype.toLowerCase().trim())
+        );
+        setAnnounces(ances);
+    }
+
+    
     return (
         <>
-            <SearchComponent/>
-            <div className="container my-1">
-                <h3 className="text-center">Nous vous avons trouvé "600" Potentiels Colocs à Bordeaux</h3>
+            <div className='bg-light-blue shadow'>
+                <div className='container'>
+                    <form className='flex space-around wrap'>
+                        <div className='my-1 flex column w-half'>
+                            <label htmlFor='city' className='bold pl-1 pointer'>ville</label>
+                            <input 
+                                type='text' id='city' className='p-half mt-half br-half' value={filters.city} name='city'
+                                onChange={(e) =>handleFilterChange(e)}
+                            />
+                        </div>
+
+                        <div className='my-1 flex column'>
+                            <label htmlFor='minRentPerMonth' className='bold pl-1 pointer'>loyer min / mois</label>
+                            <input 
+                                type='number' id='minRentPerMonth' className='p-half mt-half br-half' value={filters.minRentPerMonth} name='minRentPerMonth'
+                                onChange={(e) =>handleFilterChange(e)}
+                            />
+                        </div>
+
+                        <div className='my-1 flex column'>
+                            <label htmlFor='maxRentPerMonth' className='bold pl-1 pointer'>loyer max / mois</label>
+                            <input 
+                                type='number' id='maxRentPerMonth' className='p-half mt-half br-half' value={filters.maxRentPerMonth} name='maxRentPerMonth'
+                                onChange={(e) =>handleFilterChange(e)}
+                            />
+                        </div>
+
+                        <div className='my-1 flex column'>
+                            <label htmlFor='searchtype' className='bold pl-1 pointer'>je cherche un coloc</label>
+                            <select name='searchtype' id='searchtype' className='p-half mt-half br-half pointer' onChange={(e) => handleSelectChange(e)}>
+                                <option value=''>tout type</option>
+                                <option value='haveRoom'>ayant une location</option>
+                                <option value='needRoom'>qui cherche une location</option>
+                            </select>
+                        </div>
+
+                        <div className='my-1 flex column'>
+                            <label htmlFor='recherche' className='bold text-center'>ok</label>
+                            <button className='p-half br-half pointer mt-half bg-light-gold bold' id='recherche' onClick={(e)=>ApplyFilter(e)}> 
+                                Appliquer
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div className='container my-1'>
+                <h3 className='text-center'>Nous vous avons trouvé '600' Potentiels Colocs à Bordeaux</h3>
                 <p className='text-center'>Vous pouvez utiliser les filtres pour trouver votre Coloc Soulmate :) </p>
 
-                <div className="flex space-between my-2 wrap shadow-top px-1">
+                <div className='flex space-between my-2 wrap shadow-top px-1'>
 
                     <div className='my-half flex space-around'>
 
                         <div>
                             <p>Type de logement</p>
-                            <div className="flex">
-                                <select className='p-half mt-half br-half' id='type' onChange={e => {
-                                    console.log(e.target.value);
-                                }}>
-                                    <option value=''>Appartement</option>
-                                    <option value='Adereço'>Maison</option>
-                                    <option value='Não'>Studio</option>
+                            <div className='flex'>
+                                <select className='p-half mt-half br-half pointer' id='roomType' name='roomType' onChange={e => handleSelectChange(e)}>
+                                    <option value=''>Tout</option>
+                                    <option value='appartement'>Appartement</option>
+                                    <option value='maison'>Maison</option>
+                                    <option value='studio'>Studio</option>
                                 </select>
                             </div>
                         </div>
 
                         <div className='pl-1'>
                             <p>Amenagement</p>
-                            <div className="flex">
-                                <select className='p-half mt-half br-half' id='type' onChange={e => {
-                                    console.log(e.target.value);
-                                }}>
-                                    <option value=''>Meublé</option>
-                                    <option value='Adereço'>Non Meublé</option>
+                            <div className='flex'>
+                                <select className='p-half mt-half br-half pointer' id='roomfurnishedType' name='roomfurnishedType' onChange={e => handleSelectChange(e)}>
+                                    <option value=''>Tout</option>
+                                    <option value='furnished'>Meublé</option>
+                                    <option value='no-furnished'>Non Meublé</option>
                                 </select>
                             </div>
                         </div>
@@ -102,18 +176,16 @@ const HandleLocationList = () => {
                     <div className='my-half'>
                         <p>plus de filtres</p>
 
-                        <small className="flex space-around wrap">
-                            <select className='p-half mt-half br-half' id='type' onChange={e => {
-                                console.log(e.target.value);
-                            }}>
+                        <small className='flex space-around wrap'>
+                            <select className='p-half mt-half br-half pointer' id='type' name='profileState' onChange={e => handleSelectChange(e)}>
                                     <option value='checked'>profils vérifiés</option>
                                     <option value='no-checked'>Non vérifiés</option>
                                     <option value='all-profile'>tout afficher</option>
                             </select>
 
                             <div className='pl-half'>
-                                <div className="flex">
-                                    <div className='p-half mt-half flex center br-half border-1 text-center' id='type'>
+                                <div className='flex'>
+                                    <div className='p-half mt-half flex center br-half border-1 text-center pointer' id='type' onClick={()=>setMoreFilter(!moreFilter)}>
                                         <FaFilter
                                             color='blue'
                                         />
@@ -123,8 +195,8 @@ const HandleLocationList = () => {
                             </div>
 
                             <div className='pl-half'>
-                                <div className="flex">
-                                    <div className='p-half mt-half flex center br-half border-1 text-center' id='type'>
+                                <div className='flex'>
+                                    <div className='p-half mt-half flex center br-half border-1 text-center pointer' id='type'>
                                         <FaMapMarkedAlt
                                             color='green'
                                         />
@@ -134,8 +206,8 @@ const HandleLocationList = () => {
                             </div>
 
                             <div className='pl-half'>
-                                <div className="flex">
-                                    <div className='p-half mt-half flex center br-half border-1 text-center' id='type'>
+                                <div className='flex'>
+                                    <div className='p-half mt-half flex center br-half border-1 text-center pointer' id='type'>
                                         <FaList
                                             color='brown'
                                             fontSize={18}
@@ -145,8 +217,8 @@ const HandleLocationList = () => {
                             </div>
 
                             <div className='pl-half'>
-                                <div className="flex">
-                                    <div className='p-half mt-half flex center br-half border-1 text-center' id='type'>
+                                <div className='flex'>
+                                    <div className='p-half mt-half flex center br-half border-1 text-center pointer' id='type'>
                                         <BiGridAlt
                                             color='#042054'
                                             fontSize={18}
@@ -158,16 +230,21 @@ const HandleLocationList = () => {
                     </div>
                 </div>
 
-                <div className="my-1 flex wrap space-between sm-center">
+                <div className='my-1 flex wrap md-center'>
                     {
-                        [1,2,3,4,5,6,2,34,56,4,5].map((announce,i)=>{
+                        announces.map((announce)=>{
                             return(
-                                <ColumnCard key={i}/>
+                                <ColumnCard key={announce.id} cardValues={announce} user={getMockUser(announce.ownerId)}/>
                             )
                         })
                     }
                 </div>
             </div>
+            {
+                moreFilter && <Modal closeModal={closeModal}> 
+                    <MoreFilterLocation handleFilterChange={handleFilterChange} filters={filters} closeModal={closeModal} ApplyMoreFilter={ApplyMoreFilter}/>
+                </Modal>
+            }
         </>
     );
 }

@@ -1,3 +1,4 @@
+import React from 'react';
 import { BsFacebook, BsInstagram, BsWhatsapp } from 'react-icons/bs';
 import { TiArrowUpOutline } from 'react-icons/ti' ;
 import { goUp } from '../../../_utils/functions/functions';

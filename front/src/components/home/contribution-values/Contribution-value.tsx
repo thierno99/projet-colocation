@@ -1,3 +1,4 @@
+import React from 'react';
 import { MdOutlineVerified } from 'react-icons/md';
 import { BsPiggyBank, BsPeople } from 'react-icons/bs';
 const ContributionValue = () => {
