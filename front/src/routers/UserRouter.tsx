@@ -1,20 +1,20 @@
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
-import AuthGard from '../_utils/guards/AuthGard';
+import Guards from '../_utils/guards/AuthGard';
 import Home from './../components/home/Home';
 
 function UserRouter() {
     return (
         <Routes>    
             <Route path="/app/users" element ={
-                <AuthGard>
+                <Guards.AuthGard>
                     <Home/>
-                </AuthGard>
+                </Guards.AuthGard>
             }/>
             <Route path="/app/users/:id" element ={
-                <AuthGard>
+                <Guards.AuthGard>
                     <Home/>
-                </AuthGard>
+                </Guards.AuthGard>
             }/>
         </Routes>
     );

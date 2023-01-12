@@ -1,9 +1,8 @@
 import React from 'react';
 import './App.css';
-import Footer from './components/shared/footer/Footer';
 import Header from './components/shared/header/Header';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import HomeRouter from './routers/HomeRouter';
+import HomeRouter, { FooterRoot } from './routers/HomeRouter';
 
 function App() {
   return (
@@ -21,9 +20,8 @@ function App() {
         
       </main>
 
-      <footer>
-        <Footer/>
-      </footer>
+      <FooterRoot/>
+
     </BrowserRouter>
   );
 }
