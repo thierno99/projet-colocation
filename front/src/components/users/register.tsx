@@ -1,5 +1,5 @@
 import React from 'react';
-import { BsArrowBarLeft, BsArrowBarRight } from 'react-icons/bs';
+import { BsArrowBarLeft } from 'react-icons/bs';
 import { Link } from 'react-router-dom';
 import { goUp } from '../../_utils/functions/functions';
 import ShardForm, { ShardFormProps } from '../shared/forms/sharedForm';
@@ -51,7 +51,7 @@ function Register() {
     return (
         <div className='container m-1 my-3'>
             <div className='flex column center'>
-                <div className='border-1 w-full xs-width border-gray br-1'>
+                <div className='border-1 w-full xs-width border-gray br-1 shadow-top'>
                 <h3 className='p-1 bg-light-blue br-t-1 text-center flex center'> 
                         <Link to={'/app/signin'}> <span className="">Connexion</span> </Link>
                             <BsArrowBarLeft className="mx-2" fontSize={21} color={'black'}/>

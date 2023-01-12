@@ -4,6 +4,7 @@ import AdvertiseAccommodation from '../components/advertise-accommodation/advert
 import HandleLocationList from '../components/handle-location-list/handle-location-list';
 import HandleLocation from '../components/handle-location/handle-location';
 import Home from '../components/home/Home';
+import Footer from '../components/shared/footer/Footer';
 import Login from '../components/users/login';
 import Register from '../components/users/register';
 import UserRouter from './UserRouter';
@@ -25,6 +26,23 @@ function HomeRouter() {
             <UserRouter/> 
         </>
     );
+}
+
+export const FooterRoot = () => {
+    return(
+        <Routes>    
+                <Route path="/app" element ={
+                    <footer>
+                        <Footer/>
+                    </footer>
+                }/>
+                <Route path="/app/rooms/*" element ={
+                    <footer>
+                        <Footer/>
+                    </footer>
+                }/>
+        </Routes>
+    )
 }
 
 export default HomeRouter;

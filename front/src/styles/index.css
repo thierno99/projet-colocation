@@ -10,6 +10,9 @@ body {
   margin: 0 auto;
   color: #514f4f;
 }
+.auto{
+  margin: auto;
+}
 a {
   text-decoration: none;
 }
@@ -27,6 +30,9 @@ li{
 .container {
   max-width: 1260px;
   margin: auto;
+}
+.hide {
+  display: none;
 }
 .flex{
   display: flex;
@@ -68,7 +74,7 @@ li{
 
 /* width */
 .w-full {
-  width: 100%;
+  width: 88%;
 }
 
 .w-half{
@@ -299,6 +305,9 @@ li{
   box-shadow: 4px 4px #eef1f081, -.4em 0 .4em #a6c5ee;
 }
 
+.shadow-large{
+  box-shadow: 8px 8px #eef1f081, -.5em 0 .5em #a6c5ee;
+}
 
 /* Card */
 .card{
@@ -408,9 +417,13 @@ li{
 /* border */
 
 .add-img-box{
+  width: 200px;
+  height: 150px;
+  /* max-height: 170px; */
+}
+.add-img-box img {
   min-width: 200px;
-  max-width: 250px;
-  min-height: 150px;
+  max-height: 150px;
 }
 .hover-success:hover {
   border-color: #07ff00;

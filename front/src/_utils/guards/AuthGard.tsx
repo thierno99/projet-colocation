@@ -15,4 +15,8 @@ const AuthGard:FC<Props> = (props) => {
     return children;
     
 }
-export default AuthGard;
+
+const Guards = {
+    AuthGard,
+}
+export default Guards;

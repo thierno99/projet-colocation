@@ -52,7 +52,9 @@ const Header = () => {
                 <h3 className='pointer'>
                     <Link 
                         className='text-light'
-                        to={'/app'}>GoColoc
+                        to={'/app'}
+                    >
+                        GoColoc
                     </Link>
                 </h3>
                 <Navigation/>
