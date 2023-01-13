@@ -1,6 +1,7 @@
 import React, { ChangeEvent, FormEvent, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { BsArrowBarLeft } from 'react-icons/bs';
+import { FaRegEye, FaRegEyeSlash } from 'react-icons/fa';
 
 import AccountServices from '../../services/account.service';
 import { goUp } from '../../_utils/functions/functions';
@@ -10,6 +11,9 @@ function Login() {
     const navigate = useNavigate();
     const [credentials, setCredentials] = useState({
     })
+
+    const[passwordIsVisible, setPasswordIsVisible] = useState(false);
+
 
     const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
         setCredentials({
@@ -38,9 +42,9 @@ function Login() {
             <div className='flex column center'>
                 <div className='w-full xs-width'>
                     <h3 className='text-center flex center text-white'> 
-                        <p className='text-white'> <span className="">Connexion</span> </p>
+                        <p className='text-grey'> <span className="">Connexion</span> </p>
                             <BsArrowBarLeft className="mx-2" fontSize={21} color={'white'}/>
-                        <Link className='text-white change-color-black' to={'/app/register'}> <span className="">Inscription</span> </Link>
+                        <Link className='text-white change-color-black hover-underline-animation' to={'/app/registerv2'}> <span className="">Inscription</span> </Link>
                     </h3>
                     <form 
                         className='flex column m-1 p-1' 
@@ -56,10 +60,15 @@ function Login() {
 
                         <div className='my-half flex column'>
                             <>
-                                <input type='password' id='password' className='input-login mh-20 b-none p-half mt-1 br-1 bg-opactity text-white' name='password' placeholder='Mot de passe'
-                                    onChange={(e) =>handleInputChange(e)}
-                                /> 
-                                <small className='text-center mt-2'>
+                                <div className='flex relative'>
+                                    <input type={passwordIsVisible ?'text' : 'password'} id='password' className='w-100 input-login mh-20 b-none p-half mt-1 br-1 bg-opactity text-white' name='password' placeholder='Mot de passe'
+                                        onChange={(e) =>handleInputChange(e)}
+                                    />
+                                    <span className='absolute right-0 handle-password' onClick={()=> setPasswordIsVisible(!passwordIsVisible)}>
+                                        {passwordIsVisible ?<FaRegEyeSlash color={'white'}/> : <FaRegEye color={'white'}/>}
+                                    </span>
+                                </div>
+                                <small className='mt-little ml-little'>
                                     <Link className='text-skyeblue change-color-blue' to={''} > mot de passe oublié ?</Link>
                                 </small>
                             </>
