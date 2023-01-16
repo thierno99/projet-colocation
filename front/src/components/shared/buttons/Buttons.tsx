@@ -14,7 +14,7 @@ export const ButtonPrimary: FC<ButtonProps> = (props) => {
     return(
         <button className={'p-1  mb-1 pointer text-primary shadow '+classes.join(' ')}
             onClick = {()=>navigate(to)}
-        > <h2> {title} </h2></button>
+        > <h3> {title} </h3></button>
     );
 }
 

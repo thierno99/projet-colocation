@@ -57,7 +57,7 @@ const FormStepThree: FC<FormStepProps> = (props) => {
 
 
     return (
-        <div className='shadow'>
+        <div className=''>
             <h3 className='text-center my-1 py-1 shadow'>Ajoutez des Images de votre proprieté</h3>
             <div className='relative column center'>
                 <div>
@@ -102,7 +102,7 @@ const FormStepThree: FC<FormStepProps> = (props) => {
                     
                     <button 
                         className={'p-half br-half pointer mt-1 bg-gold ml-1'}
-                        onClick={() => setStepActive('FormStepThree')}
+                        type="submit"
                     > <h3>Publier l'annonce</h3></button>
 
                 </div>

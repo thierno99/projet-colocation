@@ -23,15 +23,11 @@ const RowCard:FC<CardProps> = (props) => {
                 <h3 className="card-title">
                     {title}
                 </h3>
-
                 {
-                    
+                    formatLongText(description,4).map((des,i) => {
+                        return <p key={i}>{des} <br/> </p>
+                    })
                 }
-                    {
-                        formatLongText(description,4).map((des,i) => {
-                            return <p key={i}>{des} <br/> </p>
-                        })
-                    }
             </div>
 
             <div className="row-card-bottom flex center">

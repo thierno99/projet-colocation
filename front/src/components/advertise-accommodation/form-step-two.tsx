@@ -1,11 +1,20 @@
 
-import { FC } from 'react';
+import { ChangeEvent, FC } from 'react';
 
 import Form from '../shared/forms/forms';
 import { FormStepProps } from './form-step-one';
 
 const FormStepTwo: FC<FormStepProps> = (props) => {
-    const { stepActive, setStepActive } = props;
+    const { announce, stepActive, setStepActive, setAnnounce } = props;
+    
+    const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+        setAnnounce({
+            ...announce,
+            [e.target.name]: e.target.value
+        })
+    }
+
+    console.log(announce)
     return (
         <>
             <h3 className='text-center my-1'>Information sur le logement</h3>
@@ -34,9 +43,23 @@ const FormStepTwo: FC<FormStepProps> = (props) => {
                 </fieldset>
             </div>
 
-            <Form.InputNumber name={'price'} value={''} label={'Prix'} placeholder={'ex: 800'}/>
+            <Form.InputNumber 
+                name={'price'} 
+                value={''} 
+                label={'Prix'} 
+                placeholder={'ex: 800'}
+                handleInputChange={handleInputChange}
+                err={{ hasError:false, errMsg:''}}
+            />
 
-            <Form.InputNumber name={'nbRoomatesSeached'} value={''} label={'Nombre de colocs Récherchés'} placeholder={'ex: 3'}/>
+            <Form.InputNumber 
+                name={'nbRoomatesSeached'} 
+                value={''} 
+                label={'Nombre de colocs Récherchés'} 
+                placeholder={'ex: 3'}
+                handleInputChange={handleInputChange}
+                err={{ hasError:false, errMsg:''}}
+            />
 
             <div className={'my-1 flex ' + (stepActive === 'FormStepOne'?'flex-end':'space-between')}>
                 {

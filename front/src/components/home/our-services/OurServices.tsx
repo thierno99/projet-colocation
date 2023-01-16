@@ -30,7 +30,7 @@ const OurService = () => {
         },
     ];
     return (
-        <div className='flex space-between wrap'>
+        <div className='flex j-center wrap'>
             {
                 services.map(service => <ClassicCard image={service.image} title={service.title} description={service.description} key={service.title} urlStr={service.urlStr} />)
             }

@@ -1,4 +1,5 @@
 import { nbDaysDateBeetween2Dates, nbMonthBeetween2Dates } from "../../services/date-service";
+import { State, City, IState }  from 'country-state-city';
 
 export const formatLongText = (text: string, nb: number) => {
     if(text.length <= nb)
@@ -49,4 +50,21 @@ export const publishedAtFormatMsg = (publishedAt: Date) => {
     }
 
     return `Il y'a ${nbMonthBeetween2Dates(publishedAt)} mois`;
+}
+
+export const getCitiesOfCountry = (countryCode: string) => {
+    return City.getCitiesOfCountry(countryCode);
+}
+
+export const getDepartementOfCountry = (countryCode: string ='FR') => {
+    return State.getStatesOfCountry(countryCode).filter(state => City.getCitiesOfState(countryCode, state.isoCode).length>0);
+}
+
+export const getCitiesOfDepartement = (countryCode: string ='FR', stateCode: string) => {
+    return City.getCitiesOfState(countryCode, stateCode);
+}
+
+export const getDepartmentByStatecode = (countryCode: string ='FR', stateCode: string) => {
+    return State.getStateByCodeAndCountry(stateCode,countryCode.trim()) as IState
+    // getDepartmentByStatecode('FR', e.target.options[selectedIndex].value).name
 }

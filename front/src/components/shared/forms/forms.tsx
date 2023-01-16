@@ -1,9 +1,23 @@
-import React, { FC } from 'react';
+import React, { ChangeEvent, FC } from 'react';
+export interface InputErr {
+    hasError: boolean;
+    errMsg: string;
+}
 export interface InputTextProps {
     name: string;
     value: string;
     label: string;
     placeholder: string;
+    err:InputErr;
+    handleInputChange: (e: ChangeEvent<HTMLInputElement>) => void
+
+}
+
+export interface SelectFormProps {
+    name: string;
+    options: JSX.Element[];
+    err:InputErr;
+    handleSelectChange: (type: string, e: React.ChangeEvent<HTMLSelectElement>) => void;
 }
 
 export interface TextAreaProps {
@@ -13,6 +27,8 @@ export interface TextAreaProps {
     placeholder: string;
     rows: number;
     cols: number;
+    handleTexteAreaChange: (e: ChangeEvent<HTMLTextAreaElement>) => void
+    err:InputErr;
 }
 
 export interface CheckboxProps {
@@ -21,33 +37,78 @@ export interface CheckboxProps {
 }
 
 const  InputText:FC<InputTextProps> = (props) => {
-    const { name, label, placeholder} = props;
+    const { name, label,value, placeholder, err, handleInputChange} = props;
+    console.log("-------------------------------------------------")
+    console.log(err)
+    console.log("-------------------------------------------------")
     return (
         <div className='my-half flex column'>
-            <label htmlFor='city'> <strong>{label}</strong></label>
+            <label htmlFor={name}> <strong>{label}</strong></label>
             <input 
-                type='text' id={name} className='p-half mt-1 br-half' placeholder={placeholder}
+                type='text' 
+                id={name} 
+                className='p-half mt-1 br-half' 
+                placeholder={placeholder} 
+                onChange={(e) =>handleInputChange(e)} name={name}
+                value={value}
             />
+            {
+                err.hasError && <div className="danger py-half br-half px-1">
+                    {err.errMsg}
+                </div>
+            }
         </div>
     );
 }
 
-const  InputNumber:FC<InputTextProps> = (props) => {
-
-    const { name, label, placeholder} = props;
+const SelectForm:FC<SelectFormProps> = (props) => {
+    const { name,options, err, handleSelectChange } = props;
     return (
         <div className='my-half flex column'>
-            <label htmlFor='city'> <strong>{label}</strong></label>
+            <label htmlFor={name}> <strong>Departement</strong></label>
+            <select name={name} id={name} className='p-half mt-1 br-half' onChange={(e) => handleSelectChange(name,e)}>
+                <option value="" key={""}>--select--</option>
+                {
+                    options
+                }
+            </select>
+            
+            {
+                err.hasError && <div className="danger py-half br-half px-1">
+                    {err.hasError}
+                </div>
+            }
+        </div>
+    )
+}
+
+const  InputNumber:FC<InputTextProps> = (props) => {
+
+    const { name, label, value, placeholder, err, handleInputChange} = props;
+    return (
+        <div className='my-half flex column'>
+            <label htmlFor={name}> <strong>{label}</strong></label>
             <input 
-                type='number' id={name} className='p-half mt-1 br-half' placeholder={placeholder}
+                type='number' 
+                id={name} 
+                className='p-half mt-1 br-half' 
+                placeholder={placeholder} 
+                name={name}
+                value={value}
+                onChange={(e) =>handleInputChange(e)}
             />
+            {
+                err.hasError && <div className="danger py-half br-half px-1">
+                    {err.hasError}
+                </div>
+            }
         </div>
     );
 }
 
 
 const TextArea:FC<TextAreaProps> = (props) => {
-    const {name, label, placeholder, cols, rows} = props;
+    const {name, label,value, placeholder, cols, rows, err, handleTexteAreaChange} = props;
 
     return (
         <div className='my-1 flex column'>
@@ -57,8 +118,17 @@ const TextArea:FC<TextAreaProps> = (props) => {
                 className='p-half mt-1 br-half' 
                 placeholder={placeholder}
                 rows = {rows} cols= {cols}
+                name={name}
+                onChange={(e) =>handleTexteAreaChange(e)}
+                value={value}
             >
             </textarea> 
+
+            {
+                err.hasError && <div className="danger py-half br-half px-1">
+                    {err.hasError}
+                </div>
+            }
         </div>
     )
 }
@@ -75,6 +145,7 @@ const Checkbox:FC<CheckboxProps> = (props) => {
 
 const Form ={
     InputText,
+    SelectForm,
     InputNumber,
     TextArea,
     Checkbox,

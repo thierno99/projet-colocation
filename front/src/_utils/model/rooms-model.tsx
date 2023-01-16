@@ -4,6 +4,7 @@ export interface RoomsInterface {
     title: string;
     description: string;
     ownerId: number;
+    state: string;
     city: string;
     postalCode: string;
     address: string;
@@ -16,4 +17,24 @@ export interface RoomsInterface {
     roomType: string;
     roomfurnishedType: boolean;
     genderSearched: string[];
+}
+
+export const DefaultAnnonce: RoomsInterface = {
+    id: 0,
+    title: "",
+    description: "",
+    ownerId: 0,
+    state: "",
+    city: "",
+    postalCode: "",
+    address: "",
+    nbRoomatesSeached: 0,
+    publishedAt: new Date(),
+    price: 0,
+    principalPicture: "",
+    announceType: "",
+    isOwnerCertified: false,
+    roomType: "",
+    roomfurnishedType: false,
+    genderSearched: [],
 }

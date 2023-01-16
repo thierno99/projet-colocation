@@ -22,7 +22,7 @@ const ColocType = () => {
                     <p>Créez votre profil, ajoutez vos critères de recherches et trouves votre perle Rare <br /> ENJOY !</p>
                 </div>
 
-                <div className='pointer py-1 bg-light-blue p-1' >
+                <div className='pointer py-1 bg-light-blue p-1' onClick={()=>{/*alert('vous devez vous connecté pour publier une annonce');*/navigate('/app/rooms/make-announce')}}>
                     <h2>Proposer un logement</h2>
                     <p>
                         Lancez votre annonces avec vos attentes / contraintes. Recevez les demandes<br />
@@ -41,7 +41,7 @@ const Home = () => {
             <Banner/>
             <br />
             <hr />
-            <div className="my-3 shadow">
+            <div className="my-3 shadow-top">
                 <h1 className='my-1 p-1 text-center'>Vous voulez ?</h1>
                 <ColocType/>
             </div>
