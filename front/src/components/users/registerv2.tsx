@@ -52,39 +52,39 @@ function Login() {
                         className='flex column m-1 p-1' 
                         onSubmit={(e)=>onSubmit(e)}
                     >
-                        <div className='my-half flex column'>
+                        <div className='my-litle flex column'>
                             <input 
                                 type='text' id='lastname' className='input-login mh-20 b-none p-half mt-1 br-1 bg-opactity text-white' name='lastname' placeholder='Nom'
                                 onChange={(e) =>handleInputChange(e)}
                             />
                         </div>
-                        <div className='my-half flex column'>
+                        <div className='my-litle flex column'>
                             <input 
                                 type='text' id='firstname' className='input-login mh-20 b-none p-half mt-1 br-1 bg-opactity text-white' name='firstname' placeholder='Prénom'
                                 onChange={(e) =>handleInputChange(e)}
                             />
                         </div>
-                        <div className='my-half flex column'>
+                        <div className='my-litle flex column'>
                             <input 
                                 type='text' id='email' className='input-login mh-20 b-none p-half mt-1 br-1 bg-opactity text-white' name='email' placeholder='Email'
                                 onChange={(e) =>handleInputChange(e)}
                             />
                         </div>
-                        <div className='my-half flex'>
+                        <div className='my-litle flex'>
                             <input 
                                 type={changeBirth ? 'text' : 'date'} id='birth' className='w-100 input-login mh-20 b-none p-half mt-1 br-1 bg-opactity text-white' name='birth' placeholder='Date de naissance'
                                 onChange={(e) =>handleInputChange(e)}
                                 onFocus={() =>setChangeBirth(false)}
                             />
                         </div>
-                        <div className='my-half flex column'>
+                        <div className='my-litle flex column'>
                             <input 
                                 type='text' id='phone' className='input-login mh-20 b-none p-half mt-1 br-1 bg-opactity text-white' name='phone' placeholder='Numéro de téléphone'
 
                                 onChange={(e) =>handleInputChange(e)}
                             />
                         </div>
-                        <div className='my-half flex column'>
+                        <div className='my-litle flex column'>
                             <div className='flex relative'>
                                 <input type={passwordIsVisible ?'text' : 'password'} id='password' className='w-100 input-login mh-20 b-none p-half mt-1 br-1 bg-opactity text-white' name='password' placeholder='Mot de passe'
                                     onChange={(e) =>handleInputChange(e)}
@@ -94,7 +94,7 @@ function Login() {
                                 </span>
                             </div>
                         </div>
-                        <div className='my-half flex column'>
+                        <div className='my-litle flex column'>
                             <>
                                 <div className='flex relative'>
                                     <input type={confirmPasswordIsVisible ?'text' : 'password'} id='password' className='w-100 input-login mh-20 b-none p-half mt-1 br-1 bg-opactity text-white' name='password' placeholder='Confirmer le mot de passe'

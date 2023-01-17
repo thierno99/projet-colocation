@@ -223,6 +223,10 @@ li{
   margin-top: .5rem;
   
 }
+.mt-litle,
+.my-litle{
+  margin-top: .0rem;
+}
 
 .mb-half,
 .my-half {

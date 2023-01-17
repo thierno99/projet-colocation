@@ -51,14 +51,14 @@ function Login() {
                         onSubmit={(e)=>onSubmit(e)}
                     >
 
-                        <div className='my-half flex column'>
+                        <div className='mt-litle flex column'>
                             <input 
                                 type='text' id='email' className='input-login mh-20 b-none p-half mt-1 br-1 bg-opactity text-white' name='email' placeholder='Email'
                                 onChange={(e) =>handleInputChange(e)}
                             />
                         </div>
 
-                        <div className='my-half flex column'>
+                        <div className='mt-litle flex column'>
                             <>
                                 <div className='flex relative'>
                                     <input type={passwordIsVisible ?'text' : 'password'} id='password' className='w-100 input-login mh-20 b-none p-half mt-1 br-1 bg-opactity text-white' name='password' placeholder='Mot de passe'
