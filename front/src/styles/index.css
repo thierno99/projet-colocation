@@ -10,6 +10,9 @@ body {
   margin: 0 auto;
   color: #514f4f;
 }
+input:invalid ~ span.toggle-err {
+  display: flex;
+}
 h1 {
   font-size: 28px;
 }
@@ -460,6 +463,10 @@ li{
 
 .border-1{
   border: 1px solid;
+}
+
+.border-dashed-1{
+  border: 2px dashed;
 }
 .br-1 {
   border-radius: 1rem;

@@ -1,6 +1,6 @@
 
 import { ChangeEvent, FC, useState } from 'react';
-import { CITY_REG, POSTAL_CODE_REG, TEXT_REG } from '../../constants/regex';
+import { POSTAL_ADDRESS_REG, POSTAL_CODE_REG, TTITLE_REG } from '../../constants/regex';
 import { getCitiesOfDepartement, getDepartementOfCountry, getDepartmentByStatecode } from '../../_utils/functions/functions';
 import { RoomsInterface } from '../../_utils/model/rooms-model';
 
@@ -15,15 +15,8 @@ export interface FormStepProps {
 
 const FormStepOne: FC<FormStepProps> = (props) => {
     const { announce, stepActive, setStepActive, setAnnounce } = props;
-    const [hasError, setHasError] = useState(false);
-    let errorFields = {
-        title: {hasError: false, errMsg: ''},
-        description: {hasError: false, errMsg: ''},
-        city: {hasError: false, errMsg: ''},
-        postalCode: {hasError: false, errMsg: ''},
-        address: {hasError: false, errMsg: ''},
-        state: {hasError: false, errMsg: ''},
-    }
+    
+    const [erroeMessage, setErroeMessage] = useState('');
 
     const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
         setAnnounce({
@@ -47,48 +40,34 @@ const FormStepOne: FC<FormStepProps> = (props) => {
         });
     }
     
-    const setFieldError = (field: string, msg: string, hasErr:boolean) => {
-        errorFields = {...errorFields, [field]: {hasError: hasErr, msg: msg}}
-    }
-    
-    const isValidSubmitedForm = (announce: RoomsInterface): boolean => {
-        let isValid = true;
-        if(!POSTAL_CODE_REG.test(announce.postalCode)){
-            setFieldError('postalCode', 'code postal invalid', true);
-            isValid = false;
-        }else {
-            setFieldError('postalCode', '', false);
+    const isValidForm = () => {
+        if(
+            !TTITLE_REG.test(announce.title) ||
+            !POSTAL_ADDRESS_REG.test(announce.address) ||
+            !POSTAL_CODE_REG.test(announce.postalCode)
+        ) {
+            return false;
         }
-        
-        if(!CITY_REG.test(announce.city)){
-            setFieldError('city', 'le format du nom de la ville est invalid', true);
-            isValid = false;
-        }else {
-            setFieldError('city', '', false);
-        }
-        
-        if(!TEXT_REG.test(announce.title)){
-            setFieldError('title', 'format invalide', true);
-            isValid = false;
-        }else {
-            setFieldError('title', '', false);
-        }
-        
-        return isValid;
+        return true;
     }
     
     const goNext = () => {
-        if(isValidSubmitedForm(announce)){
-            setStepActive('FormStepTwo')
-        }else{
-            // console.info(errorFields)
-            setHasError(true);
+        if(isValidForm()) {
+            setStepActive("FormStepTwo");
+        } else {
+            setErroeMessage("Veillez remplir correctement tous les champs svp !")
         }
     }
 
     
     return (
         <>
+            {
+                erroeMessage && 
+                <div className="danger p-1">
+                    {erroeMessage}
+                </div>
+            }
             
             <Form.InputText 
                 name="title" 
@@ -96,7 +75,9 @@ const FormStepOne: FC<FormStepProps> = (props) => {
                 label={"nom de l'annonce"} 
                 placeholder={'ex: je mets une partie de ma maison en location'} 
                 handleInputChange={handleInputChange}
-                err={errorFields.title}
+                pattern="^(.|\s)*[a-zA-Z]+(.|\s){5,}$"
+                errorMessage='Titre trop court'
+                required={true}
             />
 
             <Form.TextArea 
@@ -107,7 +88,8 @@ const FormStepOne: FC<FormStepProps> = (props) => {
                 rows = {5} 
                 cols= {33}
                 handleTexteAreaChange={handleTexteAreaChange}
-                err={errorFields.description}
+                pattern='^(.|\s)*[a-zA-Z]+(.|\s)*$'
+                errorMessage='veillez remplir correctement ce champs svp'
             />
 
 
@@ -124,7 +106,6 @@ const FormStepOne: FC<FormStepProps> = (props) => {
                         </option>
                     ))
                 }
-                err={errorFields.state}
                 handleSelectChange ={handleSelectChange}
             />
 
@@ -135,7 +116,6 @@ const FormStepOne: FC<FormStepProps> = (props) => {
                         <option value={city.name} key={city.name} selected={city.name===announce.city}> {city.name}</option>
                     ))
                 }
-                err={errorFields.city}
                 handleSelectChange ={handleSelectChange}
             />
 
@@ -145,7 +125,9 @@ const FormStepOne: FC<FormStepProps> = (props) => {
                 label={'Code postal'} 
                 placeholder={'ex: 33000'} 
                 handleInputChange={handleInputChange}
-                err={errorFields.postalCode}
+                pattern = '^(?:0[1-9]|[1-8]\d|9[0-8])\d{3}$'
+                errorMessage='code postal invalid'
+                required={true}
             />
 
             <Form.InputText 
@@ -154,7 +136,9 @@ const FormStepOne: FC<FormStepProps> = (props) => {
                 label={'Adresse complète'} 
                 placeholder={'ex: 22 rue marechal josh'}
                 handleInputChange={handleInputChange}
-                err={errorFields.address}
+                pattern='^\s*\S+(?:\s+\S+){2,}'
+                errorMessage='adresse invalid'
+                required={true}
             />
 
             <div className={'my-1 flex ' + (stepActive === 'FormStepOne'?'flex-end':'space-between')}>

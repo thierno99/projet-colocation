@@ -35,6 +35,7 @@ const ColocType = () => {
 }
 
 const Home = () => {
+    const navigate = useNavigate();
 
     return (
         <div className='container'>
@@ -61,7 +62,9 @@ const Home = () => {
             </div>
 
             <div className="my-3 flex center bg-light-blue pt-1">
-                <ButtonPrimary title={'Je Propose une offre'} to={''} classes={['bg-light-sucess']}/>
+                <button className={'p-1  mb-1 pointer text-primary shadow bg-light-sucess'} onClick={()=>{/*alert('vous devez vous connecté pour publier une annonce');*/navigate('/app/rooms/make-announce')}}>
+                    Je Propose une offre
+                </button>
             </div>
 
             

@@ -13,12 +13,13 @@ export  const ROOMS: RoomsInterface[] = [
         nbRoomatesSeached: 1,
         publishedAt: new Date('2022-12-11'),
         price: 450,
-        principalPicture: 'Appart_1.jpeg',
+        principalPicture: new File([''],'Appart_1.jpeg'),
         announceType: 'haveRoom',
         isOwnerCertified: true,
         roomType: 'appartement',
         roomfurnishedType: true,
-        genderSearched: ['homme']
+        genderSearched: ['homme'],
+        images: [],
     },
     {
         id: 2,
@@ -32,12 +33,13 @@ export  const ROOMS: RoomsInterface[] = [
         nbRoomatesSeached: 1,
         publishedAt: new Date('2021-08-11'),
         price: 600,
-        principalPicture: 'Appart_2.jpeg',
+        principalPicture: new File([''],'Appart_2.jpeg'),
         announceType: 'haveRoom',
         isOwnerCertified: true,
         roomType: 'maison',
         roomfurnishedType: true,
-        genderSearched: ['homme']
+        genderSearched: ['homme'],
+        images: [],
     },
     {
         id: 3,
@@ -51,12 +53,13 @@ export  const ROOMS: RoomsInterface[] = [
         nbRoomatesSeached: 1,
         publishedAt: new Date('2022-12-11'),
         price: 700,
-        principalPicture: 'Appart_3.jpeg',
+        principalPicture: new File([''],'Appart_3.jpeg'),
         announceType: 'needRoom',
         isOwnerCertified: true,
         roomType: 'appartement',
         roomfurnishedType: true,
-        genderSearched: ['femme']
+        genderSearched: ['femme'],
+        images: [],
     },
     {
         id: 4,
@@ -70,12 +73,13 @@ export  const ROOMS: RoomsInterface[] = [
         nbRoomatesSeached: 4,
         publishedAt: new Date('2022-10-11'),
         price: 330,
-        principalPicture: 'Appart_4.jpeg',
+        principalPicture: new File([''],'Appart_4.jpeg'),
         announceType: 'haveRoom',
         isOwnerCertified: true,
         roomType: 'studio',
         roomfurnishedType: true,
-        genderSearched: ['homme, femme']
+        genderSearched: ['homme, femme'],
+        images: [],
     },
     {
         id: 5,
@@ -89,12 +93,13 @@ export  const ROOMS: RoomsInterface[] = [
         nbRoomatesSeached: 1,
         publishedAt: new Date('2022-08-11'),
         price: 600,
-        principalPicture: 'Appart_5.jpeg',
+        principalPicture: new File([''],'Appart_5.jpeg'),
         announceType: 'needRoom',
         isOwnerCertified: false,
         roomType: 'appartement',
         roomfurnishedType: true,
-        genderSearched: ['femme']
+        genderSearched: ['femme'],
+        images: [],
     },
     
     {
@@ -109,12 +114,13 @@ export  const ROOMS: RoomsInterface[] = [
         nbRoomatesSeached: 1,
         publishedAt: new Date('2022-08-11'),
         price: 600,
-        principalPicture: '',
+        principalPicture: new File([''],''),
         announceType: 'needRoom',
         isOwnerCertified: false,
         roomType: 'appartement',
         roomfurnishedType: false,
-        genderSearched: ['homme']
+        genderSearched: ['homme'],
+        images: [],
     },
     {
         id: 7,
@@ -128,12 +134,13 @@ export  const ROOMS: RoomsInterface[] = [
         nbRoomatesSeached: 1,
         publishedAt: new Date('2022-08-11'),
         price: 600,
-        principalPicture: '',
+        principalPicture: new File([''],''),
         announceType: 'needRoom',
         isOwnerCertified: false,
         roomType: 'appartement',
         roomfurnishedType: false,
-        genderSearched: ['homme']
+        genderSearched: ['homme'],
+        images: [],
     },
 
     
@@ -149,11 +156,12 @@ export  const ROOMS: RoomsInterface[] = [
         nbRoomatesSeached: 1,
         publishedAt: new Date('2022-08-11'),
         price: 600,
-        principalPicture: '',
+        principalPicture: new File([''],''),
         announceType: 'needRoom',
         isOwnerCertified: false,
         roomType: 'appartement',
         roomfurnishedType: false,
-        genderSearched: ['femme']
+        genderSearched: ['femme'],
+        images: [],
     },
 ];

@@ -15,7 +15,7 @@ import { publishedAtFormatMsg } from '../../_utils/functions/functions';
 const HandleLocation = () => {
     const announce = ROOMS[1];
     const user= getMockUser(announce.ownerId);
-    const [activeImg, setActiveImg] = useState(announce.principalPicture);
+    const [activeImg, setActiveImg] = useState(announce.principalPicture.name);
     return (
         <div className='container relative mb-2'>
             <div className="flex center m-1 text-primary shadow">
@@ -27,7 +27,7 @@ const HandleLocation = () => {
                     <img src={!announce.principalPicture?defaultpng: '/Images/'+activeImg} alt="profile mx-half" className='img-md'/>
                     <div className="absolute flex wrap bottom-0 m-half">
                         <img src={defaultpng} alt="" className='m-b-half mx-half small-img pointer' onClick={()=> setActiveImg('defaultpng.png')}/>
-                        <img src={!announce.principalPicture?defaultpng: '/Images/'+announce.principalPicture} alt="" className='m-b-half mx-half small-img' onClick={()=> setActiveImg(!announce.principalPicture?'defaultpng.png': announce.principalPicture)}/>
+                        <img src={!announce.principalPicture?defaultpng: '/Images/'+announce.principalPicture} alt="" className='m-b-half mx-half small-img' onClick={()=> setActiveImg(!announce.principalPicture.name?'defaultpng.png': announce.principalPicture.name)}/>
                         <img src={defaultpng} alt="" className='m-b-half mx-half small-img'/>
                         <img src={defaultpng} alt="" className='m-b-half mx-half small-img'/>
                     </div>

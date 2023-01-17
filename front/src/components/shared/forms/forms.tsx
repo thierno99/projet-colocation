@@ -1,22 +1,23 @@
-import React, { ChangeEvent, FC } from 'react';
+import React, { ChangeEvent, FC, useState } from 'react';
 export interface InputErr {
     hasError: boolean;
     errMsg: string;
 }
 export interface InputTextProps {
     name: string;
-    value: string;
+    value: string | number;
     label: string;
     placeholder: string;
-    err:InputErr;
     handleInputChange: (e: ChangeEvent<HTMLInputElement>) => void
+    pattern: string;
+    errorMessage: string;
+    required: boolean;
 
 }
 
 export interface SelectFormProps {
     name: string;
     options: JSX.Element[];
-    err:InputErr;
     handleSelectChange: (type: string, e: React.ChangeEvent<HTMLSelectElement>) => void;
 }
 
@@ -28,19 +29,30 @@ export interface TextAreaProps {
     rows: number;
     cols: number;
     handleTexteAreaChange: (e: ChangeEvent<HTMLTextAreaElement>) => void
-    err:InputErr;
+    pattern: string;
+    errorMessage: string;
 }
 
 export interface CheckboxProps {
     name: string;
     label: string;
+    checked: boolean;
+    handleCheckboxChange: (field: string, e: React.ChangeEvent<HTMLInputElement>) => void;
+}
+
+export interface InputRadioProps {
+    name: string;
+    label: string;
+    value: string;
+    checked: boolean;
+    handleInputRadioChange: (e: React.ChangeEvent<HTMLInputElement>) => void
 }
 
 const  InputText:FC<InputTextProps> = (props) => {
-    const { name, label,value, placeholder, err, handleInputChange} = props;
-    console.log("-------------------------------------------------")
-    console.log(err)
-    console.log("-------------------------------------------------")
+    const { name, label,value, placeholder, errorMessage, pattern, required, handleInputChange} = props;
+
+    const [focused, setFocused] = useState(false)
+
     return (
         <div className='my-half flex column'>
             <label htmlFor={name}> <strong>{label}</strong></label>
@@ -51,40 +63,44 @@ const  InputText:FC<InputTextProps> = (props) => {
                 placeholder={placeholder} 
                 onChange={(e) =>handleInputChange(e)} name={name}
                 value={value}
+                pattern = {pattern}
+                onBlur= {()=>setFocused(true)}
+                required={required}
             />
-            {
-                err.hasError && <div className="danger py-half br-half px-1">
-                    {err.errMsg}
-                </div>
-            }
+            
+            <span className={"danger py-half px-1 hide " +(focused?"toggle-err":'')}>
+                {errorMessage}
+            </span>
+            
         </div>
     );
 }
 
 const SelectForm:FC<SelectFormProps> = (props) => {
-    const { name,options, err, handleSelectChange } = props;
+    const { name,options, handleSelectChange } = props;
     return (
         <div className='my-half flex column'>
             <label htmlFor={name}> <strong>Departement</strong></label>
-            <select name={name} id={name} className='p-half mt-1 br-half' onChange={(e) => handleSelectChange(name,e)}>
-                <option value="" key={""}>--select--</option>
+            <select 
+                name={name} 
+                id={name} 
+                className='p-half mt-1 br-half' 
+                onChange={(e) => handleSelectChange(name,e)}
+                defaultValue=""
+            >
+                <option value="" key={""} disabled>selectionner....</option>
                 {
                     options
                 }
             </select>
-            
-            {
-                err.hasError && <div className="danger py-half br-half px-1">
-                    {err.hasError}
-                </div>
-            }
         </div>
     )
 }
 
 const  InputNumber:FC<InputTextProps> = (props) => {
 
-    const { name, label, value, placeholder, err, handleInputChange} = props;
+    const { name, label, value, placeholder, required,errorMessage, pattern, handleInputChange} = props;
+    const [focused, setFocused] = useState(false)
     return (
         <div className='my-half flex column'>
             <label htmlFor={name}> <strong>{label}</strong></label>
@@ -96,19 +112,21 @@ const  InputNumber:FC<InputTextProps> = (props) => {
                 name={name}
                 value={value}
                 onChange={(e) =>handleInputChange(e)}
+                pattern = {pattern}
+                onBlur= {()=>setFocused(true)}
+                required={required}
+                
             />
-            {
-                err.hasError && <div className="danger py-half br-half px-1">
-                    {err.hasError}
-                </div>
-            }
+            <span className={"danger py-half px-1 hide " +(focused?"toggle-err":'')}>
+                {errorMessage}
+            </span>
         </div>
     );
 }
 
 
 const TextArea:FC<TextAreaProps> = (props) => {
-    const {name, label,value, placeholder, cols, rows, err, handleTexteAreaChange} = props;
+    const {name, label,value, placeholder, cols, rows, errorMessage, handleTexteAreaChange} = props;
 
     return (
         <div className='my-1 flex column'>
@@ -122,23 +140,32 @@ const TextArea:FC<TextAreaProps> = (props) => {
                 onChange={(e) =>handleTexteAreaChange(e)}
                 value={value}
             >
-            </textarea> 
-
-            {
-                err.hasError && <div className="danger py-half br-half px-1">
-                    {err.hasError}
-                </div>
-            }
+            </textarea>
+            
+            <span className="danger py-half px-1 hide">
+                {errorMessage}
+            </span>
         </div>
     )
 }
 
 const Checkbox:FC<CheckboxProps> = (props) => {
-    const { name, label } = props
+    const { name, label,handleCheckboxChange } = props
     return (
         <div className='p-half'>
-            <input type="checkbox" id={name} name={name}/>
+            <input type="checkbox" id={name} name={name} onChange={(e)=>handleCheckboxChange('', e)} />
             <label htmlFor={name} className='px-half'>{label}</label>
+        </div>
+    );
+}
+
+const InputRadio:FC<InputRadioProps> = (props) => {
+    const { name, label, value, checked, handleInputRadioChange } = props;
+
+    return (
+        <div className='p-half'>
+            <input type="radio" id={label} name={name} onChange={(e)=>handleInputRadioChange(e)} value={value} checked={checked}/>
+            <label htmlFor={label} className='px-half'>{label}</label>
         </div>
     );
 }
@@ -149,6 +176,7 @@ const Form ={
     InputNumber,
     TextArea,
     Checkbox,
+    InputRadio,
 }
 
 export default Form;

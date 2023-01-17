@@ -15,7 +15,7 @@ const ColumnCard:FC<any> = (props) => {
         <div className='flex column my-1'>
             <div className='card relative border-1 p-half br-1'>
                 <div className="card-hearder relative">
-                    <img src={!cardValues.principalPicture?defaultpng: '/Images/'+cardValues.principalPicture} alt="profile" />
+                    <img src={!cardValues.principalPicture.name?defaultpng: '/Images/'+cardValues.principalPicture.name} alt="profile" />
                     <hr />
                     {
                         cardValues.price?

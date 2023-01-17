@@ -1,4 +1,5 @@
 
+import defaultpng from '../../assets/Images/defaultpng.png';
 export interface RoomsInterface {
     id: number;
     title: string;
@@ -11,12 +12,13 @@ export interface RoomsInterface {
     nbRoomatesSeached: number;
     publishedAt: Date;
     price: number;
-    principalPicture: string;
+    principalPicture: File;
     announceType: string;
     isOwnerCertified: boolean;
     roomType: string;
     roomfurnishedType: boolean;
     genderSearched: string[];
+    images: File[];
 }
 
 export const DefaultAnnonce: RoomsInterface = {
@@ -31,10 +33,11 @@ export const DefaultAnnonce: RoomsInterface = {
     nbRoomatesSeached: 0,
     publishedAt: new Date(),
     price: 0,
-    principalPicture: "",
-    announceType: "",
+    principalPicture: new File([''],''),
+    announceType: "haveRoom",
     isOwnerCertified: false,
     roomType: "",
     roomfurnishedType: false,
     genderSearched: [],
+    images: [],
 }
