@@ -64,8 +64,6 @@ const Home = () => {
                 <ButtonPrimary title={'Je Propose une offre'} to={''} classes={['bg-light-sucess']}/>
             </div>
 
-            
-
             <div className="my-3">
                 <h1 className='my-1 p-1 text-center'>Quelques annonces</h1>
                 <SampleAnnouncement/>
