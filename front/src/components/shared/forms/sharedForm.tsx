@@ -2,7 +2,6 @@ import React, { FC, ReactElement } from "react";
 
 
 export interface FormFieldProps {
-    label: ReactElement<any, any>,
     field: ReactElement<any, any>
 }
 
@@ -28,15 +27,14 @@ const ShardForm: FC<ShardFormProps> = (props) => {
                 fields.map ((field,i) => {
                     return(
                         <div className='my-half flex column' key={i}>
-                            {field.label}
                             {field.field}
                         </div>
                     )
                 })
             }
 
-            <div className='my-1 flex column'>
-                <button className='p-half br-half pointer mt-1 bg-primary text-light'> <h3>{button.name}</h3></button>
+            <div className='flex column center mt-1'>
+                <button className='button-login p-half br-1 pointer text-light-grey bg-opactity b-none'> <h3>{button.name}</h3></button>
             </div>
         </form>
     );

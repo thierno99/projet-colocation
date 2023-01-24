@@ -14,7 +14,6 @@ function App() {
 
       <main>
         <Routes>
-          
           <Route path='/*' element={<HomeRouter/>} />
         </Routes>
         

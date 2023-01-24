@@ -1,5 +1,5 @@
 import React from 'react';
-import { BsArrowBarLeft } from 'react-icons/bs';
+import { BsArrowBarRight } from 'react-icons/bs';
 import { Link } from 'react-router-dom';
 import { goUp } from '../../_utils/functions/functions';
 import ShardForm, { ShardFormProps } from '../shared/forms/sharedForm';
@@ -11,53 +11,44 @@ function Register() {
         button: {name: 'Je m\'inscrit', link: ''},
         fields: [
             {
-                label: <label htmlFor='firstname'>Nom :</label>,
-                field: <input type='text' id='firstname' className='p-half mt-1 br-half'/>
+                field: <input type='text' id='lastname' className='input-login mh-20 b-none p-half mt-1 br-1 bg-opactity text-white' placeholder='Nom'/>
                 
             },
             {
-                label: <label htmlFor='lastname'>prenom :</label>,
-                field: <input type='text' id='lastname' className='p-half mt-1 br-half'/>
+                field: <input type='text' id='firstname' className='input-login mh-20 b-none p-half mt-1 br-1 bg-opactity text-white' placeholder='Prénom'/>
             },
             {
-                label: <label htmlFor='mail'>email :</label>,
-                field: <input type='email' id='mail' className='p-half mt-1 br-half'/>
+                field: <input type='email' id='mail' className='input-login mh-20 b-none p-half mt-1 br-1 bg-opactity text-white' placeholder='Email'/>
             },
             
             {
-                label: <label htmlFor='birth'>Date de naissance :</label>,
-                field: <input type='Date' id='birth' className='p-half mt-1 br-half'/>
+                field: <input type='Date' id='birth' className='input-login mh-20 b-none p-half mt-1 br-1 bg-opactity text-white' placeholder='Date de naissance'/>
             },
             {
-                label: <label htmlFor='phone'>tel :</label>,
-                field: <input type='text' id='phone' className='p-half mt-1 br-half'/>
+                field: <input type='text' id='phone' className='input-login mh-20 b-none p-half mt-1 br-1 bg-opactity text-white' placeholder='Numéro de téléphone'/>
             },
             {
-                label: <label htmlFor='password'>Mot de passe :</label>,
                 field: <>
-                    <input type='password' id='password' className='p-half mt-1 br-half'/> 
+                    <input type='password' id='password' className='input-login mh-20 b-none p-half mt-1 br-1 bg-opactity text-white' placeholder='Mot de passe'/> 
                 </>
             },
-            
             {
-                label: <label htmlFor='confimepassword'>Confimer votre mot de passe :</label>,
                 field: <>
-                    <input type='password' id='confimepassword' className='p-half mt-1 br-half'/> 
+                    <input type='password' id='confimepassword' className='input-login mh-20 b-none p-half mt-1 br-1 bg-opactity text-white' placeholder='Confirmer le mot de passe'/> 
                 </>
             },
         ]
     }
 
     return (
-        <div className='container m-1 my-3'>
+        <div className='background-login mh-100 flex column j-center'>
             <div className='flex column center'>
-                <div className='border-1 w-full xs-width border-gray br-1 shadow-top'>
-                <h3 className='p-1 bg-light-blue br-t-1 text-center flex center'> 
-                        <Link to={'/app/signin'}> <span className="">Connexion</span> </Link>
-                            <BsArrowBarLeft className="mx-2" fontSize={21} color={'black'}/>
-                        <Link to={'/app/register'}> <span className="">Inscription</span> </Link>
+                <div className='w-full xs-width'>
+                    <h3 className='text-center flex center text-white'> 
+                        <Link className='text-white change-color-black' to={'/app/signin'}> <span className="">Connexion</span> </Link>
+                            <BsArrowBarRight className="mx-2" fontSize={21} color={'white'}/>
+                        <p className='text-white'> <span className="">Inscription</span> </p>
                     </h3>
-                    <hr />
                     <ShardForm button={fields.button} fields={fields.fields} />
                 </div>
             </div>
