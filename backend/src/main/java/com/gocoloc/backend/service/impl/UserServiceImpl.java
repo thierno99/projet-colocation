@@ -1,10 +1,18 @@
 package com.gocoloc.backend.service.impl;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.gocoloc.backend.config.jwt.JwtGenerator;
 import com.gocoloc.backend.domain.Role;
 import com.gocoloc.backend.domain.User;
 import com.gocoloc.backend.domain.dto.AuthResponseDto;
@@ -27,6 +35,12 @@ public class UserServiceImpl implements UserService{
 
     @Autowired
     private final RoleRepository roleRepository;
+    
+    @Autowired
+    private final AuthenticationManager authenticationManager;
+    
+    @Autowired
+    private JwtGenerator jwtGenerator;
 
     @Override
     public User SaveUser(User user) {
@@ -70,10 +84,30 @@ public class UserServiceImpl implements UserService{
     public AuthResponseDto loginUser(LoginDto login) {
         log.info("a user is trying to log in {}", login);
         User user = userRepository.findByEmail(login.getEmail());
-        if(user!=null && user.getEmail().equals(login.getEmail()) && user.getPassword().equals(login.getPassword())) {
-            return new AuthResponseDto("logged in");
-        }
-        return new AuthResponseDto("Incorrect username or password");
+       
+            Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
+            user.getRoles().forEach(role -> {
+                authorities.add(new SimpleGrantedAuthority(role.getName()));
+            });
+            Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(login.getEmail(), login.getPassword(),authorities)); 
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+            
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+            String token;
+			try {
+				token = jwtGenerator.generateToken(authentication);
+				log.info("token ====>", token);
+				return new AuthResponseDto(token, "loged in");
+			} catch (Exception e) {
+				e.printStackTrace();
+				throw e;
+			}
+			
+        
+//        if(user!=null && user.getEmail().equals(login.getEmail()) && user.getPassword().equals(login.getPassword())) {
+//            return new AuthResponseDto("logged in");
+//        }
+//        return new AuthResponseDto("Incorrect username or password");
     }
     
 
