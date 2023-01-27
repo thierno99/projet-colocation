@@ -4,29 +4,37 @@ import java.io.File;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
+import com.gocoloc.backend.constants.AnnounceType;
+import com.gocoloc.backend.constants.RoomType;
+import com.gocoloc.backend.domain.Announcement;
 import com.gocoloc.backend.domain.Role;
 import com.gocoloc.backend.domain.User;
+import com.gocoloc.backend.service.AnnouncementService;
 import com.gocoloc.backend.service.UserService;
 
 @Configuration
-public class UserConfig {
+public class ApplicationConfig {
     
     private static final String SRC_MAIN = "/src/main";
 	private static final String HELLO_WORLD = "hello world";
 	private static final String ADMIN = "ADMIN";
 	private static final String MANAGER = "MANAGER";
-	private static Logger log = LoggerFactory.getLogger("UserConfig");
+	private static Logger log = LoggerFactory.getLogger("ApplicationConfig");
     
     @Bean
-    public CommandLineRunner runner(UserService userService) {
+    public CommandLineRunner runner(UserService userService, AnnouncementService announcementService) {
         return (args) -> {
-            if(userService.getUsers().isEmpty()){
+        	List<User> users = userService.getUsers();
+        	
+            if(users.isEmpty()){
 
                 userService.saveRole(new Role("USER"));
                 userService.saveRole(new Role(MANAGER));
@@ -119,6 +127,33 @@ public class UserConfig {
                 userService.addRoleToUser(user4.getEmail(), ADMIN);
                 userService.addRoleToUser(user.getEmail(), MANAGER);
                 userService.addRoleToUser(user3.getEmail(), ADMIN);
+            }
+            
+            
+            if(announcementService.getAnnouncements().isEmpty() && !users.isEmpty()) {
+            	
+            	log.info("---------------------------Project Init with The Following Mock Announcement: ------------------------");
+            	
+            	Announcement announce1 = new Announcement("Je recherche un coloc", 
+            			"Je dispose d'une maison de 6 chambres, un living room, dont chaque chambre dispose sa salle de bain et toilettes, 2 cuisines à partagerpar paire de 2.", 
+            			users.get(0).getId(),
+            			"Nouvelle Aquitaine",
+            			"Bordeaux", 
+            			"33000", 
+            			"12 cours de la martinique", 
+            			6, 
+            			LocalDateTime.parse("2023-01-11T10:12:15"),
+            			650, 
+            			AnnounceType.HAVEROOM, 
+            			true, 
+            			RoomType.MAISON, 
+            			true,
+            			new HashSet<>(Arrays.asList("homme", "femme"))
+            			
+            	);
+            	
+            	
+            	announcementService.saveAnnounce(announce1);
             }
 
 

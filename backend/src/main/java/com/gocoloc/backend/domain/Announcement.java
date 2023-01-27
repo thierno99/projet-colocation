@@ -48,7 +48,7 @@ public class Announcement {
 	
 	
 	public Announcement(String title, String description, String ownerId, String state, String city, String postalCode,
-			String address, int nbRoomatesSeached, LocalDateTime publishedAt, double price, byte[] principalPicture,
+			String address, int nbRoomatesSeached, LocalDateTime publishedAt, double price,
 			AnnounceType announceType, boolean isOwnerCertified, RoomType roomType, boolean roomfurnishedType,
 			Set<String> genderSearched) {
 		super();
@@ -62,7 +62,6 @@ public class Announcement {
 		this.nbRoomatesSeached = nbRoomatesSeached;
 		this.publishedAt = publishedAt;
 		this.price = price;
-		this.principalPicture = principalPicture;
 		this.announceType = announceType;
 		this.isOwnerCertified = isOwnerCertified;
 		this.roomType = roomType;
@@ -70,5 +69,46 @@ public class Announcement {
 		this.genderSearched = genderSearched;
 	} 
 	
+	public boolean isValid() {
+		if(ownerId == null)
+			return false;
+		
+		if(state == null)
+			return false;
+		
+		if(city == null)
+			return false;
+		
+		if(postalCode == null)
+			return false;
+		
+		if(address == null)
+			return false;
+		
+		if(nbRoomatesSeached <= 0)
+			return false;
+		
+		if(publishedAt == null)
+			return false;
+		
+		if(title == null) 
+			return false;					
+		
+		if(price <= 0) 
+			return false;					
+		
+		if(announceType.getType() == null) 
+			return false;			
+			
+		if(genderSearched.isEmpty()) 
+			return false;			
+		
+		if(roomType.getType() == null) 
+			return false;			
+		
 	
+		
+		return true;
+	}
+
 }
