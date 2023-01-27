@@ -4,16 +4,15 @@ package com.gocoloc.backend.config.jwt;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-
+import java.util.function.Function;
 import java.security.Key;
 
 import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import com.gocoloc.backend.constants.SecurityConstant;
-import com.gocoloc.backend.domain.User;
-
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtParser;
 import io.jsonwebtoken.Jwts;
@@ -63,15 +62,44 @@ public class JwtGenerator {
         return claims.getSubject();
     }
 
-    public boolean isValidateToken(String token) {
+    public boolean isValidateToken(UserDetails user, String token) {
         try {
         	JwtParser parser = Jwts.parserBuilder().setSigningKey(key).build();
             parser.parseClaimsJws(token);
-            return true;
+            
+            String username = this.getUsernameFromJwt(token);
+            
+            return user.getUsername().equals(username) && !isExpiredToken(token);
         } catch (Exception e) {
             throw new AuthenticationCredentialsNotFoundException("JWT was expired or incorrect");
         }
     }
+    
+    public <T> T extractClaims(String token, Function<Claims, T> claimsResolver) {
+    	final Claims claims = extractAllClaims(token);
+    	
+    	return claimsResolver.apply(claims);
+    }
+
+	private boolean isExpiredToken(String token) {
+	
+		return extractExpiration(token).before(new Date());
+	}
+
+	private Date extractExpiration(String token) {
+		return extractClaims(token, Claims::getExpiration);
+	}
+
+	private Claims extractAllClaims(String token) {
+		
+		return Jwts
+				.parserBuilder()
+				.setSigningKey(key)
+				.build()
+				.parseClaimsJws(token)
+				.getBody()
+		;
+	}
 
 
 }

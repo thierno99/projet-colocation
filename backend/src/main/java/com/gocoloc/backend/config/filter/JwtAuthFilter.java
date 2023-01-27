@@ -3,8 +3,8 @@ package com.gocoloc.backend.config.filter;
 import java.io.IOException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.lang.NonNull;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
@@ -30,22 +30,26 @@ public class JwtAuthFilter extends OncePerRequestFilter{
     private CustomUserDetailsService customUserDetailsService;
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+    protected void doFilterInternal(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull FilterChain filterChain)
         throws ServletException, IOException 
     {
         String token = getJwtFromRequest(request);
 
-        if(StringUtils.hasText(token) && tokenGenerator.isValidateToken(token)) {
+        if(StringUtils.hasText(token)) {
             String username = tokenGenerator.getUsernameFromJwt(token);
-            
             UserDetails userDetails = customUserDetailsService.loadUserByUsername(username);
-            UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(userDetails,null, userDetails.getAuthorities());
             
-            authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-            SecurityContext context = SecurityContextHolder.createEmptyContext();
-            context.setAuthentication(authenticationToken);
-            SecurityContextHolder.setContext(context);
-            filterChain.doFilter(request,response);
+            if(tokenGenerator.isValidateToken(userDetails,token)) {
+            	UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(userDetails,null, userDetails.getAuthorities());
+            	
+            	authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+//            	SecurityContext context = SecurityContextHolder.createEmptyContext();
+//            	context.setAuthentication(authenticationToken);
+            	SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+            	filterChain.doFilter(request,response);
+            	
+            }
+            
         } else {
         	filterChain.doFilter(request,response);        	
         }

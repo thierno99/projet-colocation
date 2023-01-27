@@ -10,7 +10,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
 import com.gocoloc.backend.domain.Role;
 import com.gocoloc.backend.domain.User;
 import com.gocoloc.backend.service.UserService;
@@ -18,16 +17,20 @@ import com.gocoloc.backend.service.UserService;
 @Configuration
 public class UserConfig {
     
-    private static Logger log = LoggerFactory.getLogger("UserConfig");
+    private static final String SRC_MAIN = "/src/main";
+	private static final String HELLO_WORLD = "hello world";
+	private static final String ADMIN = "ADMIN";
+	private static final String MANAGER = "MANAGER";
+	private static Logger log = LoggerFactory.getLogger("UserConfig");
     
     @Bean
     public CommandLineRunner runner(UserService userService) {
         return (args) -> {
-            if(userService.getUsers().size()<=0){
+            if(userService.getUsers().isEmpty()){
 
                 userService.saveRole(new Role("USER"));
-                userService.saveRole(new Role("MANAGER"));
-                userService.saveRole(new Role("ADMIN"));
+                userService.saveRole(new Role(MANAGER));
+                userService.saveRole(new Role(ADMIN));
 
                 User user = new User(
                     "bon",
@@ -38,7 +41,7 @@ public class UserConfig {
                     "user1Password!", 
                     true, 
                     true, 
-                    "hello world".getBytes(), 
+                    HELLO_WORLD.getBytes(), 
                     true, 
                     true,
                     new HashSet<>(Arrays.asList(userService.getRoleByNaRole("USER"))) 
@@ -53,7 +56,7 @@ public class UserConfig {
                     "user2PassWord!", 
                     true, 
                     true,
-                    "hello world".getBytes(), 
+                    HELLO_WORLD.getBytes(), 
                     true, 
                     true, 
                     new HashSet<>(Arrays.asList(userService.getRoleByNaRole("USER")))
@@ -68,10 +71,10 @@ public class UserConfig {
                     "user3PassWord!", 
                     true, 
                     true, 
-                    "hello world".getBytes(), 
+                    HELLO_WORLD.getBytes(), 
                     true, 
                     true, 
-                    new HashSet<>(Arrays.asList(new Role("MANAGER")))
+                    new HashSet<>(Arrays.asList(new Role(MANAGER)))
                 );
 
                 User user4 = new User(
@@ -83,7 +86,7 @@ public class UserConfig {
                     "user4PassWord!", 
                     false, 
                     false, 
-                    "hello world".getBytes(), 
+                    HELLO_WORLD.getBytes(), 
                     false, 
                     false, 
                     new HashSet<>(Arrays.asList(userService.getRoleByNaRole("USER")))
@@ -98,7 +101,7 @@ public class UserConfig {
                     "user5PassWord!", 
                     false, 
                     false, 
-                    (new File("file", "/src/main")).getAbsolutePath().getBytes(), 
+                    (new File("file", SRC_MAIN)).getAbsolutePath().getBytes(), 
                     false, 
                     false,
                     new HashSet<>(Arrays.asList(userService.getRoleByNaRole("USER")))
@@ -112,11 +115,13 @@ public class UserConfig {
                 userService.SaveUser(user4);
                 userService.SaveUser(user5);
 
-                userService.addRoleToUser(user4.getEmail(), "MANAGER");
-                userService.addRoleToUser(user4.getEmail(), "ADMIN");
-                userService.addRoleToUser(user.getEmail(), "MANAGER");
-                userService.addRoleToUser(user3.getEmail(), "ADMIN");
+                userService.addRoleToUser(user4.getEmail(), MANAGER);
+                userService.addRoleToUser(user4.getEmail(), ADMIN);
+                userService.addRoleToUser(user.getEmail(), MANAGER);
+                userService.addRoleToUser(user3.getEmail(), ADMIN);
             }
+
+
 
         };
     }

@@ -29,12 +29,13 @@ public class CustomUserDetailsServiceImpl  implements CustomUserDetailsService{
             log.error("User " + username + " not found");
             throw new UsernameNotFoundException("User " + username + " not found");
         } else {
-            log.info("User " + username + " is founded");
+            log.info("User {} with pwd= {} is founded",username, user.getPassword());
         }
         Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
         user.getRoles().forEach(role -> {
             authorities.add(new SimpleGrantedAuthority(role.getName()));
         });
+        //return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), authorities);
         return new CustomUserDetail(user);
     }
 }
