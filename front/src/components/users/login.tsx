@@ -1,6 +1,7 @@
 import React, { ChangeEvent, FormEvent, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { BsArrowBarRight } from 'react-icons/bs';
+import { BsArrowBarLeft } from 'react-icons/bs';
+import { FaRegEye, FaRegEyeSlash } from 'react-icons/fa';
 
 import AccountServices from '../../services/account.service';
 import { goUp } from '../../_utils/functions/functions';
@@ -9,9 +10,10 @@ function Login() {
     goUp();
     const navigate = useNavigate();
     const [credentials, setCredentials] = useState({
-        email: 'mail@gmail.com',
-        password: 'password',
     })
+
+    const[passwordIsVisible, setPasswordIsVisible] = useState(false);
+
 
     const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
         setCredentials({
@@ -36,44 +38,47 @@ function Login() {
         ;
     }
     return (
-        <div className='container m-1 my-3'>
+        <div className='background-login mh-100 flex column j-center'>
             <div className='flex column center'>
-                <div className='border-1 w-full xs-width border-gray br-1 shadow-top'>
-                    <h3 className='p-1 bg-light-blue br-t-1 text-center flex center'> 
-                        <Link to={'/app/signin'}> <span className="">Connexion</span> </Link>
-                            <BsArrowBarRight className="mx-2" fontSize={21} color={'black'}/>
-                        <Link to={'/app/register'}> <span className="">Inscription</span> </Link>
+                <div className='w-full xs-width'>
+                    <h3 className='text-center flex center text-white'> 
+                        <p className='text-grey'> <span className="">Connexion</span> </p>
+                            <BsArrowBarLeft className="mx-2" fontSize={21} color={'white'}/>
+                        <Link className='text-white change-color-black hover-underline-animation' to={'/app/registerv2'}> <span className="">Inscription</span> </Link>
                     </h3>
-                    <hr />
                     <form 
                         className='flex column m-1 p-1' 
                         onSubmit={(e)=>onSubmit(e)}
                     >
 
-                        <div className='my-half flex column'>
-                            <label htmlFor='email'>Mail :</label>
+                        <div className='mt-litle flex column'>
                             <input 
-                                type='text' id='email' className='p-half mt-1 br-half' name='email'
+                                type='text' id='email' className='input-login mh-20 b-none p-half mt-1 br-1 bg-opactity text-white' name='email' placeholder='Email'
                                 onChange={(e) =>handleInputChange(e)}
                             />
                         </div>
 
-                        <div className='my-half flex column'>
-                            <label htmlFor='password'>Mot de passe :</label>
+                        <div className='mt-litle flex column'>
                             <>
-                                <input type='password' id='password' className='p-half mt-1 br-half' name='password'
-                                    onChange={(e) =>handleInputChange(e)}
-                                /> 
-                                <small className='text-center mt-1'>
-                                    <Link to={''} > mot de passe oublié ?</Link>
+                                <div className='flex relative'>
+                                    <input type={passwordIsVisible ?'text' : 'password'} id='password' className='w-100 input-login mh-20 b-none p-half mt-1 br-1 bg-opactity text-white' name='password' placeholder='Mot de passe'
+                                        onChange={(e) =>handleInputChange(e)}
+                                    />
+                                    <span className='absolute right-0 handle-password' onClick={()=> setPasswordIsVisible(!passwordIsVisible)}>
+                                        {passwordIsVisible ?<FaRegEyeSlash color={'white'}/> : <FaRegEye color={'white'}/>}
+                                    </span>
+                                </div>
+                                <small className='mt-little ml-little'>
+                                    <Link className='text-skyeblue change-color-blue' to={''} > mot de passe oublié ?</Link>
                                 </small>
                             </>
                         </div>
 
 
-                        <div className='my-1 flex column'>
-                            <button className='p-half br-half pointer mt-1 bg-primary text-light'
-                            > <h3>Connexion</h3></button>
+                        <div className='flex column center mt-1'>
+                            <button className='button-login p-half br-1 pointer text-light-grey bg-opactity b-none'>
+                                <h3>Connexion</h3>
+                            </button>
                         </div>
                     </form>
                 </div>
