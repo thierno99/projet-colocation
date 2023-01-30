@@ -1,19 +1,28 @@
 package com.gocoloc.backend.domain;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
+import org.hibernate.annotations.ManyToAny;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
+
+import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Lob;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 @Data
 @Document("users")
+@NoArgsConstructor
+@AllArgsConstructor
 public class User {
     @Id
     private String id;
-    private String nom;
-    private String prenom;
+    private String lastname;
+    private String firstname;
     private String sexe;
     private LocalDateTime dateOfBirth;
     @Indexed(unique = true)
@@ -25,10 +34,12 @@ public class User {
     private byte[] profileImg;
     private boolean autorizeHaldleTel;
     private boolean autorizeHaldleEmail;
+    @ManyToAny(fetch = FetchType.EAGER)
+    private Set<Role> roles = new HashSet<>();
 
     public User(
-        String nom, 
-        String prenom, 
+        String lastname, 
+        String firstname, 
         String sexe, 
         LocalDateTime dateOfBirth, 
         String email, 
@@ -37,10 +48,11 @@ public class User {
         boolean iscertified, 
         byte[] profileImg, 
         boolean autorizeHaldleTel,
-        boolean autorizeHaldleEmail
+        boolean autorizeHaldleEmail,
+        Set<Role> roles
     ) {
-        this.nom = nom;
-        this.prenom = prenom;
+        this.lastname = lastname;
+        this.firstname = firstname;
         this.sexe = sexe;
         this.dateOfBirth = dateOfBirth;
         this.email = email;
@@ -50,5 +62,6 @@ public class User {
         this.profileImg = profileImg;
         this.autorizeHaldleTel = autorizeHaldleTel;
         this.autorizeHaldleEmail = autorizeHaldleEmail;
+        this.roles = roles;
     }
 }
