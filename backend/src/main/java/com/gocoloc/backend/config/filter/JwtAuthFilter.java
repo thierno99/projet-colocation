@@ -51,6 +51,7 @@ public class JwtAuthFilter extends OncePerRequestFilter{
             }
             
         } else {
+        	log.info("no token {}",request.getParameterNames());
         	filterChain.doFilter(request,response);        	
         }
         

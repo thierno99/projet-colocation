@@ -3,7 +3,7 @@ package com.gocoloc.backend.controller;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
-
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import com.gocoloc.backend.domain.Role;
