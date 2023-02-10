@@ -1,7 +1,7 @@
 import Axios from "./axios.service";
 
 const login = (credentials: any) => {
-    return Axios.post('/api/login', credentials);
+    return Axios.post('/auth/user/login', credentials);
 }
 const saveToken = (token:any) => {
     localStorage.setItem('token', token);

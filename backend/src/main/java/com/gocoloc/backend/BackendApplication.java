@@ -5,11 +5,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 
 import com.gocoloc.backend.config.properties.FileStorageProperties;
-
 @SpringBootApplication
 @EnableConfigurationProperties({
 	FileStorageProperties.class
 })
+
 public class BackendApplication {
 
 	public static void main(String[] args) {

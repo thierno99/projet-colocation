@@ -3,7 +3,7 @@ package com.gocoloc.backend.controller;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
-
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import com.gocoloc.backend.domain.Role;
@@ -16,7 +16,7 @@ import lombok.Data;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-
+@CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping("/api/auth")
 public interface UserController {
     @GetMapping("/user/views")
