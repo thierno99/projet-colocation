@@ -16,4 +16,4 @@ export interface RoomsInterface {
     roomType: string;
     roomfurnishedType: boolean;
     genderSearched: string[];
-}
+} 
