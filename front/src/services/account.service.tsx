@@ -1,7 +1,6 @@
 import Axios from "./axios.service";
 
 const login = (credentials: any) => {
-    console.info(credentials);
     return Axios.post('/auth/user/login', credentials);
 }
 const saveToken = (token:any) => {

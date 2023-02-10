@@ -9,6 +9,7 @@ import com.gocoloc.backend.config.properties.FileStorageProperties;
 @EnableConfigurationProperties({
 	FileStorageProperties.class
 })
+
 public class BackendApplication {
 
 	public static void main(String[] args) {
