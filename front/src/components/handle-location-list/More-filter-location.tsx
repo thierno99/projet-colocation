@@ -22,21 +22,21 @@ const MoreFilterLocation: FC<MoreFilterProps> = (props) => {
 
     const [allMoreFiltersTxt, setAllMoreFiltersTxt] = useState(
         [
-            {title: 'Homme', isactive: true, id: 'onlyman'},
+            {title: 'Homme', isactive: false, id: 'onlyman'},
             {title: 'Femme', isactive: false, id: 'onlywoman'},
         ]
     );
 
     const apply = () => {
-        closeModal();
+        // closeModal();
         ApplyMoreFilter(allMoreFiltersTxt);
     }
 
 
     const [allMoreFiltersLabeled, setAllMoreFiltersLabeled] = useState(
         [
-            {title: 'age min', isactive: true, id: 'ageMin'},
-            {title: 'age max', isactive: true, id: 'ageMax'},
+            {title: 'age min', isactive: false, id: 'ageMin'},
+            {title: 'age max', isactive: false, id: 'ageMax'},
         ]
     );
     

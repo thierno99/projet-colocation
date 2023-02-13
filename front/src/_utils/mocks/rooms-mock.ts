@@ -2,10 +2,10 @@ import { RoomsInterface } from '../model/rooms-model';
 
 export  const ROOMS: RoomsInterface[] = [
     {
-        id: 1,
+        id: "1",
         title: "cherche coloc Femme",
         description: 'je suis à la recherche d\'une coloc qui saura bien vivre en coloc',
-        ownerId: 1,
+        ownerId: "1",
         city: 'Lons',
         postalCode: '64140',
         address: '',
@@ -20,10 +20,10 @@ export  const ROOMS: RoomsInterface[] = [
         genderSearched: ['homme']
     },
     {
-        id: 2,
+        id: "2",
         title: "cherche coloc Homme",
         description: 'je suis à la recherche d\'un coloc qui saura bien vivre en coloc',
-        ownerId: 2,
+        ownerId: "2",
         city: 'paris',
         postalCode: '75056',
         address: '',
@@ -38,10 +38,10 @@ export  const ROOMS: RoomsInterface[] = [
         genderSearched: ['homme']
     },
     {
-        id: 3,
+        id: "3",
         title: "cherche coloc Femme",
         description: 'je suis à la recherche d\'une coloc qui saura bien vivre en coloc',
-        ownerId: 4,
+        ownerId: "4",
         city: 'bordeaux',
         postalCode: '33000',
         address: '',
@@ -56,10 +56,10 @@ export  const ROOMS: RoomsInterface[] = [
         genderSearched: ['femme']
     },
     {
-        id: 4,
+        id: "4",
         title: "cherche coloc Homme",
         description: 'je suis à la recherche d\'un coloc qui saura bien vivre en coloc',
-        ownerId: 3,
+        ownerId: "3",
         city: 'Pau',
         postalCode: '64000',
         address: '',
@@ -74,10 +74,10 @@ export  const ROOMS: RoomsInterface[] = [
         genderSearched: ['homme, femme']
     },
     {
-        id: 5,
+        id: "5",
         title: "cherche coloc Homme",
         description: 'je suis à la recherche d\'un coloc qui saura bien vivre en coloc',
-        ownerId: 5,
+        ownerId: "5",
         city: 'paris',
         postalCode: '75056',
         address: '',
@@ -93,10 +93,10 @@ export  const ROOMS: RoomsInterface[] = [
     },
     
     {
-        id: 6,
+        id: "6",
         title: "cherche coloc Homme",
         description: 'je suis à la recherche d\'un coloc qui saura bien vivre en coloc',
-        ownerId: 5,
+        ownerId: "5",
         city: 'bordeaux',
         postalCode: '33000',
         address: '',
@@ -111,10 +111,10 @@ export  const ROOMS: RoomsInterface[] = [
         genderSearched: ['homme']
     },
     {
-        id: 7,
+        id: "7",
         title: "cherche coloc Homme",
         description: 'je suis à la recherche d\'un coloc qui saura bien vivre en coloc',
-        ownerId: 5,
+        ownerId: "5",
         city: 'bordeaux',
         postalCode: '33000',
         address: '',
@@ -131,10 +131,10 @@ export  const ROOMS: RoomsInterface[] = [
 
     
     {
-        id: 8,
+        id: "8",
         title: "cherche coloc Homme",
         description: 'je suis à la recherche d\'un coloc qui saura bien vivre en coloc',
-        ownerId: 5,
+        ownerId: "5",
         city: 'bordeaux',
         postalCode: '33000',
         address: '',

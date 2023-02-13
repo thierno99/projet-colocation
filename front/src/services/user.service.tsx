@@ -10,7 +10,7 @@ const getUser = (uid: number) => {
     return Axios.get('/app/users/'+ uid);
 }
 
-export const getMockUser = (uid: number) => {
+export const getMockUser = (uid: string) => {
     return USERS.find(user => user.id === uid);
 }
 

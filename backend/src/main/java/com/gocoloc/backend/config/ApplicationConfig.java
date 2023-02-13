@@ -152,8 +152,67 @@ public class ApplicationConfig {
             			
             	);
             	
+            	Announcement announce2 = new Announcement("Je recherche un coloc", 
+            			"Je dispose d'une maison de 6 chambres, un living room, dont chaque chambre dispose sa salle de bain et toilettes, 2 cuisines à partagerpar paire de 2.", 
+            			users.get(0).getId(),
+            			"Nouvelle Aquitaine",
+            			"Bordeaux", 
+            			"33000", 
+            			"12 cours de la martinique", 
+            			6, 
+            			LocalDateTime.parse("2023-01-11T10:12:15"),
+            			650, 
+            			AnnounceType.HAVEROOM, 
+            			true, 
+            			RoomType.APPARTEMENT, 
+            			true,
+            			new HashSet<>(Arrays.asList("homme", "femme"))
+            			
+            	);
+            	
+            	
+            	Announcement announce3 = new Announcement("Je recherche un coloc", 
+            			"Je dispose d'une maison de 6 chambres, un living room, dont chaque chambre dispose sa salle de bain et toilettes, 2 cuisines à partagerpar paire de 2.", 
+            			users.get(0).getId(),
+            			"Nouvelle Aquitaine",
+            			"Bordeaux", 
+            			"33000", 
+            			"12 cours de la martinique", 
+            			6, 
+            			LocalDateTime.parse("2023-01-11T10:12:15"),
+            			650, 
+            			AnnounceType.HAVEROOM, 
+            			true, 
+            			RoomType.STUDIO, 
+            			true,
+            			new HashSet<>(Arrays.asList("femme"))
+            			
+            	);
+            	
+            	Announcement announce4 = new Announcement("Je recherche un coloc", 
+            			"Je dispose d'une maison de 6 chambres, un living room, dont chaque chambre dispose sa salle de bain et toilettes, 2 cuisines à partagerpar paire de 2.", 
+            			users.get(0).getId(),
+            			"Nouvelle Aquitaine",
+            			"Bordeaux", 
+            			"33000", 
+            			"12 cours de la martinique", 
+            			6, 
+            			LocalDateTime.parse("2023-01-11T10:12:15"),
+            			650, 
+            			AnnounceType.HAVEROOM, 
+            			true, 
+            			RoomType.MAISON, 
+            			true,
+            			new HashSet<>(Arrays.asList("homme"))
+            			
+            	);
+            	
             	
             	announcementService.saveAnnounce(announce1);
+            	announcementService.saveAnnounce(announce2);
+            	announcementService.saveAnnounce(announce3);
+            	announcementService.saveAnnounce(announce4);
+            	
             }
 
 

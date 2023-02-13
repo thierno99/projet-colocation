@@ -2,7 +2,7 @@ import { UserInterface } from '../model/user-model';
 
 export  const USERS: UserInterface[] = [
     {
-        id: 1,
+        id: "1",
         nom: 'Véronic',
         prenom: 'Julia',
         sexe: 'F',
@@ -17,7 +17,7 @@ export  const USERS: UserInterface[] = [
 
     },
     {
-        id: 2,
+        id: "2",
         nom: 'Sylla',
         prenom: 'Abdoulaye',
         sexe: 'M',
@@ -31,7 +31,7 @@ export  const USERS: UserInterface[] = [
         profileImg: 'profile-1.jpg',
     },
     {
-        id: 3,
+        id: "3",
         nom: 'Zoro',
         prenom: 'Roronoa',
         sexe: 'M',
@@ -45,7 +45,7 @@ export  const USERS: UserInterface[] = [
         profileImg: 'profile-3.jpg',
     },
     {
-        id: 4,
+        id: "4",
         nom: 'Véronic',
         prenom: 'Julia',
         sexe: 'F',
@@ -60,7 +60,7 @@ export  const USERS: UserInterface[] = [
 
     },
     {
-        id: 5,
+        id: "5",
         nom: 'luffy',
         prenom: 'monkey D luffy',
         sexe: 'M',
