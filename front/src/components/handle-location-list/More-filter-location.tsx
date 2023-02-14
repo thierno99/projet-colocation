@@ -43,7 +43,6 @@ const MoreFilterLocation: FC<MoreFilterProps> = (props) => {
     const HandleMoreFilterChangeTxt = (id: number) => {
         const tmp = allMoreFiltersTxt;
         tmp[id].isactive = !allMoreFiltersTxt[id].isactive;
-        console.log(tmp);
         setAllMoreFiltersTxt(tmp);
         setApplyChange(!ApplyChange);
     }
@@ -51,7 +50,6 @@ const MoreFilterLocation: FC<MoreFilterProps> = (props) => {
     const HandleMoreFilterLabeled = (id: number) => {
         const tmp = allMoreFiltersLabeled;
         tmp[id].isactive = !allMoreFiltersLabeled[id].isactive;
-        console.log(tmp);
         setAllMoreFiltersLabeled(tmp);
         if(id === 0) {
             setSelectFilterAge({...selectFilterAge, agemin: !selectFilterAge.agemin});

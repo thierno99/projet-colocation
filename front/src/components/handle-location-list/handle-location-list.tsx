@@ -257,7 +257,7 @@ const HandleLocationList = () => {
                     {
                         announces.map((announce)=>{
                             return(
-                                <ColumnCard key={announce.id} cardValues={announce} user={getMockUser(announce.ownerId)}/>
+                                <ColumnCard key={announce.id} cardValues={announce} user={getMockUser(announce.ownerId)} announceId={announce.id}/>
                             )
                         })
                     }

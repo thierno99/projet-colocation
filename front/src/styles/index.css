@@ -682,6 +682,11 @@ li{
   min-height: calc(100vh - 57px);
 }
 
+.announce-head {
+  background-color: #67fece1d;
+  color: #012323;
+}
+
 @media screen and (max-width: 1080px) {
   .md-center{
     justify-content: center;

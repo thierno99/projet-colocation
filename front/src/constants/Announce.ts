@@ -8,3 +8,7 @@ export const GET_ANNOUNCES_LIST_REQUEST = 'get an announcement';
 export const GET_ANNOUNCES_LIST_SUCCESS = 'get announcement success';
 export const GET_ANNOUNCES_LIST_FAIL = 'get announcement fail';
 export const GET_ANNOUNCES_LIST_RESET = 'get announcement reset';
+
+export const GET_ANNOUNCES_BY_ID_REQUEST = 'get an announcement';
+export const GET_ANNOUNCES_BY_ID_SUCCESS = 'get announcement by id success';
+export const GET_ANNOUNCES_BY_ID_FAIL = 'get announcement by id fail';

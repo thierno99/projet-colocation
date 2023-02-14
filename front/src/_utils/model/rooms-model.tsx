@@ -35,7 +35,7 @@ export class Room implements RoomsInterface {
     roomType: string;
     roomfurnishedType: boolean;
     genderSearched: string[];
-    
+
     constructor(
         id: string = "",
         title: string = "",

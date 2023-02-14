@@ -26,9 +26,8 @@ function Login() {
         e.preventDefault();
         AccountServices.login(credentials)
            .then((res) => {
-                console.log(res)
                 if (res.status === 200) {
-                    AccountServices.saveToken(res.data.access_token);
+                    AccountServices.saveToken(res.data.accessToken);
                     navigate('/app/users');
                 }
             })

@@ -8,12 +8,18 @@ import defaultpng from '../../../assets/Images/defaultpng.png';
 import { formatLongText, publishedAtFormatMsg, replaceDotDot } from '../../../_utils/functions/functions';
 import { BsFillTelephoneFill } from 'react-icons/bs';
 import { MdVerified } from 'react-icons/md';
+import { useNavigate } from 'react-router-dom';
+import { useAppDispatch } from '../../../store/store';
+import { detailAnnounce } from '../../../store/actions/announce-action';
 
 const ColumnCard:FC<any> = (props) => {
-    const {cardValues, user} = props;
+    const dispatch = useAppDispatch();
+    const {cardValues, user, announceId} = props;
+    const navigate = useNavigate();
+
     return (
         <div className='flex column my-1'>
-            <div className='card relative border-1 p-half br-1'>
+            <div className='card relative border-1 p-half br-1' onClick={() => { dispatch(detailAnnounce(announceId)); navigate("/app/rooms/"+announceId);} }>
                 <div className="card-hearder relative">
                     <img src={!cardValues.principalPicture?defaultpng: '/Images/'+cardValues.principalPicture} alt="profile" />
                     <hr />

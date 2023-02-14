@@ -1,4 +1,4 @@
-import { GET_ANNOUNCES_LIST_FAIL, GET_ANNOUNCES_LIST_REQUEST, GET_ANNOUNCES_LIST_SUCCESS } from "../../constants/Announce";
+import { GET_ANNOUNCES_BY_ID_FAIL, GET_ANNOUNCES_BY_ID_SUCCESS, GET_ANNOUNCES_LIST_FAIL, GET_ANNOUNCES_LIST_REQUEST, GET_ANNOUNCES_LIST_SUCCESS } from "../../constants/Announce";
 import AnnounceService from "../../services/announce-service";
 
 export interface ActionType {
@@ -17,6 +17,17 @@ export const AnnounceLocationListAction = () => async (dispatch: any) =>{
         })
         .catch((err) => {
             dispatch({ type: GET_ANNOUNCES_LIST_FAIL, payload: err.message });
+        })
+    ;
+}
+
+export const detailAnnounce = (announceId: string) => async (dispatch: any) => {
+    AnnounceService.getAnnouncementById(announceId)
+        .then((res) => {
+            dispatch({ type: GET_ANNOUNCES_BY_ID_SUCCESS, payload: res });
+        })
+        .catch((err) => {
+            dispatch({ type: GET_ANNOUNCES_BY_ID_FAIL, payload: err.message });
         })
     ;
 }
