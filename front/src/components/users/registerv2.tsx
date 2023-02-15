@@ -5,6 +5,9 @@ import { FaRegEye, FaRegEyeSlash } from 'react-icons/fa';
 
 import AccountServices from '../../services/account.service';
 import { goUp } from '../../_utils/functions/functions';
+import UserServices from '../../services/user.service';
+import { UserInterface } from './../../_utils/model/user-model';
+import Form from '../shared/forms/forms';
 
 function Login() {
     goUp();
@@ -26,17 +29,20 @@ function Login() {
 
     const onSubmit  = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        AccountServices.login(credentials)
-           .then((res) => {
-                if (res.status === 200) {
-                    AccountServices.saveToken(res.data.access_token);
-                    navigate('/app/users');
-                }
-            })
-            .catch((err) => {
-                console.log(err)
-            })
-        ;
+
+        console.table(credentials);
+
+        // UserServices.RegisterUser(credentials as UserInterface)
+        //     .then((res) => {
+        //         if (res.status === 200) {
+        //             alert("votre compte à été bien creer, veillez vous connecté pour profiter plainement des fonctionnaliés");
+        //             navigate("/app/login");
+        //         }
+        //     })
+        //     .catch((err) => {
+        //         console.error(err);
+        //     })
+        // ;
     }
     return (
         <div className='background-login mh-100 flex column j-center'>
@@ -51,6 +57,14 @@ function Login() {
                         className='flex column m-1 p-1' 
                         onSubmit={(e)=>onSubmit(e)}
                     >
+                        <div className='my-half flex column text-white'>
+                            <fieldset className='br-half'>
+                                <legend><strong>civilité:</strong></legend>
+                                <Form.Radio name={'civility'} label={'Mr'}/>
+                                <Form.Radio name={'civility'} label={'Mme'}/>
+                                <Form.Radio name={'civility'} label={'autre'}/>
+                            </fieldset>
+                        </div>
                         <div className='my-litle flex column'>
                             <input 
                                 type='text' id='lastname' className='input-login mh-20 b-none p-half mt-1 br-1 bg-opactity text-white' name='lastname' placeholder='Nom'
@@ -96,7 +110,7 @@ function Login() {
                         <div className='my-litle flex column'>
                             <>
                                 <div className='flex relative'>
-                                    <input type={confirmPasswordIsVisible ?'text' : 'password'} id='password' className='w-100 input-login mh-20 b-none p-half mt-1 br-1 bg-opactity text-white' name='password' placeholder='Confirmer le mot de passe'
+                                    <input type={confirmPasswordIsVisible ?'text' : 'password'} id='confirm-password' className='w-100 input-login mh-20 b-none p-half mt-1 br-1 bg-opactity text-white' name='confirm-password' placeholder='Confirmer le mot de passe'
                                         onChange={(e) =>handleInputChange(e)}
                                     />
                                     <span className='absolute right-0 handle-password' onClick={()=> setConfirmPasswordIsVisible(!confirmPasswordIsVisible)}>

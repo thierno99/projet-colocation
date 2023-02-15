@@ -1,6 +1,10 @@
 import { USERS } from "../_utils/mocks/users-mock";
+import { UserInterface } from "../_utils/model/user-model";
 import Axios from "./axios.service";
 
+const RegisterUser = (user: UserInterface) => {
+    return Axios.post('/auth/user/register', user);
+}
 
 const getAllUsers = () => {
     return Axios.get('/app/users');
@@ -16,6 +20,7 @@ export const getMockUser = (uid: string) => {
 
 
 const UserServices = {
+    RegisterUser,
     getAllUsers,
     getUser,
 };

@@ -9,8 +9,9 @@ interface Props {
 const AuthGard:FC<Props> = (props) => {
     const {children} = props;
 
-    if(!AccountServices.isLoggedIn())
+    if(!AccountServices.isLoggedIn()){
         return <Navigate to='/app/signin'/>;
+    }
     
     return children;
     

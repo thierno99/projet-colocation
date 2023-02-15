@@ -105,7 +105,7 @@ const HandleLocation = () => {
                             <p className='p-half'><strong>genres: </strong>{announce.genderSearched.join(', ')}</p>
                             
                             <div className='p-half'>
-                                <strong>message de {user?.prenom} : </strong>
+                                <strong>message de {user?.firstname} : </strong>
                                 <p className='p-half'>{announce.description}</p>
                             </div>
 

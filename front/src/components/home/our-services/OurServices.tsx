@@ -19,7 +19,7 @@ const OurService = () => {
             image: <TfiAnnouncement fontSize={100} color={'brown'}/>,
             title: "Faire une Annonce",
             description: "Vous avez la possibilité de publier des annonces de logement.",
-            urlStr:''
+            urlStr:'/app/rooms/make-announce'
         },
 
         {

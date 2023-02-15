@@ -3,10 +3,11 @@ import { UserInterface } from '../model/user-model';
 export  const USERS: UserInterface[] = [
     {
         id: "1",
-        nom: 'Véronic',
-        prenom: 'Julia',
+        lastname: 'Véronic',
+        firstname: 'Julia',
         sexe: 'F',
         dateOfBirth: new Date('2001-01-21'),
+        phoneNumber: '123',
         email: 'verojulia@gmail.com',
         password: 'veroRoulia2120!',
         isEmailVerified: true,
@@ -14,14 +15,15 @@ export  const USERS: UserInterface[] = [
         autorizeHaldleTel:  true,
         autorizeHaldleEmail: true,
         profileImg: 'profile-2.jpg',
-
+        roles: ['USER']
     },
     {
         id: "2",
-        nom: 'Sylla',
-        prenom: 'Abdoulaye',
+        lastname: 'Sylla',
+        firstname: 'Abdoulaye',
         sexe: 'M',
         dateOfBirth: new Date('1999-11-11'),
+        phoneNumber: '123',
         email: 'Abdoulaye@gmail.com',
         password: 'Abdoulaye!',
         isEmailVerified: true,
@@ -29,13 +31,15 @@ export  const USERS: UserInterface[] = [
         autorizeHaldleTel:  false,
         autorizeHaldleEmail: true,
         profileImg: 'profile-1.jpg',
+        roles: ['USER']
     },
     {
         id: "3",
-        nom: 'Zoro',
-        prenom: 'Roronoa',
+        lastname: 'Zoro',
+        firstname: 'Roronoa',
         sexe: 'M',
         dateOfBirth: new Date('2001-01-21'),
+        phoneNumber: '123',
         email: 'roronoazoro@gmail.com',
         password: 'roronoazoroEpee!',
         isEmailVerified: true,
@@ -43,13 +47,15 @@ export  const USERS: UserInterface[] = [
         autorizeHaldleTel:  false,
         autorizeHaldleEmail: false,
         profileImg: 'profile-3.jpg',
+        roles: ['USER']
     },
     {
         id: "4",
-        nom: 'Véronic',
-        prenom: 'Julia',
+        lastname: 'Véronic',
+        firstname: 'Julia',
         sexe: 'F',
         dateOfBirth: new Date('2001-01-21'),
+        phoneNumber: '123',
         email: 'verojulia@gmail.com',
         password: 'veroRoulia2120!',
         isEmailVerified: true,
@@ -57,14 +63,16 @@ export  const USERS: UserInterface[] = [
         autorizeHaldleTel:  true,
         autorizeHaldleEmail: true,
         profileImg: 'profile-4.jpg',
+        roles: ['USER']
 
     },
     {
         id: "5",
-        nom: 'luffy',
-        prenom: 'monkey D luffy',
+        lastname: 'luffy',
+        firstname: 'monkey D luffy',
         sexe: 'M',
         dateOfBirth: new Date('2001-01-21'),
+        phoneNumber: '123',
         email: 'verojulia@gmail.com',
         password: 'roidespirates!',
         isEmailVerified: false,
@@ -72,6 +80,7 @@ export  const USERS: UserInterface[] = [
         autorizeHaldleTel:  true,
         autorizeHaldleEmail: false,
         profileImg: 'profile-3.jpg',
+        roles: ['USER']
     },
 
 ];

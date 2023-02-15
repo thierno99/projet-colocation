@@ -15,6 +15,7 @@ body {
 .background-login{
   background-image: url("../assets/Images/background_login.jpg");
   background-repeat: no-repeat;
+  /* background-size: cover; */
 }
 
 a {

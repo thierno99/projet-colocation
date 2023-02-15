@@ -1,6 +1,7 @@
 import React from 'react';
 import { BsFacebook, BsInstagram, BsWhatsapp } from 'react-icons/bs';
 import { TiArrowUpOutline } from 'react-icons/ti' ;
+import AccountServices from '../../../services/account.service';
 import { goUp } from '../../../_utils/functions/functions';
 // import { useNavigate } from 'react-router-dom';
 import { ButtonPrimary } from '../buttons/Buttons';
@@ -26,7 +27,11 @@ const Footer = () => {
                     <p>inscrit-toi pour en profiter !</p>
                 </div>
 
-                <ButtonPrimary title={'Je m\'inscrit dès maintenant'} to={'/app/register'} classes={['bg-light-blue br-1']}/>
+                {
+                    !AccountServices.isLoggedIn() &&
+                    <ButtonPrimary title={'Je m\'inscrit dès maintenant'} to={'/app/register'} classes={['bg-light-blue br-1']}/>
+                }
+
             </div>
             <hr />
             <div className="flex space-around mt-2 wrap">

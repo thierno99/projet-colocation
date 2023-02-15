@@ -73,11 +73,22 @@ const Checkbox:FC<CheckboxProps> = (props) => {
     );
 }
 
+const Radio:FC<CheckboxProps> = (props) => {
+    const { name, label } = props
+    return (
+        <div className='p-half'>
+            <input type="radio" id={label} name={name}/>
+            <label htmlFor={label} className='px-half'>{label}</label>
+        </div>
+    );
+}
+
 const Form ={
     InputText,
     InputNumber,
     TextArea,
     Checkbox,
+    Radio,
 }
 
 export default Form;
