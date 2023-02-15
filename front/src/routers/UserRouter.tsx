@@ -1,6 +1,6 @@
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
-import Guards from '../_utils/guards/AuthGard';
+import Guards from '../_utils/guards/Guards';
 import Home from './../components/home/Home';
 
 function UserRouter() {

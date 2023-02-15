@@ -16,7 +16,6 @@ const ShardForm: FC<ShardFormProps> = (props) => {
 
     const onSubmit = (e: Event) => {
         e.preventDefault();
-        console.log(e)
 
     }
 

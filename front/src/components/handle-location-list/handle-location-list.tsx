@@ -1,18 +1,32 @@
-import React, { ChangeEvent, useState } from 'react';
+import React, { ChangeEvent, useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+
+
 import { FaFilter, FaList, FaMapMarkedAlt } from 'react-icons/fa';
 import { BiGridAlt } from 'react-icons/bi';
 
 import ColumnCard from '../shared/cards/column-card';
-import { ROOMS } from '../../_utils/mocks/rooms-mock';
 import { getMockUser } from '../../services/user.service';
 import Modal from '../shared/modals/modals';
 import MoreFilterLocation from './More-filter-location';
+import { RootState } from '../../store/store';
+import { RoomsInterface } from '../../_utils/model/rooms-model';
 
 
 const HandleLocationList = () => {
-
+    const dispatch = useDispatch();
+    const announceLocationList = useSelector((state: RootState) => state.announceLocationList);
+    
+    const [announces, setAnnounces] = useState([] as RoomsInterface[]);
     const [moreFilter, setMoreFilter] = useState(false);
-    const [announces, setAnnounces] = useState(ROOMS);
+    
+    const {announceList} = announceLocationList;
+    
+    useEffect(() => {
+        (announceList as Promise<RoomsInterface[]> ).then(res => {setAnnounces(res)});
+        
+    }, [announceList, dispatch])
+
 
     const closeModal = () => {
         const body = document.querySelector('body');
@@ -56,36 +70,39 @@ const HandleLocationList = () => {
         id: string
     }[]) => {
         //FIXME manage gender filter 
-        // let ances = announces.filter(announce => (
-        //     (allMoreFilters[0].isactive && announce.genderSearched.toLowerCase().includes(allMoreFilters[0].title.toLowerCase())) ||
-        //     (allMoreFilters[1].isactive && announce.genderSearched.toLowerCase().includes(allMoreFilters[1].title.toLowerCase()))
-        // ));
-        // if(allMoreFilters[0].isactive || allMoreFilters[0].isactive){
-        //     setAnnounces(ances);        
-        // }
+
+        let ances = announces.filter(announce => (
+            (allMoreFilters[0].isactive && announce.genderSearched.join(',').toLowerCase().includes(allMoreFilters[0].title.toLowerCase())) ||
+            (allMoreFilters[1].isactive && announce.genderSearched.join(',').toLowerCase().includes(allMoreFilters[1].title.toLowerCase()))
+        ));
+            setAnnounces(ances);  
+            closeModal(); 
     }
     
     const ApplyFilter = (e: React.MouseEvent<HTMLButtonElement, globalThis.MouseEvent>) => {
         e.preventDefault();
-        const ances = ROOMS.filter(
-            room => 
-            room.price>=filters.minRentPerMonth && 
-            room.price<=filters.maxRentPerMonth &&
-            (
-                filters.profileState==='checked'? room.isOwnerCertified===true : 
-                filters.profileState==='no-checked'?room.isOwnerCertified===false: 
-                (room.isOwnerCertified || !room.isOwnerCertified)
-            ) &&
-            (
-                filters.roomfurnishedType==='furnished'? room.roomfurnishedType===true : 
-                filters.roomfurnishedType==='no-furnished'?room.roomfurnishedType===false: 
-                (room.roomfurnishedType || !room.roomfurnishedType)
-            ) &&
-            room.roomType.trim().toLowerCase().includes(filters.roomType.toLowerCase().trim()) &&    
-            room.city.trim().toLowerCase().includes(filters.city.toLowerCase().trim()) && 
-            room.announceType.trim().toLowerCase().includes(filters.searchtype.toLowerCase().trim())
-        );
-        setAnnounces(ances);
+        let result: RoomsInterface[] = [];
+        (announceList as Promise<RoomsInterface[]> ).then(res => {
+            result = res.filter(
+                room => 
+                room.price>=filters.minRentPerMonth && 
+                room.price<=filters.maxRentPerMonth &&
+                (
+                    filters.profileState==='checked'? room.isOwnerCertified===true : 
+                    filters.profileState==='no-checked'?room.isOwnerCertified===false: 
+                    (room.isOwnerCertified || !room.isOwnerCertified)
+                ) &&
+                (
+                    filters.roomfurnishedType==='furnished'? room.roomfurnishedType===true : 
+                    filters.roomfurnishedType==='no-furnished'?room.roomfurnishedType===false: 
+                    (room.roomfurnishedType || !room.roomfurnishedType)
+                ) &&
+                room.roomType.trim().toLowerCase().includes(filters.roomType.toLowerCase().trim()) &&    
+                room.city.trim().toLowerCase().includes(filters.city.toLowerCase().trim()) && 
+                room.announceType.trim().toLowerCase().includes(filters.searchtype.toLowerCase().trim())
+            );
+            setAnnounces(result);
+        });
     }
 
     
@@ -138,7 +155,7 @@ const HandleLocationList = () => {
             </div>
 
             <div className='container my-1'>
-                <h3 className='text-center'>Nous vous avons trouvé '600' Potentiels Colocs à Bordeaux</h3>
+                <h3 className='text-center'>Nous vous avons trouvé '{announces.length}' Potentiels Colocs {filters.city!==""? <>à {filters.city}</>:null}</h3>
                 <p className='text-center'>Vous pouvez utiliser les filtres pour trouver votre Coloc Soulmate :) </p>
 
                 <div className='flex space-between my-2 wrap shadow-top px-1'>
@@ -227,14 +244,20 @@ const HandleLocationList = () => {
                                 </div>
                             </div>
                         </small>
+                        <div className='my-1 flex column'>
+                            <button className='p-half br-half pointer mt-half bg-light-gold bold' id='recherche' onClick={(e)=>ApplyFilter(e)}> 
+                                Appliquer
+                            </button>
+                        </div>
                     </div>
+
                 </div>
 
                 <div className='my-1 flex wrap md-center'>
                     {
                         announces.map((announce)=>{
                             return(
-                                <ColumnCard key={announce.id} cardValues={announce} user={getMockUser(announce.ownerId)}/>
+                                <ColumnCard key={announce.id} cardValues={announce} user={getMockUser(announce.ownerId)} announceId={announce.id}/>
                             )
                         })
                     }

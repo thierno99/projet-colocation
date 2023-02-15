@@ -25,6 +25,7 @@ public class User {
     private String firstname;
     private String sexe;
     private LocalDateTime dateOfBirth;
+    private String phoneNumber;
     @Indexed(unique = true)
     private String email;
     private String password;
@@ -42,6 +43,7 @@ public class User {
         String firstname, 
         String sexe, 
         LocalDateTime dateOfBirth, 
+        String phoneNumber,
         String email, 
         String password,
         boolean isEmailVerified, 
@@ -55,6 +57,7 @@ public class User {
         this.firstname = firstname;
         this.sexe = sexe;
         this.dateOfBirth = dateOfBirth;
+        this.phoneNumber = phoneNumber;
         this.email = email;
         this.password = password;
         this.isEmailVerified = isEmailVerified;

@@ -15,6 +15,7 @@ body {
 .background-login{
   background-image: url("../assets/Images/background_login.jpg");
   background-repeat: no-repeat;
+  /* background-size: cover; */
 }
 
 a {
@@ -490,6 +491,7 @@ li{
 /* Card */
 .card{
   max-width: 300px;
+  height: 430px;
   margin: 8px 5px;
   box-shadow: 4px 4px #8debdb81, -.5em 0 .4em #a6c5ee;
   cursor: pointer;
@@ -679,6 +681,11 @@ li{
 
 .mh-100{
   min-height: calc(100vh - 57px);
+}
+
+.announce-head {
+  background-color: #67fece1d;
+  color: #012323;
 }
 
 @media screen and (max-width: 1080px) {

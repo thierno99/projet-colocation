@@ -26,9 +26,8 @@ function Login() {
         e.preventDefault();
         AccountServices.login(credentials)
            .then((res) => {
-                console.log(res)
                 if (res.status === 200) {
-                    AccountServices.saveToken(res.data.access_token);
+                    AccountServices.saveToken(res.data.accessToken);
                     navigate('/app/users');
                 }
             })
@@ -44,7 +43,7 @@ function Login() {
                     <h3 className='text-center flex center text-white'> 
                         <p className='text-grey'> <span className="">Connexion</span> </p>
                             <BsArrowBarLeft className="mx-2" fontSize={21} color={'white'}/>
-                        <Link className='text-white change-color-black hover-underline-animation' to={'/app/registerv2'}> <span className="">Inscription</span> </Link>
+                        <Link className='text-white change-color-black hover-underline-animation' to={'/app/register'}> <span className="">Inscription</span> </Link>
                     </h3>
                     <form 
                         className='flex column m-1 p-1' 

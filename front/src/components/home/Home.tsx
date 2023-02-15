@@ -6,6 +6,7 @@ import OurService from './our-services/OurServices';
 import { ButtonPrimary } from '../shared/buttons/Buttons';
 import SampleAnnouncement from './sample-annoncement/SampleAnnouncement';
 import { useNavigate } from 'react-router-dom';
+import AccountServices from '../../services/account.service';
 
 const ColocType = () => {
     const navigate = useNavigate();
@@ -13,6 +14,15 @@ const ColocType = () => {
     const gotoRooms = () => {
         navigate('/app/rooms');
     }
+    const gotoMakeAnnounce = () => {
+        if(AccountServices.isLoggedIn()) {
+            navigate('/app/rooms/make-announce');
+        } else {
+            alert("Vous devez vous connecter pour avoir accès à cette fonctionnalité");
+            navigate('/app/signin');
+        }
+    }
+
 
     return(
         <div className='py-1'>
@@ -22,7 +32,7 @@ const ColocType = () => {
                     <p>Créez votre profil, ajoutez vos critères de recherches et trouves votre perle Rare <br /> ENJOY !</p>
                 </div>
 
-                <div className='pointer py-1 bg-light-blue p-1' >
+                <div className='pointer py-1 bg-light-blue p-1' onClick={gotoMakeAnnounce}>
                     <h2>Proposer un logement</h2>
                     <p>
                         Lancez votre annonces avec vos attentes / contraintes. Recevez les demandes<br />
@@ -35,7 +45,15 @@ const ColocType = () => {
 }
 
 const Home = () => {
-
+    const navigate = useNavigate();
+    const gotoMakeAnnounce = () => {
+        if(AccountServices.isLoggedIn()) {
+            navigate('/app/rooms/make-announce');
+        } else {
+            alert("Vous devez vous connecter pour avoir accès à cette fonctionnalité");
+            navigate('/app/signin');
+        }
+    }
     return (
         <div className='container'>
             <Banner/>
@@ -50,17 +68,20 @@ const Home = () => {
                 <h1 className='my-1 p-1 text-center'>Le pétit plus pour vous</h1>
                 <ContributionValue/>
             </div>
-            
-            <div className="my-3 flex center bg-light-blue pt-1">
-                <ButtonPrimary title={'Je m\'inscris Maintenant !'} to={'/app/register'} classes={['bg-light-gold']}/>
-            </div>
+            {
+                !AccountServices.isLoggedIn() &&
+                <div className="my-3 flex center bg-light-blue pt-1">
+                    <ButtonPrimary title={'Je m\'inscris Maintenant !'} to={'/app/register'} classes={['bg-light-gold']}/>
+                </div>
+
+            }
             
             <div className="my-3">
                 <h1 className='my-1 p-1 text-center'>Les Services que nous vous proposons</h1>
                 <OurService/>
             </div>
 
-            <div className="my-3 flex center bg-light-blue pt-1">
+            <div className="my-3 flex center bg-light-blue pt-1" onClick={gotoMakeAnnounce}>
                 <ButtonPrimary title={'Je Propose une offre'} to={''} classes={['bg-light-sucess']}/>
             </div>
 
