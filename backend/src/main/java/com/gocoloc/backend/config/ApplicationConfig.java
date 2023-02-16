@@ -140,7 +140,8 @@ public class ApplicationConfig {
             	
             	log.info("---------------------------Project Init with The Following Mock Announcement: ------------------------");
             	
-            	Announcement announce1 = new Announcement("Je recherche un coloc", 
+            	Announcement announce1 = new Announcement(
+            			"Je recherche des colocataires", 
             			"Je dispose d'une maison de 6 chambres, un living room, dont chaque chambre dispose sa salle de bain et toilettes, 2 cuisines à partagerpar paire de 2.", 
             			users.get(0).getId(),
             			"Nouvelle Aquitaine",
@@ -158,7 +159,8 @@ public class ApplicationConfig {
             			
             	);
             	
-            	Announcement announce2 = new Announcement("Je recherche un coloc", 
+            	Announcement announce2 = new Announcement(
+            			"Je recherche des colocs", 
             			"Je dispose d'une maison de 6 chambres, un living room, dont chaque chambre dispose sa salle de bain et toilettes, 2 cuisines à partagerpar paire de 2.", 
             			users.get(0).getId(),
             			"Nouvelle Aquitaine",
@@ -177,7 +179,8 @@ public class ApplicationConfig {
             	);
             	
             	
-            	Announcement announce3 = new Announcement("Je recherche un coloc", 
+            	Announcement announce3 = new Announcement(
+            			"Je recherche un coloc", 
             			"Je dispose d'une maison de 6 chambres, un living room, dont chaque chambre dispose sa salle de bain et toilettes, 2 cuisines à partagerpar paire de 2.", 
             			users.get(0).getId(),
             			"Nouvelle Aquitaine",
@@ -195,7 +198,8 @@ public class ApplicationConfig {
             			
             	);
             	
-            	Announcement announce4 = new Announcement("Je recherche un coloc", 
+            	Announcement announce4 = new Announcement(
+            			"Je recherche un coloc", 
             			"Je dispose d'une maison de 6 chambres, un living room, dont chaque chambre dispose sa salle de bain et toilettes, 2 cuisines à partagerpar paire de 2.", 
             			users.get(0).getId(),
             			"Nouvelle Aquitaine",
