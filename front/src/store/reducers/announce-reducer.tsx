@@ -24,6 +24,7 @@ const initialState: IntialStateType = {
                     room.title,
                     room.description,
                     room.ownerId,
+                    room.state,
                     room.city,
                     room.postalCode,
                     room.address,

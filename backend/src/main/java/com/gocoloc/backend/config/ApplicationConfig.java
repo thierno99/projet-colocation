@@ -1,6 +1,7 @@
 package com.gocoloc.backend.config;
 
 import java.io.File;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -44,7 +45,7 @@ public class ApplicationConfig {
                     "bon",
                     "jean", 
                     "M", 
-                    LocalDateTime.parse("2022-02-16T10:22:15"), 
+                    LocalDate.parse("2022-02-16"), 
                     "123456789",
                     "user1@gmail.com", 
                     "user1Password!", 
@@ -60,7 +61,7 @@ public class ApplicationConfig {
                     "leturque",
                     "biensuristic", 
                     "M", 
-                    LocalDateTime.parse("1996-09-11T10:22:15"),  
+                    LocalDate.parse("1996-09-11"),  
                     "123456789",
                     "user2@gmail.com", 
                     "user2PassWord!", 
@@ -76,7 +77,7 @@ public class ApplicationConfig {
                     "rapon",
                     "jacky", 
                     "M", 
-                    LocalDateTime.parse("1996-09-11T10:22:15"),  
+                    LocalDate.parse("1996-09-11"),  
                     "123456789",
                     "user3@gmail.com", 
                     "user3PassWord!", 
@@ -92,7 +93,7 @@ public class ApplicationConfig {
                     "ponzy",
                     "laurent", 
                     "M", 
-                    LocalDateTime.parse("1986-09-11T10:22:15"),  
+                    LocalDate.parse("1986-09-11"),  
                     "123456789",
                     "user4@gmail.com", 
                     "user4PassWord!", 
@@ -108,7 +109,7 @@ public class ApplicationConfig {
                     "ponzy",
                     "laurent", 
                     "M", 
-                    LocalDateTime.parse("1986-09-11T10:22:15"),  
+                    LocalDate.parse("1986-09-11"),  
                     "123456789",
                     "user5@gmail.com", 
                     "user5PassWord!", 
@@ -139,7 +140,8 @@ public class ApplicationConfig {
             	
             	log.info("---------------------------Project Init with The Following Mock Announcement: ------------------------");
             	
-            	Announcement announce1 = new Announcement("Je recherche un coloc", 
+            	Announcement announce1 = new Announcement(
+            			"Je recherche des colocataires", 
             			"Je dispose d'une maison de 6 chambres, un living room, dont chaque chambre dispose sa salle de bain et toilettes, 2 cuisines à partagerpar paire de 2.", 
             			users.get(0).getId(),
             			"Nouvelle Aquitaine",
@@ -157,7 +159,8 @@ public class ApplicationConfig {
             			
             	);
             	
-            	Announcement announce2 = new Announcement("Je recherche un coloc", 
+            	Announcement announce2 = new Announcement(
+            			"Je recherche des colocs", 
             			"Je dispose d'une maison de 6 chambres, un living room, dont chaque chambre dispose sa salle de bain et toilettes, 2 cuisines à partagerpar paire de 2.", 
             			users.get(0).getId(),
             			"Nouvelle Aquitaine",
@@ -176,7 +179,8 @@ public class ApplicationConfig {
             	);
             	
             	
-            	Announcement announce3 = new Announcement("Je recherche un coloc", 
+            	Announcement announce3 = new Announcement(
+            			"Je recherche un coloc", 
             			"Je dispose d'une maison de 6 chambres, un living room, dont chaque chambre dispose sa salle de bain et toilettes, 2 cuisines à partagerpar paire de 2.", 
             			users.get(0).getId(),
             			"Nouvelle Aquitaine",
@@ -194,7 +198,8 @@ public class ApplicationConfig {
             			
             	);
             	
-            	Announcement announce4 = new Announcement("Je recherche un coloc", 
+            	Announcement announce4 = new Announcement(
+            			"Je recherche un coloc", 
             			"Je dispose d'une maison de 6 chambres, un living room, dont chaque chambre dispose sa salle de bain et toilettes, 2 cuisines à partagerpar paire de 2.", 
             			users.get(0).getId(),
             			"Nouvelle Aquitaine",

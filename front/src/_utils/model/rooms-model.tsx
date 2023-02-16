@@ -4,6 +4,7 @@ export interface RoomsInterface {
     title: string;
     description: string;
     ownerId: string;
+    state: string;
     city: string;
     postalCode: string;
     address: string;
@@ -16,6 +17,7 @@ export interface RoomsInterface {
     roomType: string;
     roomfurnishedType: boolean;
     genderSearched: string[];
+    images: File[];
 } 
 
 export class Room implements RoomsInterface {
@@ -23,6 +25,7 @@ export class Room implements RoomsInterface {
     title: string;
     description: string;
     ownerId: string;
+    state: string;
     city: string;
     postalCode: string;
      address: string;
@@ -35,12 +38,15 @@ export class Room implements RoomsInterface {
     roomType: string;
     roomfurnishedType: boolean;
     genderSearched: string[];
+    images: File[];
+
 
     constructor(
         id: string = "",
         title: string = "",
         description: string = "",
         ownerId: string = "",
+        state: string = "",
         city: string = "",
         postalCode: string = "",
         address: string = "",
@@ -52,7 +58,8 @@ export class Room implements RoomsInterface {
         isOwnerCertified: boolean,
         roomType: string = "",
         roomfurnishedType: boolean,
-        genderSearched: string[] = []
+        genderSearched: string[] = [],
+        images: File[] = [],
     ) {
       this.id = id;
       this.title = title;
@@ -62,6 +69,7 @@ export class Room implements RoomsInterface {
       this.genderSearched = genderSearched;
       this.description = description;
       this.ownerId = ownerId;
+      this.state = state;
       this.city = city;
       this.postalCode = postalCode;
       this.address = address;
@@ -70,5 +78,28 @@ export class Room implements RoomsInterface {
       this.price = price;
       this.principalPicture = principalPicture;
       this.announceType = announceType;
+      this.images = images;
     }   
+}
+
+export const DefaultAnnonce: RoomsInterface = {
+    id: "",
+    title: "",
+    description: "",
+    ownerId: "",
+    state: "",
+    city: "",
+    postalCode: "",
+    address: "",
+    nbRoomatesSeached: 0,
+    publishedAt: new Date(),
+    price: 0,
+    principalPicture: "",
+    // principalPicture: new File([''],''),
+    announceType: "haveRoom",
+    isOwnerCertified: false,
+    roomType: "",
+    roomfurnishedType: false,
+    genderSearched: [],
+    images: [],
 }

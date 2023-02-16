@@ -16,7 +16,8 @@ const ColumnCard:FC<any> = (props) => {
     const dispatch = useAppDispatch();
     const {cardValues, user, announceId} = props;
     const navigate = useNavigate();
-
+    
+    console.table(cardValues);
     return (
         <div className='flex column my-1'>
             <div className='card relative border-1 p-half br-1' onClick={() => { dispatch(detailAnnounce(announceId)); navigate("/app/rooms/"+announceId);} }>

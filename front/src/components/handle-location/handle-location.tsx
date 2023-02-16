@@ -10,8 +10,7 @@ import { getMockUser } from '../../services/user.service';
 import defaultpng from '../../assets/Images/defaultpng.png';
 import defaultProfile from '../../assets/Images/defaultProfile.jpg';
 import { publishedAtFormatMsg } from '../../_utils/functions/functions';
-import { RootState, useAppDispatch } from '../../store/store';
-import { useSelector } from 'react-redux';
+import { useAppDispatch } from '../../store/store';
 import { detailAnnounce } from '../../store/actions/announce-action';
 import { Room } from '../../_utils/model/rooms-model';
 import { RoomsInterface } from './../../_utils/model/rooms-model';
@@ -32,6 +31,7 @@ const HandleLocation = () => {
                 res.title,
                 res.description,
                 res.ownerId,
+                res.state,
                 res.city,
                 res.postalCode,
                 res.address,
@@ -51,7 +51,6 @@ const HandleLocation = () => {
     
     const user= getMockUser(announce?.ownerId);
     const [activeImg, setActiveImg] = useState(announce?.principalPicture);
-    const x = useSelector((state: RootState) => state.announcementDetail);
     return (
         <div className='container relative mb-2'>
             {

@@ -6,6 +6,7 @@ export  const ROOMS: RoomsInterface[] = [
         title: "cherche coloc Femme",
         description: 'je suis à la recherche d\'une coloc qui saura bien vivre en coloc',
         ownerId: "1",
+        state: "",
         city: 'Lons',
         postalCode: '64140',
         address: '',
@@ -17,13 +18,15 @@ export  const ROOMS: RoomsInterface[] = [
         isOwnerCertified: true,
         roomType: 'appartement',
         roomfurnishedType: true,
-        genderSearched: ['homme']
+        genderSearched: ['homme'],
+        images: []
     },
     {
         id: "2",
         title: "cherche coloc Homme",
         description: 'je suis à la recherche d\'un coloc qui saura bien vivre en coloc',
         ownerId: "2",
+        state: "",
         city: 'paris',
         postalCode: '75056',
         address: '',
@@ -35,13 +38,15 @@ export  const ROOMS: RoomsInterface[] = [
         isOwnerCertified: true,
         roomType: 'maison',
         roomfurnishedType: true,
-        genderSearched: ['homme']
+        genderSearched: ['homme'],
+        images: []
     },
     {
         id: "3",
         title: "cherche coloc Femme",
         description: 'je suis à la recherche d\'une coloc qui saura bien vivre en coloc',
         ownerId: "4",
+        state: "",
         city: 'bordeaux',
         postalCode: '33000',
         address: '',
@@ -53,13 +58,15 @@ export  const ROOMS: RoomsInterface[] = [
         isOwnerCertified: true,
         roomType: 'appartement',
         roomfurnishedType: true,
-        genderSearched: ['femme']
+        genderSearched: ['femme'],
+        images: []
     },
     {
         id: "4",
         title: "cherche coloc Homme",
         description: 'je suis à la recherche d\'un coloc qui saura bien vivre en coloc',
         ownerId: "3",
+        state: "",
         city: 'Pau',
         postalCode: '64000',
         address: '',
@@ -71,13 +78,15 @@ export  const ROOMS: RoomsInterface[] = [
         isOwnerCertified: true,
         roomType: 'studio',
         roomfurnishedType: true,
-        genderSearched: ['homme, femme']
+        genderSearched: ['homme, femme'],
+        images: []
     },
     {
         id: "5",
         title: "cherche coloc Homme",
         description: 'je suis à la recherche d\'un coloc qui saura bien vivre en coloc',
         ownerId: "5",
+        state: "",
         city: 'paris',
         postalCode: '75056',
         address: '',
@@ -89,7 +98,8 @@ export  const ROOMS: RoomsInterface[] = [
         isOwnerCertified: false,
         roomType: 'appartement',
         roomfurnishedType: true,
-        genderSearched: ['femme']
+        genderSearched: ['femme'],
+        images: []
     },
     
     {
@@ -97,6 +107,7 @@ export  const ROOMS: RoomsInterface[] = [
         title: "cherche coloc Homme",
         description: 'je suis à la recherche d\'un coloc qui saura bien vivre en coloc',
         ownerId: "5",
+        state: "",
         city: 'bordeaux',
         postalCode: '33000',
         address: '',
@@ -108,13 +119,15 @@ export  const ROOMS: RoomsInterface[] = [
         isOwnerCertified: false,
         roomType: 'appartement',
         roomfurnishedType: false,
-        genderSearched: ['homme']
+        genderSearched: ['homme'],
+        images: []
     },
     {
         id: "7",
         title: "cherche coloc Homme",
         description: 'je suis à la recherche d\'un coloc qui saura bien vivre en coloc',
         ownerId: "5",
+        state: "",
         city: 'bordeaux',
         postalCode: '33000',
         address: '',
@@ -126,7 +139,8 @@ export  const ROOMS: RoomsInterface[] = [
         isOwnerCertified: false,
         roomType: 'appartement',
         roomfurnishedType: false,
-        genderSearched: ['homme']
+        genderSearched: ['homme'],
+        images: []
     },
 
     
@@ -135,6 +149,7 @@ export  const ROOMS: RoomsInterface[] = [
         title: "cherche coloc Homme",
         description: 'je suis à la recherche d\'un coloc qui saura bien vivre en coloc',
         ownerId: "5",
+        state: "",
         city: 'bordeaux',
         postalCode: '33000',
         address: '',
@@ -146,6 +161,7 @@ export  const ROOMS: RoomsInterface[] = [
         isOwnerCertified: false,
         roomType: 'appartement',
         roomfurnishedType: false,
-        genderSearched: ['femme']
+        genderSearched: ['femme'],
+        images: []
     },
 ];
