@@ -626,7 +626,9 @@ li{
 .b-none{
   border: none;
 }
-
+.border-dashed-1{
+  border: 2px dashed;
+}
 .border-gray {
   border-color: #9b9898;
 }

@@ -10,14 +10,14 @@ export interface UserInterface {
     password: string;
     isEmailVerified: boolean;
     iscertified: boolean;
-    profileImg: string;
+    profileImg: string | string[];
     autorizeHaldleTel:  boolean,
     autorizeHaldleEmail: boolean,
     roles: string[]
 }
 
 export class User implements UserInterface {
-    id: string;
+    id!: string;
     lastname: string;
     firstname: string;
     sexe: string;
@@ -27,13 +27,12 @@ export class User implements UserInterface {
     password: string;
     isEmailVerified: boolean;
     iscertified: boolean;
-    profileImg: string;
+    profileImg: string | string[];
     autorizeHaldleTel: boolean;
     autorizeHaldleEmail: boolean;
     roles: string[];
     
     constructor(
-        id: string,
         lastname: string,
         firstname: string,
         sexe: string,
@@ -43,12 +42,11 @@ export class User implements UserInterface {
         password: string,
         isEmailVerified: boolean,
         iscertified: boolean,
-        profileImg: string,
+        profileImg: string | string[],
         autorizeHaldleTel: boolean,
         autorizeHaldleEmail: boolean,
         roles: string[]
     ) {
-      this.id = id;
       this.lastname = lastname;
       this.firstname = firstname;
       this.sexe = sexe;

@@ -2,6 +2,7 @@ import { ChangeEvent, FC, useState } from 'react';
 
 import { AiOutlineQuestionCircle } from 'react-icons/ai';
 import { MdAddPhotoAlternate } from 'react-icons/md';
+import { useNavigate } from 'react-router-dom';
 
 import { FormStepProps } from './form-step-one';
 
@@ -14,7 +15,7 @@ interface InputImgFileProp {
 const InputImgFile:FC<InputImgFileProp> = (props) => {
     const {clickLoadImgFile, handleImageFileChange, id} = props;
     return (
-        <div className='flex center border-1 br-1 add-img-box pointer hover-success m-half' onClick={() => clickLoadImgFile(id)}>
+        <div className='flex center border-dashed-1 br-1 add-img-box pointer hover-success m-half' onClick={() => clickLoadImgFile(id)}>
             <MdAddPhotoAlternate fontSize={30}/>
             <input 
                 type="file" 
@@ -29,14 +30,26 @@ const InputImgFile:FC<InputImgFileProp> = (props) => {
 }
 
 const FormStepThree: FC<FormStepProps> = (props) => {
-    const { stepActive, setStepActive } = props;
+    const { announce, stepActive, setStepActive, setAnnounce } = props;
+
     const [isInfoPrincipalActive, setisInfoPrincipalActive] = useState(false);
+    const [erroeMessage, setErroeMessage] = useState('');
+
+    const navigate = useNavigate();
 
     const clickLoadImgFile = (id: number) => {
         const inputFilebtn = document.getElementById('input-mg-' + id);
         if(inputFilebtn) {
             inputFilebtn.click();
         }
+    }
+
+    const handleFileChange = (field:string, files: File|File[]) => {
+
+        setAnnounce({
+            ...announce,
+            [field]: files
+        })
     }
     
     const handleImageFileChange = (e: React.ChangeEvent<HTMLInputElement>, id: number) => {
@@ -49,15 +62,35 @@ const FormStepThree: FC<FormStepProps> = (props) => {
                 if(imagesDestination[0].classList.contains('hide')) {
                     imagesDestination[0].classList.remove('hide');
                 }
+                if(id===0){
+                    handleFileChange('principalPicture',files[0]);
+                }else {
+                    const index = announce.images.indexOf(files[0]);
+
+                    let images:File[] = announce.images;
+
+                    if(index===-1 && files[0]){
+                        images.push(files[0]);
+                    }
+                    handleFileChange('images',images);
+                }
             }else {
                 imagesDestination[0].classList.add('hide');
             }
         }
+
+        console.log(announce);
     }
 
-
+    const postAd = () => {
+        if(!announce.principalPicture || !announce.principalPicture){
+            setErroeMessage("L'annonce doit avoir au moins l'iamge principale");
+        }else {
+            navigate('/app/rooms/1');
+        }
+    }
     return (
-        <div className='shadow'>
+        <div className=''>
             <h3 className='text-center my-1 py-1 shadow'>Ajoutez des Images de votre proprieté</h3>
             <div className='relative column center'>
                 <div>
@@ -73,6 +106,12 @@ const FormStepThree: FC<FormStepProps> = (props) => {
                             </div>
                         }
                     </div>
+                    {
+                        erroeMessage && 
+                        <div className="danger p-1">
+                            {erroeMessage}
+                        </div>
+                    }
                 </div>
                 
                 <div className='flex center'>
@@ -84,7 +123,7 @@ const FormStepThree: FC<FormStepProps> = (props) => {
                     {
                         ["","","", ""].map((item, index)=>{
                             return (
-                                <InputImgFile clickLoadImgFile={clickLoadImgFile} handleImageFileChange={handleImageFileChange} id={index+1}/>
+                                <InputImgFile clickLoadImgFile={clickLoadImgFile} handleImageFileChange={handleImageFileChange} id={index+1} key={index}/>
                             )
                         })
                     }
@@ -102,7 +141,8 @@ const FormStepThree: FC<FormStepProps> = (props) => {
                     
                     <button 
                         className={'p-half br-half pointer mt-1 bg-gold ml-1'}
-                        onClick={() => setStepActive('FormStepThree')}
+                        type="button"
+                        onClick={postAd}
                     > <h3>Publier l'annonce</h3></button>
 
                 </div>

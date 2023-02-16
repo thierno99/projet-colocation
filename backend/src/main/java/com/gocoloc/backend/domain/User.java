@@ -1,5 +1,6 @@
 package com.gocoloc.backend.domain;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
@@ -24,7 +25,7 @@ public class User {
     private String lastname;
     private String firstname;
     private String sexe;
-    private LocalDateTime dateOfBirth;
+    private LocalDate dateOfBirth;
     private String phoneNumber;
     @Indexed(unique = true)
     private String email;
@@ -42,7 +43,7 @@ public class User {
         String lastname, 
         String firstname, 
         String sexe, 
-        LocalDateTime dateOfBirth, 
+        LocalDate dateOfBirth, 
         String phoneNumber,
         String email, 
         String password,
