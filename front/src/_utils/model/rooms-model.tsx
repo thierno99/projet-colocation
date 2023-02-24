@@ -96,10 +96,69 @@ export const DefaultAnnonce: RoomsInterface = {
     price: 0,
     principalPicture: "",
     // principalPicture: new File([''],''),
-    announceType: "haveRoom",
+    announceType: "HAVEROOM",
     isOwnerCertified: false,
     roomType: "",
     roomfurnishedType: false,
     genderSearched: [],
     images: [],
+}
+
+export class ARoom{
+    title: string;
+    description: string;
+    ownerId: string;
+    state: string;
+    city: string;
+    postalCode: string;
+     address: string;
+    nbRoomatesSeached: number;
+    publishedAt: Date;
+    price: number;
+    principalPicture: string;
+    announceType: string;
+    isOwnerCertified: boolean;
+    roomType: string;
+    roomfurnishedType: boolean;
+    genderSearched: string[];
+    images: File[];
+
+
+    constructor(
+        title: string = "",
+        description: string = "",
+        ownerId: string = "",
+        state: string = "",
+        city: string = "",
+        postalCode: string = "",
+        address: string = "",
+        nbRoomatesSeached: number = 2,
+        publishedAt: string = "",
+        price: number = 0,
+        principalPicture: string = "",
+        announceType: string = "",
+        isOwnerCertified: boolean,
+        roomType: string = "",
+        roomfurnishedType: boolean,
+        genderSearched: string[] = [],
+        images: File[] = [],
+    ) {
+      this.title = title;
+      this.isOwnerCertified = isOwnerCertified;
+      this.roomType = roomType;
+      this.roomfurnishedType = roomfurnishedType;
+      this.genderSearched = genderSearched;
+      this.description = description;
+      this.ownerId = ownerId;
+      this.state = state;
+      this.city = city;
+      this.postalCode = postalCode;
+      this.address = address;
+      this.nbRoomatesSeached = nbRoomatesSeached;
+      this.publishedAt = new Date(publishedAt);
+      this.price = price;
+      this.principalPicture = principalPicture;
+      this.announceType = announceType;
+      this.images = images;
+    }   
 }

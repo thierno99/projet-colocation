@@ -102,7 +102,7 @@ public class UserServiceImpl implements UserService{
 			try {
 				token = jwtGenerator.generateToken(authentication);
 				log.info("token ====>", token);
-				return new AuthResponseDto(token, "loged in");
+				return new AuthResponseDto(token, "loged in", user.getId());
 			} catch (Exception e) {
 				e.printStackTrace();
 				throw e;

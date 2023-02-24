@@ -4,6 +4,9 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.mongodb.core.MongoOperations;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,6 +27,9 @@ public class AnnoucementServiceImpl implements AnnouncementService {
 	@Autowired
 	private AnnouncementRepository announcementRepository;
 	
+	@Autowired
+    private MongoOperations mongoOps;
+	
 	@Override
 	public Announcement saveAnnounce(Announcement announce) {
 		if(announce.isValid()) {
@@ -42,5 +48,11 @@ public class AnnoucementServiceImpl implements AnnouncementService {
 	public List<Announcement> getAnnouncements() {
 		return announcementRepository.findAll();
 	}
+
+	@Override
+	public List<Announcement> getAnnouncementsBetween(int start, int end) {
+        Query query = new Query().with(Sort.by("_id")).skip(start-1).limit(end-start+1);
+        return mongoOps.find(query, Announcement.class);
+    }
 
 }

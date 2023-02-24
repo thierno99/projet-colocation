@@ -1,4 +1,4 @@
-import { GET_ANNOUNCES_BY_ID_FAIL, GET_ANNOUNCES_BY_ID_REQUEST, GET_ANNOUNCES_BY_ID_SUCCESS, GET_ANNOUNCES_LIST_FAIL, GET_ANNOUNCES_LIST_REQUEST, GET_ANNOUNCES_LIST_SUCCESS } from "../../constants/Announce";
+import { GET_ANNOUNCES_BETWEEN_START_END_FAIL, GET_ANNOUNCES_BETWEEN_START_END_REQUEST, GET_ANNOUNCES_BETWEEN_START_END_SUCCESS, GET_ANNOUNCES_BY_ID_FAIL, GET_ANNOUNCES_BY_ID_REQUEST, GET_ANNOUNCES_BY_ID_SUCCESS, GET_ANNOUNCES_LIST_FAIL, GET_ANNOUNCES_LIST_REQUEST, GET_ANNOUNCES_LIST_SUCCESS } from "../../constants/Announce";
 import AnnounceService from "../../services/announce-service";
 // import { RoomsInterface } from "../../_utils/model/rooms-model";
 import { ActionType } from "../actions/announce-action";
@@ -91,4 +91,28 @@ export const productDetailsReducer = (state: AnnouneStateType = {loading: false,
         return state;
     }
 
-  };
+};
+
+export const AnnouncementsBetweenReducer = (state: AnnouneStateType = {loading: false, announcement: null}, action: ActionType) => {
+    switch (action.type) {
+      case GET_ANNOUNCES_BETWEEN_START_END_REQUEST:
+        return { loading: true };
+
+      case GET_ANNOUNCES_BETWEEN_START_END_SUCCESS:
+        return{
+            ...state,
+            loading: false,
+            announcement: action.payload
+        };
+
+      case GET_ANNOUNCES_BETWEEN_START_END_FAIL:
+        return {
+            loading: false,
+            error: action.payload
+        };
+
+      default:
+        return state;
+    }
+
+};

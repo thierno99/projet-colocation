@@ -43,7 +43,7 @@ const Footer = () => {
                 </div>
                 <div className='my-1'>
                     <h3>Nos Services</h3>
-                    <p className='p-1'>Recherche d'appartement</p>
+                    <p className='p-1'>Recherche d'APPARTEMENT</p>
                     <p className='p-1'>trouver un coloc</p>
                     <p className='p-1'>Gestion de tâches</p>
                 </div>

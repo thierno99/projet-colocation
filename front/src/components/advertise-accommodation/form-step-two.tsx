@@ -95,7 +95,7 @@ const FormStepTwo: FC<FormStepProps> = (props) => {
             <div className='my-half flex column'>
                 <fieldset className='br-half'>
                     <legend><strong>Type de colocation:</strong></legend>
-                    <Form.InputRadio name={'roomType'} label={'Appartement'} value={'Appartement'} handleInputRadioChange={handleInputRadioChange} checked={announce.roomType==="Appartement"}/>
+                    <Form.InputRadio name={'roomType'} label={'APPARTEMENT'} value={'APPARTEMENT'} handleInputRadioChange={handleInputRadioChange} checked={announce.roomType==="APPARTEMENT"}/>
                     <Form.InputRadio name={'roomType'} label={'Maison'} value={'Maison'}  handleInputRadioChange={handleInputRadioChange}  checked={announce.roomType==="Maison"}/>
                     <Form.InputRadio name={'roomType'} label={'Studio'} value={'Studio'} handleInputRadioChange={handleInputRadioChange}  checked={announce.roomType==="Studio"}/>
                 </fieldset>

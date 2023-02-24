@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import {  AnyAction, combineReducers } from 'redux';
 import thunk, { ThunkAction, ThunkDispatch } from 'redux-thunk';
 import { advertiseAccommodationReducer } from './reducers/advertise-accommodation-reducer';
-import { AnnounceLocationListReducer, productDetailsReducer } from './reducers/announce-reducer';
+import { AnnounceLocationListReducer, AnnouncementsBetweenReducer, productDetailsReducer } from './reducers/announce-reducer';
 
 
 export type AppThunk<ReturnType = void> = ThunkAction<ReturnType, RootState, unknown, AnyAction>;
@@ -13,6 +13,7 @@ const rootReducer = combineReducers({
     announceLocationList: AnnounceLocationListReducer,
     announcementDetail: productDetailsReducer,
     advertiseAccommodation: advertiseAccommodationReducer,
+    AnnouncementsBetween: AnnouncementsBetweenReducer
 
 });
 

@@ -10,7 +10,7 @@ const BannerSearchComponent = ( ) => {
     const navigate = useNavigate();
 
     const gotoRooms = () => {
-        navigate('/app/rooms/');
+        navigate('/app/rooms?city='+searchValue);
     }
     
     return (

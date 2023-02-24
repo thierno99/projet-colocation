@@ -3,12 +3,16 @@ import { ChangeEvent, FC, useState } from 'react';
 import { AiOutlineQuestionCircle } from 'react-icons/ai';
 import { MdAddPhotoAlternate } from 'react-icons/md';
 import { useNavigate } from 'react-router-dom';
+import AccountServices from '../../services/account.service';
+import AnnounceService from '../../services/announce-service';
+import Axios from '../../services/axios.service';
+import { ARoom } from '../../_utils/model/rooms-model';
 
 import { FormStepProps } from './form-step-one';
 
 interface InputImgFileProp {
     clickLoadImgFile: (id: number) => void,
-    handleImageFileChange: (e: React.ChangeEvent<HTMLInputElement>, id: number) => void
+    handleImageFileChange: (e: ChangeEvent<HTMLInputElement>, id: number) => void
     id: number
 }
 
@@ -86,7 +90,36 @@ const FormStepThree: FC<FormStepProps> = (props) => {
         if(!announce.principalPicture || !announce.principalPicture){
             setErroeMessage("L'annonce doit avoir au moins l'iamge principale");
         }else {
-            navigate('/app/rooms/1');
+            const ownerId = AccountServices.getUserId(); 
+            if(ownerId && localStorage.getItem('token')){
+                Axios.defaults.headers.common["Authorization"] = `Bearer ${localStorage.getItem('token')}`;
+                announce.ownerId = ownerId;
+                AnnounceService.postAnnouncement(new ARoom(
+                    announce.title,
+                    announce.description,
+                    announce.ownerId,
+                    announce.state,
+                    announce.city,
+                    announce.postalCode,
+                    announce.address,
+                    announce.nbRoomatesSeached,
+                    announce.publishedAt.toString(),
+                    announce.price,
+                    "",
+                    announce.announceType,
+                    announce.isOwnerCertified,
+                    announce.roomType,
+                    announce.roomfurnishedType,
+                    announce.genderSearched,
+                    announce.images
+                )).then((res)=>{
+                    console.log(res);
+                }).catch((err)=>{
+                    console.log(err);
+                });
+                console.log(localStorage.getItem('token'));
+                navigate('/app/rooms/'+ ownerId);
+            }
         }
     }
     return (

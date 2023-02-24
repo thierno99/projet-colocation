@@ -2,12 +2,12 @@ import React, { FC } from 'react';
 import { formatLongText } from '../../../_utils/functions/functions';
 import { ButtonPrimary } from '../buttons/Buttons';
 
-import { CardProps } from "../Interfaces";
+// import { CardProps } from "../Interfaces";
 
-const RowCard:FC<CardProps> = (props) => {
-    const {image, title, description} = props;
+const RowCard:FC<any> = (props) => {
+    const {image, title, description, urlStr} = props;
     return (
-        <div className='row-card relative pointer w-full flex space-between wrap sm-column'>
+        <div className='row-card relative pointer w-100 flex space-between wrap sm-column'>
             <div className="row-card-image flex j-center">
                 {
                     typeof image === 'string' ?(
@@ -35,7 +35,7 @@ const RowCard:FC<CardProps> = (props) => {
             </div>
 
             <div className="row-card-bottom flex center">
-                <ButtonPrimary title={'je decouvre'} to={''} classes={['bg-light-blue b-none mx-1 h-b']}/>
+                <ButtonPrimary title={'je decouvre'} to={urlStr} classes={['bg-light-blue b-none mx-1 h-b']} />
             </div>
         </div>
     );

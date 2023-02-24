@@ -25,6 +25,8 @@ public class SecurityConfig {
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 		http
+//		.cors().configurationSource(request -> new CorsConfiguration().applyPermitDefaultValues())
+//		.and()
         .csrf().disable()
         .exceptionHandling()
         .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED))
@@ -35,8 +37,9 @@ public class SecurityConfig {
         .authorizeHttpRequests()
         .requestMatchers("/api/auth/user/login").permitAll()
         .requestMatchers("/api/auth/user/register").permitAll()
+        .requestMatchers("/api/announces/announce/**").permitAll()
         .requestMatchers("/api/announces/views").permitAll()  
-        .requestMatchers("/api/announces/announce/*").permitAll() 
+        .requestMatchers("/api/announces/save").permitAll() 
         .anyRequest()
         .authenticated()
         ;

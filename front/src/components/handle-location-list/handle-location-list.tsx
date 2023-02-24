@@ -1,5 +1,5 @@
 import React, { ChangeEvent, useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 
 import { FaFilter, FaList, FaMapMarkedAlt } from 'react-icons/fa';
@@ -9,23 +9,66 @@ import ColumnCard from '../shared/cards/column-card';
 import { getMockUser } from '../../services/user.service';
 import Modal from '../shared/modals/modals';
 import MoreFilterLocation from './More-filter-location';
-import { RootState } from '../../store/store';
-import { RoomsInterface } from '../../_utils/model/rooms-model';
+import { RootState, useAppDispatch } from '../../store/store';
+import { Room, RoomsInterface } from '../../_utils/model/rooms-model';
+import { useLocation } from 'react-router-dom';
+import AnnounceService from '../../services/announce-service';
+import { getAnnouncementsBetween } from '../../store/actions/announce-action';
 
-
+const STEP = 16;
 const HandleLocationList = () => {
-    const dispatch = useDispatch();
-    const announceLocationList = useSelector((state: RootState) => state.announceLocationList);
-    
+    const dispatch = useAppDispatch();
+    const location = useLocation();
+
     const [announces, setAnnounces] = useState([] as RoomsInterface[]);
     const [moreFilter, setMoreFilter] = useState(false);
+    const [endItem, setEndItem] = useState(STEP);
     
-    const {announceList} = announceLocationList;
+
+    const params = new URLSearchParams(location.search);
+    const city = params.get('city');
     
     useEffect(() => {
-        (announceList as Promise<RoomsInterface[]> ).then(res => {setAnnounces(res)});
-        
-    }, [announceList, dispatch])
+        // (announceList as Promise<RoomsInterface[]> ).then(res => {
+        //     setAnnounces(res.filter(announce => announce.city.toLowerCase().includes((city?city:"").toLowerCase())));
+        // });
+        dispatch(getAnnouncementsBetween(1,endItem));
+        AnnounceService.getAnnouncementsBetween(1, endItem)
+        .then((res) => {
+            let rooms: RoomsInterface[] = [];
+            res.forEach((room: any) => {
+                rooms.push(new Room(
+                    room.id,
+                    room.title,
+                    room.description,
+                    room.ownerId,
+                    room.state,
+                    room.city,
+                    room.postalCode,
+                    room.address,
+                    room.nbRoomatesSeached,
+                    room.publishedAt,
+                    room.price,
+                    room.principalPicture,
+                    room.announceType,
+                    room.ownerCertified,
+                    room.roomType,
+                    room.roomfurnishedType,
+                    room.genderSearched
+                ));
+            });
+            setAnnounces(rooms.filter(announce => announce.city.toLowerCase().includes((city?city:"").toLowerCase())));
+        })
+        .catch((err) => {
+            console.error(err);
+        })
+    }, [city, dispatch, endItem])
+
+    const announceLocationList = useSelector((state: RootState) => state.AnnouncementsBetween);
+    const {announcement} = announceLocationList;
+    console.log(announceLocationList);
+    
+    
 
 
     const closeModal = () => {
@@ -37,7 +80,7 @@ const HandleLocationList = () => {
     }
     
     const [filters, setfilters] = useState({
-        city: '',
+        city: city?city:"",
         minRentPerMonth: 100,
         maxRentPerMonth: 10000,
         ageMin: 18,
@@ -69,8 +112,6 @@ const HandleLocationList = () => {
         isactive: boolean
         id: string
     }[]) => {
-        //FIXME manage gender filter 
-
         let ances = announces.filter(announce => (
             (allMoreFilters[0].isactive && announce.genderSearched.join(',').toLowerCase().includes(allMoreFilters[0].title.toLowerCase())) ||
             (allMoreFilters[1].isactive && announce.genderSearched.join(',').toLowerCase().includes(allMoreFilters[1].title.toLowerCase()))
@@ -81,9 +122,10 @@ const HandleLocationList = () => {
     
     const ApplyFilter = (e: React.MouseEvent<HTMLButtonElement, globalThis.MouseEvent>) => {
         e.preventDefault();
+        
         let result: RoomsInterface[] = [];
-        (announceList as Promise<RoomsInterface[]> ).then(res => {
-            result = res.filter(
+        // (announcement as Promise<RoomsInterface[]> ).then(res => {
+            result = (announcement as RoomsInterface[]).filter(
                 room => 
                 room.price>=filters.minRentPerMonth && 
                 room.price<=filters.maxRentPerMonth &&
@@ -102,9 +144,8 @@ const HandleLocationList = () => {
                 room.announceType.trim().toLowerCase().includes(filters.searchtype.toLowerCase().trim())
             );
             setAnnounces(result);
-        });
+        // });
     }
-
     
     return (
         <>
@@ -139,7 +180,7 @@ const HandleLocationList = () => {
                             <label htmlFor='searchtype' className='bold pl-1 pointer'>je cherche un coloc</label>
                             <select name='searchtype' id='searchtype' className='p-half mt-half br-half pointer' onChange={(e) => handleSelectChange(e)}>
                                 <option value=''>tout type</option>
-                                <option value='haveRoom'>ayant une location</option>
+                                <option value='HAVEROOM'>ayant une location</option>
                                 <option value='needRoom'>qui cherche une location</option>
                             </select>
                         </div>
@@ -167,7 +208,7 @@ const HandleLocationList = () => {
                             <div className='flex'>
                                 <select className='p-half mt-half br-half pointer' id='roomType' name='roomType' onChange={e => handleSelectChange(e)}>
                                     <option value=''>Tout</option>
-                                    <option value='appartement'>Appartement</option>
+                                    <option value='APPARTEMENT'>APPARTEMENT</option>
                                     <option value='maison'>Maison</option>
                                     <option value='studio'>Studio</option>
                                 </select>
@@ -262,6 +303,14 @@ const HandleLocationList = () => {
                         })
                     }
                 </div>
+
+                {
+                    announces.length >= endItem &&
+                    <div className="my-1 p-halh text-center p-1 bg-light-gold text-xl bold pointer" onClick={(e)=>setEndItem(endItem+STEP)}>
+                        voir plus !
+                    </div>
+                }
+
             </div>
             {
                 moreFilter && <Modal closeModal={closeModal}> 

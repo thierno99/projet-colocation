@@ -21,13 +21,19 @@ const getToken = () => {
     return token;
 }
 
+const getUserId = () => {
+    let token = localStorage.getItem('userId');
+    return token;
+}
+
 
 const AccountServices = {
     login,
     saveToken,
     logout,
     isLoggedIn,
-    getToken
+    getToken,
+    getUserId,
 };
 
 export default AccountServices ;

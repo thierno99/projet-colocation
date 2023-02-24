@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.gocoloc.backend.domain.Announcement;
 
@@ -22,5 +23,8 @@ public interface AnnouncementController {
 	
 	@GetMapping("/announce/{id}")
 	public ResponseEntity<?> getAnnouncementById(@PathVariable String id);
+	
+	@GetMapping("announce/min-max")
+	public ResponseEntity<?> getAnnouncementsBetween(@RequestParam("start") int start, @RequestParam("end") int end);
 	
 }

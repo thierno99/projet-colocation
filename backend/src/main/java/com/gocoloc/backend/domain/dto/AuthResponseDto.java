@@ -7,9 +7,11 @@ public class AuthResponseDto {
 	private String accessToken;
     private String tokenType = "Bearer ";
     private String resultMsg;
-    public AuthResponseDto(String accessToken, String resulString) {
+    private String id;
+    public AuthResponseDto(String accessToken, String resulString, String id) {
         this.resultMsg = resulString;
         this.accessToken = accessToken;
+        this.id = id;
     }
 
 

@@ -85,13 +85,13 @@ const Home = () => {
                 <ButtonPrimary title={'Je Propose une offre'} to={''} classes={['bg-light-sucess']}/>
             </div>
 
-            <div className="my-3">
+            <div className="my-3 w-100">
                 <h1 className='my-1 p-1 text-center'>Quelques annonces</h1>
                 <SampleAnnouncement/>
             </div>
 
             <div className="my-3 flex center bg-light-sucess pt-1">
-                <ButtonPrimary title={'Decouvrir plus'} to={''} classes={['bg-light-blue']}/>
+                <ButtonPrimary title={'Decouvrir plus'} to={'/app/rooms'} classes={['bg-light-blue']}/>
             </div>
         </div>
     );

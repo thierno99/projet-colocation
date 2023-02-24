@@ -33,7 +33,7 @@ public class AnnouncementControllerImpl implements AnnouncementController {
 
 	@Override
 	public ResponseEntity<Announcement> saveAnnouncement(Announcement announce) {
-		URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/announce/save").toUriString());
+		URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/announces/save").toUriString());
 		
         return ResponseEntity.created(uri).body(announcementService.saveAnnounce(announce));
 	}
@@ -46,6 +46,11 @@ public class AnnouncementControllerImpl implements AnnouncementController {
 			return new ResponseEntity<>("some problems occured !", HttpStatus.BAD_REQUEST); 
 		}
 		return ResponseEntity.ok().body(announce.get());
+	}
+
+	@Override
+	public ResponseEntity<?> getAnnouncementsBetween(int start, int end) {
+		return ResponseEntity.ok().body(announcementService.getAnnouncementsBetween(start, end));
 	}
 
 }

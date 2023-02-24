@@ -7,6 +7,9 @@
 body {
   margin: 0 auto;
   color: #514f4f;
+  background: rgb(2,0,36);
+  background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(236,237,193,0.062237394957983194) 0%, rgba(233,169,232,0.16867997198879547) 50%, rgba(242,231,155,0.09304971988795518) 68%, rgba(62,186,211,0.10425420168067223) 81%);
+
 }
 .auto{
   margin: auto;
@@ -394,6 +397,13 @@ li{
 .text-left{
   text-align: start;
 }
+.bold {
+  font-weight: bold;
+}
+.text-xl {
+  font-size: 1.2rem;
+}
+
 /* 
 .text-xs {
   
@@ -490,7 +500,7 @@ li{
 
 /* Card */
 .card{
-  max-width: 300px;
+  width: 300px;
   height: 430px;
   margin: 8px 5px;
   box-shadow: 4px 4px #8debdb81, -.5em 0 .4em #a6c5ee;
@@ -594,8 +604,8 @@ li{
 }
 
 .danger{
-  background-color: #54040d;
-  color: #fc7080;
+  background-color: #f1000028;
+  color: #fb001d;
 }
 
 /* border */
@@ -690,9 +700,56 @@ li{
   color: #012323;
 }
 
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.selectedOption {
+  cursor: pointer;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.selectedOption:hover {
+  background-color: #f9f9f9;
+}
+
+.optionsList {
+  position: absolute;
+  z-index: 1;
+  top: 36px;
+  left: 0;
+  width: 100%;
+  max-height: 200px;
+  overflow-y: auto;
+  border: 1px solid #ccc;
+  border-top: none;
+  border-radius: 0 0 4px 4px;
+  background-color: #fff;
+}
+
+.option {
+  cursor: pointer;
+  padding: 8px;
+}
+
+.option:hover {
+  background-color: #f9f9f9;
+}
+
+
 @media screen and (max-width: 1080px) {
   .md-center{
     justify-content: center;
+  }
+  .card{
+    width: 250px;
+    height: 430px;
+    margin: 8px 5px;
+    box-shadow: 4px 4px #8debdb81, -.5em 0 .4em #a6c5ee;
+    cursor: pointer;
   }
 }
 
