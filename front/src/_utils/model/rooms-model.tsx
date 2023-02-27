@@ -11,7 +11,7 @@ export interface RoomsInterface {
     nbRoomatesSeached: number;
     publishedAt: Date;
     price: number;
-    principalPicture: string;
+    principalPicture: File;
     announceType: string;
     isOwnerCertified: boolean;
     roomType: string;
@@ -32,7 +32,7 @@ export class Room implements RoomsInterface {
     nbRoomatesSeached: number;
     publishedAt: Date;
     price: number;
-    principalPicture: string;
+    principalPicture: File;
     announceType: string;
     isOwnerCertified: boolean;
     roomType: string;
@@ -53,7 +53,7 @@ export class Room implements RoomsInterface {
         nbRoomatesSeached: number = 2,
         publishedAt: string = "",
         price: number = 0,
-        principalPicture: string = "",
+        principalPicture: File= null as unknown as File,
         announceType: string = "",
         isOwnerCertified: boolean,
         roomType: string = "",
@@ -94,7 +94,7 @@ export const DefaultAnnonce: RoomsInterface = {
     nbRoomatesSeached: 0,
     publishedAt: new Date(),
     price: 0,
-    principalPicture: "",
+    principalPicture: null as unknown as File,
     // principalPicture: new File([''],''),
     announceType: "HAVEROOM",
     isOwnerCertified: false,
@@ -115,7 +115,7 @@ export class ARoom{
     nbRoomatesSeached: number;
     publishedAt: Date;
     price: number;
-    principalPicture: string;
+    principalPicture: File;
     announceType: string;
     isOwnerCertified: boolean;
     roomType: string;
@@ -135,7 +135,7 @@ export class ARoom{
         nbRoomatesSeached: number = 2,
         publishedAt: string = "",
         price: number = 0,
-        principalPicture: string = "",
+        principalPicture: File = null as unknown as File,
         announceType: string = "",
         isOwnerCertified: boolean,
         roomType: string = "",

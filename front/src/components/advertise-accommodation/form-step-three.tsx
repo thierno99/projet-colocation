@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import AccountServices from '../../services/account.service';
 import AnnounceService from '../../services/announce-service';
 import Axios from '../../services/axios.service';
-import { ARoom } from '../../_utils/model/rooms-model';
+import { Announce } from '../../_utils/model/dto/announceDto';
 
 import { FormStepProps } from './form-step-one';
 
@@ -94,7 +94,10 @@ const FormStepThree: FC<FormStepProps> = (props) => {
             if(ownerId && localStorage.getItem('token')){
                 Axios.defaults.headers.common["Authorization"] = `Bearer ${localStorage.getItem('token')}`;
                 announce.ownerId = ownerId;
-                AnnounceService.postAnnouncement(new ARoom(
+                
+                const formdata: FormData = new FormData();
+
+                const announcement = new Announce(
                     announce.title,
                     announce.description,
                     announce.ownerId,
@@ -103,22 +106,31 @@ const FormStepThree: FC<FormStepProps> = (props) => {
                     announce.postalCode,
                     announce.address,
                     announce.nbRoomatesSeached,
-                    announce.publishedAt.toString(),
+                    new Date(announce.publishedAt.getTime()),
                     announce.price,
-                    "",
                     announce.announceType,
                     announce.isOwnerCertified,
                     announce.roomType,
                     announce.roomfurnishedType,
                     announce.genderSearched,
-                    announce.images
-                )).then((res)=>{
-                    console.log(res);
+                );
+
+                announce.images.forEach((file, i) => {
+                    formdata.append("files", file, file.name);
+                });
+                formdata.append("announce", JSON.stringify(announcement));
+                formdata.append("imagepp", announce.principalPicture);
+                
+
+                console.info(formdata.get('files'))
+
+                AnnounceService.saveAnnounce(formdata).then((res)=>{
+                    navigate('/app/rooms/');
                 }).catch((err)=>{
                     console.log(err);
                 });
-                console.log(localStorage.getItem('token'));
-                navigate('/app/rooms/'+ ownerId);
+
+
             }
         }
     }

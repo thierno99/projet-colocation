@@ -1,4 +1,4 @@
-import { ARoom, RoomsInterface } from "../_utils/model/rooms-model";
+import { ARoom } from "../_utils/model/rooms-model";
 import Axios from "./axios.service";
 
 const getAnnouncements = () => {
@@ -17,11 +17,19 @@ const postAnnouncement = (announce: ARoom) => {
     return Axios.post('/announces/save', announce);
 }
 
+const saveAnnounce = (formdata: FormData) => {
+    return Axios.post('/announces/saveannounce', formdata, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+    });
+}
 const AnnounceService = {
     getAnnouncements,
     getAnnouncementById,
     getAnnouncementsBetween,
-    postAnnouncement
+    postAnnouncement,
+    saveAnnounce
 }
 
 export default AnnounceService;

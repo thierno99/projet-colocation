@@ -33,8 +33,10 @@ const AdvertiseAccommodation = () => {
                         <h3 className='p-1 bg-light-blue br-t-1'> Mon annonce </h3>
                         <hr />
                         <form 
+                            method="POST"
                             className='flex column m-1 p-1' 
                             onSubmit={(e) => onSubmit(e)}
+                            encType="multipart/form-data"
                         >
                             {
                                 stepActive === 'FormStepOne'?
