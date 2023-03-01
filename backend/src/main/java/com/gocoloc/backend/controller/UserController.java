@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import com.gocoloc.backend.domain.Role;
 import com.gocoloc.backend.domain.User;
@@ -24,6 +25,9 @@ public interface UserController {
 
     @PostMapping("/user/register")
     public ResponseEntity<?> saveUser(@RequestBody User user);
+    
+    @PostMapping("/user/update")
+    public ResponseEntity<?> updateUser(@RequestBody User user);
 
     @PostMapping("/user/login")
     public ResponseEntity<AuthResponseDto> loginUser(@RequestBody LoginDto login);
@@ -33,6 +37,9 @@ public interface UserController {
 
     @PostMapping("/role/addtouser")
     public ResponseEntity<?> addRoleToUser(RoleToUserForm form);
+    
+    @GetMapping("/user/announces/{ownerId}")
+    public ResponseEntity<?> getUserAnnounces(@PathVariable String ownerId);
 
 
     @Data 

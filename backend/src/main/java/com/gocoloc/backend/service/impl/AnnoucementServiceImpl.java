@@ -55,4 +55,10 @@ public class AnnoucementServiceImpl implements AnnouncementService {
         return mongoOps.find(query, Announcement.class);
     }
 
+	@Override
+	public List<Announcement> getAnnouncementByOwnerId(String ownerId) {
+		
+		return announcementRepository.findAllByOwnerId(ownerId);
+	}
+
 }

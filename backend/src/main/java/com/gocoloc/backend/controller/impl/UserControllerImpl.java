@@ -10,10 +10,12 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.gocoloc.backend.controller.UserController;
+import com.gocoloc.backend.domain.Announcement;
 import com.gocoloc.backend.domain.Role;
 import com.gocoloc.backend.domain.User;
 import com.gocoloc.backend.domain.dto.AuthResponseDto;
 import com.gocoloc.backend.domain.dto.LoginDto;
+import com.gocoloc.backend.service.AnnouncementService;
 import com.gocoloc.backend.service.UserService;
 
 import lombok.RequiredArgsConstructor;
@@ -22,6 +24,8 @@ import lombok.RequiredArgsConstructor;
 public class UserControllerImpl implements UserController {
     @Autowired
     private UserService userService;
+    @Autowired
+    private AnnouncementService announcementService;
 
     @Override
     public ResponseEntity<List<User>> getUsers(){
@@ -36,6 +40,16 @@ public class UserControllerImpl implements UserController {
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/auth/user/register").toUriString());
         return ResponseEntity.created(uri).body(userService.SaveUser(user));
     }
+    
+
+	@Override
+	public ResponseEntity<?> updateUser(User user) {
+		if(userService.existsByuserEmail(user.getEmail())){
+	        return ResponseEntity.accepted().body(userService.updateUser(user));
+        }
+		return new ResponseEntity<>("User not Found", HttpStatus.NOT_FOUND);
+        
+	}
 
     @Override
     public ResponseEntity<AuthResponseDto> loginUser(LoginDto login) {
@@ -53,6 +67,12 @@ public class UserControllerImpl implements UserController {
         userService.addRoleToUser(form.getEmail(), form.getRoleName());
         return ResponseEntity.ok().build();
     }
+
+	@Override
+	public ResponseEntity<?> getUserAnnounces(String ownerId) {
+		List<Announcement> announces = announcementService.getAnnouncementByOwnerId(ownerId);
+		return ResponseEntity.ok().body(announces);
+	}
 
 }
 

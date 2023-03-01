@@ -44,6 +44,7 @@ public class AnnouncementControllerImpl implements AnnouncementController, Servl
 	
 	@Override
 	public ResponseEntity<List<Announcement>> getAnnouncements() {
+		
 		return ResponseEntity.ok().body(announcementService.getAnnouncements());
 	}
 
@@ -66,6 +67,7 @@ public class AnnouncementControllerImpl implements AnnouncementController, Servl
 
 	@Override
 	public ResponseEntity<?> getAnnouncementsBetween(int start, int end) {
+		//List<Announcement> announces = announcementService.getAnnouncementsBetween(start, end);
 		return ResponseEntity.ok().body(announcementService.getAnnouncementsBetween(start, end));
 	}
 
@@ -78,14 +80,10 @@ public class AnnouncementControllerImpl implements AnnouncementController, Servl
 			announce.setPrincipalPicture(imagePrincipale.getBytes());
 			
 			Set<byte[]> images = new HashSet<>();
-			
-			
-			
-			log.info("-----------------------------------files upload------------------------------------------");
+						
 			for (MultipartFile file: files) {
-				log.info("file: ".concat(file.getOriginalFilename()));
 				images.add(file.getBytes());
-				save(file);
+				//save(file);
 			}
 			
 			

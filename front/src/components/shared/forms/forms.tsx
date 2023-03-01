@@ -16,6 +16,7 @@ export interface InputTextProps {
 }
 
 export interface SelectFormProps {
+    label: string;
     name: string;
     options: JSX.Element[];
     handleSelectChange: (type: string, e: React.ChangeEvent<HTMLSelectElement>) => void;
@@ -77,10 +78,10 @@ const  InputText:FC<InputTextProps> = (props) => {
 }
 
 const SelectForm:FC<SelectFormProps> = (props) => {
-    const { name,options, handleSelectChange } = props;
+    const { name, options, label, handleSelectChange } = props;
     return (
         <div className='my-half flex column'>
-            <label htmlFor={name}> <strong>Departement</strong></label>
+            <label htmlFor={name}> <strong>{label}</strong></label>
             <select 
                 name={name} 
                 id={name} 

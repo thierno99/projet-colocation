@@ -22,7 +22,7 @@ const ColumnCard:FC<any> = (props) => {
         <div className='flex column my-1'>
             <div className='card relative border-1 p-half br-1' onClick={() => { dispatch(detailAnnounce(announceId)); navigate("/app/rooms/"+announceId);} }>
                 <div className="card-hearder relative">
-                    <img src={!cardValues.principalPicture?defaultpng: '/Images/'+cardValues.principalPicture} alt="profile" />
+                    <img src={!cardValues.principalPicture?defaultpng: `data:image/png;base64,${cardValues.principalPicture}`} alt="profile" />
                     <hr />
                     {
                         cardValues.price?

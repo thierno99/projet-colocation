@@ -3,6 +3,7 @@ package com.gocoloc.backend.domain;
 
 import java.time.LocalDateTime;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.hibernate.annotations.ManyToAny;
@@ -43,7 +44,7 @@ public class Announcement {
 	private boolean roomfurnishedType;
 	@ManyToAny(fetch = FetchType.EAGER)
     private Set<String> genderSearched = new HashSet<>();
-	@Lob
+	
 	private Set<byte[]> images = new HashSet<>();
 	
 	

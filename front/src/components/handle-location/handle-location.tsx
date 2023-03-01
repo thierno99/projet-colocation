@@ -21,6 +21,7 @@ const HandleLocation = () => {
     const { id } = useParams();
     const announceId = id !== null ? id as string : "";
     const [announce, setAnnounce] = useState(null as unknown as RoomsInterface);
+    const [imageUrl, setImageUrl] = useState('');
     
     useEffect(() => {
         
@@ -43,14 +44,22 @@ const HandleLocation = () => {
                 res.isOwnerCertified,
                 res.roomType,
                 res.roomfurnishedType,
-                res.genderSearched
+                res.genderSearched,
+                res.images,
             )
+
             setAnnounce(announcementValue);
+            setActiveImg(announcementValue.principalPicture);
+            
+            // return () => URL.revokeObjectURL(url);
         })
     }, [announceId, dispatch]);
     
     const user= getMockUser(announce?.ownerId);
-    const [activeImg, setActiveImg] = useState(announce?.principalPicture.name);
+    const [activeImg, setActiveImg] = useState(announce?.principalPicture);
+
+
+
     return (
         <div className='container relative mb-2'>
             {
@@ -58,21 +67,24 @@ const HandleLocation = () => {
                 <>
 
                     <div className="flex  center my-half text-primary shadow announce-head">
+                        {/* <img src={`data:image/png;base64,${announce.principalPicture}`} alt={announce.title} /> */}
                         <img src={!user?.profileImg? defaultProfile: '/Images/'+user.profileImg} alt="profile" className='br-1 small-img m-1'/>
                         <h2>{announce.title}</h2>
                     </div>
                     
                     <div className='flex reative wrap center shadow my-1'>
-                        <div className='relative pt-1'>
-                            <img src={!announce.principalPicture?defaultpng: '/Images/'+activeImg} alt="profile mx-half" className='img-md'/>
-                            <div className="absolute flex wrap bottom-0 m-half">
-                                <img src={defaultpng} alt="" className='m-b-half mx-half small-img pointer' onClick={()=> setActiveImg('defaultpng.png')}/>
-                                <img src={!announce.principalPicture?defaultpng: '/Images/'+announce.principalPicture} alt="" className='m-b-half mx-half small-img' onClick={()=> setActiveImg(!announce.principalPicture?.name?'defaultpng.png': announce.principalPicture?.name)}/>
-                                <img src={defaultpng} alt="" className='m-b-half mx-half small-img'/>
-                                <img src={defaultpng} alt="" className='m-b-half mx-half small-img'/>
+                        <div className='relative pt-1 w-half'>
+                            <img src={!announce.principalPicture?defaultpng: `data:image/png;base64,${activeImg}`} alt="profile" className='img-md w-full'/>
+                            
+                            <div className="absolute flex wrap bottom-0 m-half w-full relative">
+                                {
+                                    announce.images.map((image, i) => 
+                                        <img src={`data:image/png;base64,${image}`} alt="view" className='m-b-half mx-half small-img' onClick={()=> setActiveImg(image)} key={i}/>
+                                    )
+                                }
                             </div>
                         </div>
-                        <div className='p-half'>
+                        <div className='p-half w-half'>
                             {
                                 announce.city?
                                     <p className='py-half'>

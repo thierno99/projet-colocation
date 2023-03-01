@@ -13,9 +13,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.HttpStatusEntryPoint;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.reactive.UrlBasedCorsConfigurationSource;
-import org.springframework.web.filter.CorsFilter;
 
 import com.gocoloc.backend.config.filter.JwtAuthFilter;
 import lombok.RequiredArgsConstructor;
@@ -38,6 +35,7 @@ public class SecurityConfig {
         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
         .and()
         .authorizeHttpRequests()
+        .requestMatchers("/api/auth/**").permitAll()
         .requestMatchers("/api/auth/user/login").permitAll()
         .requestMatchers("/api/auth/user/register").permitAll()
         .requestMatchers("/api/announces/announce/**").permitAll()
@@ -50,25 +48,6 @@ public class SecurityConfig {
 		http.addFilterBefore(jwtAuthFilter(), UsernamePasswordAuthenticationFilter.class);
 		return http.build();
 	}
-//	
-//	@Bean
-//	public CorsFilter corsFilter() {
-//		final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-//		final CorsConfiguration config = new CorsConfiguration();
-//		
-//		config.setAllowCredentials(true);
-//		config.addAllowedOrigin("*");
-//		config.addAllowedHeader("*");
-//		config.addAllowedMethod("GET");
-//		config.addAllowedMethod("POST");
-//		config.addAllowedMethod("PUT");
-//		config.addAllowedMethod("DELETE");
-//		config.addAllowedMethod("OPTIONS");
-//		
-//		source.registerCorsConfiguration("/**", config);
-//		return new CorsFilter(source);
-//		
-//	}
 	
 	@Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration ) throws Exception {

@@ -9,6 +9,7 @@ import com.gocoloc.backend.domain.dto.LoginDto;
 
 public interface UserService {
     User SaveUser(User user);
+    User updateUser(User user);
     User getUserByEmail(String email);
     
     Role saveRole(Role role);

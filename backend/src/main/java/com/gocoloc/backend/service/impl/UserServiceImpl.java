@@ -53,6 +53,13 @@ public class UserServiceImpl implements UserService{
         addRoleToUser(createdUser.getEmail(), "USER");
         return createdUser;
     }
+    
+
+
+	@Override
+	public User updateUser(User user) {
+		return userRepository.save(user);
+	}
 
     @Override
     public void addRoleToUser(String email, String roleName) {
@@ -73,6 +80,8 @@ public class UserServiceImpl implements UserService{
     public List<User> getUsers() {
         return userRepository.findAll();
     }
+    
+    
 
     @Override
     public List<User> getUserLimit(int start, int end) {

@@ -1,4 +1,4 @@
-import { ChangeEvent, FC, useState } from 'react';
+import { ChangeEvent, FC, useEffect, useState } from 'react';
 
 import { AiOutlineQuestionCircle } from 'react-icons/ai';
 import { MdAddPhotoAlternate } from 'react-icons/md';
@@ -35,6 +35,11 @@ const InputImgFile:FC<InputImgFileProp> = (props) => {
 
 const FormStepThree: FC<FormStepProps> = (props) => {
     const { announce, stepActive, setStepActive, setAnnounce } = props;
+    
+    useEffect(() => {
+        announce.images = [];
+    },[])
+    
 
     const [isInfoPrincipalActive, setisInfoPrincipalActive] = useState(false);
     const [erroeMessage, setErroeMessage] = useState('');

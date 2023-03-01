@@ -11,4 +11,5 @@ public interface AnnouncementService {
 	Optional<Announcement> getAnnounceById(String id);
 	List<Announcement> getAnnouncements();
 	List<Announcement> getAnnouncementsBetween(int start, int end);
+	List<Announcement> getAnnouncementByOwnerId(String ownerId);
 }
