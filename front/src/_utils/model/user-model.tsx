@@ -1,3 +1,7 @@
+export interface RoleInterface {
+    id: string;
+    name: string;
+}
 
 export interface UserInterface {
     id: string;
@@ -10,10 +14,10 @@ export interface UserInterface {
     password: string;
     isEmailVerified: boolean;
     iscertified: boolean;
-    profileImg: string | string[];
+    profileImg: File;
     autorizeHaldleTel:  boolean,
     autorizeHaldleEmail: boolean,
-    roles: string[]
+    roles: RoleInterface[]
 }
 
 export class User implements UserInterface {
@@ -27,10 +31,10 @@ export class User implements UserInterface {
     password: string;
     isEmailVerified: boolean;
     iscertified: boolean;
-    profileImg: string | string[];
+    profileImg: File;
     autorizeHaldleTel: boolean;
     autorizeHaldleEmail: boolean;
-    roles: string[];
+    roles: RoleInterface[];
     
     constructor(
         lastname: string,
@@ -42,10 +46,10 @@ export class User implements UserInterface {
         password: string,
         isEmailVerified: boolean,
         iscertified: boolean,
-        profileImg: string | string[],
+        profileImg: File,
         autorizeHaldleTel: boolean,
         autorizeHaldleEmail: boolean,
-        roles: string[]
+        roles: RoleInterface[]
     ) {
       this.lastname = lastname;
       this.firstname = firstname;

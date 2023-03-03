@@ -10,11 +10,15 @@ const getAnnouncementById = (id: string) => {
 }
 
 const getAnnouncementsBetween = (start: number, end: number) => {
-    return Axios.get(`/announces/announce/min-max?start=${start}&end=${end}`).then((res)=> {console.log(res.data); return res.data});
+    return Axios.get(`/announces/announce/min-max?start=${start}&end=${end}`).then((res)=> {return res.data});
 }
 
 const postAnnouncement = (announce: ARoom) => {
     return Axios.post('/announces/save', announce);
+}
+
+const deleteAnnounceById = (announceId: string) => {
+    return Axios.delete('/announces/announce/'+ announceId);
 }
 
 const saveAnnounce = (formdata: FormData) => {
@@ -29,7 +33,8 @@ const AnnounceService = {
     getAnnouncementById,
     getAnnouncementsBetween,
     postAnnouncement,
-    saveAnnounce
+    saveAnnounce,
+    deleteAnnounceById,
 }
 
 export default AnnounceService;

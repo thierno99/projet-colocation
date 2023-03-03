@@ -61,4 +61,9 @@ public class AnnoucementServiceImpl implements AnnouncementService {
 		return announcementRepository.findAllByOwnerId(ownerId);
 	}
 
+	@Override
+	public void deleAnnouncementById(String announceid) {
+		announcementRepository.deleteById(announceid);
+	}
+
 }

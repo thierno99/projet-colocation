@@ -38,6 +38,8 @@ public class User {
     private boolean autorizeHaldleEmail;
     @ManyToAny(fetch = FetchType.EAGER)
     private Set<Role> roles = new HashSet<>();
+    
+    
 
     public User(
         String lastname, 
@@ -68,4 +70,25 @@ public class User {
         this.autorizeHaldleEmail = autorizeHaldleEmail;
         this.roles = roles;
     }
+
+
+
+	public User(String id, String lastname, String firstname, String sexe, LocalDate dateOfBirth, String phoneNumber,
+			String email, String password, boolean isEmailVerified, boolean iscertified, boolean autorizeHaldleTel,
+			boolean autorizeHaldleEmail, Set<Role> roles) {
+		super();
+		this.id = id;
+		this.lastname = lastname;
+		this.firstname = firstname;
+		this.sexe = sexe;
+		this.dateOfBirth = dateOfBirth;
+		this.phoneNumber = phoneNumber;
+		this.email = email;
+		this.password = password;
+		this.isEmailVerified = isEmailVerified;
+		this.iscertified = iscertified;
+		this.autorizeHaldleTel = autorizeHaldleTel;
+		this.autorizeHaldleEmail = autorizeHaldleEmail;
+		this.roles = roles;
+	}
 }

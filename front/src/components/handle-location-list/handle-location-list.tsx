@@ -6,7 +6,6 @@ import { FaFilter, FaList, FaMapMarkedAlt } from 'react-icons/fa';
 import { BiGridAlt } from 'react-icons/bi';
 
 import ColumnCard from '../shared/cards/column-card';
-import { getMockUser } from '../../services/user.service';
 import Modal from '../shared/modals/modals';
 import MoreFilterLocation from './More-filter-location';
 import { RootState, useAppDispatch } from '../../store/store';
@@ -23,15 +22,10 @@ const HandleLocationList = () => {
     const [announces, setAnnounces] = useState([] as RoomsInterface[]);
     const [moreFilter, setMoreFilter] = useState(false);
     const [endItem, setEndItem] = useState(STEP);
-    
-
     const params = new URLSearchParams(location.search);
     const city = params.get('city');
     
     useEffect(() => {
-        // (announceList as Promise<RoomsInterface[]> ).then(res => {
-        //     setAnnounces(res.filter(announce => announce.city.toLowerCase().includes((city?city:"").toLowerCase())));
-        // });
         dispatch(getAnnouncementsBetween(1,endItem));
         AnnounceService.getAnnouncementsBetween(1, endItem)
         .then((res) => {
@@ -66,11 +60,7 @@ const HandleLocationList = () => {
 
     const announceLocationList = useSelector((state: RootState) => state.AnnouncementsBetween);
     const {announcement} = announceLocationList;
-    console.log(announceLocationList);
     
-    
-
-
     const closeModal = () => {
         const body = document.querySelector('body');
         if(body) {
@@ -298,7 +288,7 @@ const HandleLocationList = () => {
                     {
                         announces.map((announce)=>{
                             return(
-                                <ColumnCard key={announce.id} cardValues={announce} user={getMockUser(announce.ownerId)} announceId={announce.id}/>
+                                <ColumnCard key={announce.id} cardValues={announce} announceId={announce.id}/>
                             )
                         })
                     }

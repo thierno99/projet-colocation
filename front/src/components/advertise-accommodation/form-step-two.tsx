@@ -37,7 +37,6 @@ const FormStepTwo: FC<FormStepProps> = (props) => {
         }else if(index!==-1){
             genders.splice(index,1);
         }
-        console.log(genders);
 
         setAnnounce({
             ...announce,

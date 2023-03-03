@@ -31,13 +31,13 @@ const Navigation = () => {
                         </li>
 
                         <li className='px-half flex center pointer'>
-                            <CgProfile/>
-                            <span 
-                                onClick={logout}
-                                className='px-px text-light text-center' 
-                            >
-                                Bah Thierno
-                            </span>
+                            <Link 
+                                to={"/app/user-profile"}
+                                className='px-px text-light text-center flex center' 
+                                >
+                                <CgProfile/>
+                                <span className="px-px pb-px">Bah Thierno</span>
+                            </Link>
                         </li>
                     </>
                     :

@@ -1,14 +1,20 @@
 package com.gocoloc.backend.controller.impl;
 
 import java.net.URI;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.gocoloc.backend.controller.UserController;
 import com.gocoloc.backend.domain.Announcement;
 import com.gocoloc.backend.domain.Role;
@@ -31,6 +37,18 @@ public class UserControllerImpl implements UserController {
     public ResponseEntity<List<User>> getUsers(){
         return ResponseEntity.ok().body(userService.getUsers());
     }
+    
+
+
+	@Override
+	public ResponseEntity<?> getUserById(String userId) {
+		Optional<User> user = userService.getUserById(userId);
+		
+		if(user.isEmpty() || user.get() == null) {
+			return new ResponseEntity<>("some problems occured !", HttpStatus.BAD_REQUEST); 
+		}
+		return ResponseEntity.ok().body(user.get());
+	}
 
     @Override
     public ResponseEntity<?> saveUser(User user) {
@@ -43,7 +61,7 @@ public class UserControllerImpl implements UserController {
     
 
 	@Override
-	public ResponseEntity<?> updateUser(User user) {
+	public ResponseEntity<?> updateUser( String userId, User user) {
 		if(userService.existsByuserEmail(user.getEmail())){
 	        return ResponseEntity.accepted().body(userService.updateUser(user));
         }
@@ -72,6 +90,15 @@ public class UserControllerImpl implements UserController {
 	public ResponseEntity<?> getUserAnnounces(String ownerId) {
 		List<Announcement> announces = announcementService.getAnnouncementByOwnerId(ownerId);
 		return ResponseEntity.ok().body(announces);
+	}
+
+
+
+	@Override
+	public ResponseEntity<?> saveUserProfile(MultipartFile file, String userStr) {
+		
+		return ResponseEntity.accepted().body(userService.saveUserProfile(file, userStr));
+		
 	}
 
 }

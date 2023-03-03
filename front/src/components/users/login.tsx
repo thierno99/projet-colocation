@@ -27,7 +27,6 @@ function Login() {
         AccountServices.login(credentials)
            .then((res) => {
                 if (res.status === 200) {
-                    console.log(res)
                     AccountServices.saveToken(res.data.accessToken);
                     localStorage.setItem('userId', res.data.id);
                     navigate('/app/users');

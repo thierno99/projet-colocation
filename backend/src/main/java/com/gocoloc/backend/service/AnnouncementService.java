@@ -12,4 +12,5 @@ public interface AnnouncementService {
 	List<Announcement> getAnnouncements();
 	List<Announcement> getAnnouncementsBetween(int start, int end);
 	List<Announcement> getAnnouncementByOwnerId(String ownerId);
+	void deleAnnouncementById(String announceid);
 }

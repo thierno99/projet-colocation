@@ -125,10 +125,7 @@ const FormStepThree: FC<FormStepProps> = (props) => {
                 });
                 formdata.append("announce", JSON.stringify(announcement));
                 formdata.append("imagepp", announce.principalPicture);
-                
-
-                console.info(formdata.get('files'))
-
+    
                 AnnounceService.saveAnnounce(formdata).then((res)=>{
                     navigate('/app/rooms/');
                 }).catch((err)=>{

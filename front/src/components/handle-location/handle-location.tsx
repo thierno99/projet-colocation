@@ -6,7 +6,6 @@ import { AiOutlineMail } from 'react-icons/ai';
 import { FaCalendarAlt } from 'react-icons/fa';
 import { BsFillTelephoneFill } from 'react-icons/bs';
 
-import { getMockUser } from '../../services/user.service';
 import defaultpng from '../../assets/Images/defaultpng.png';
 import defaultProfile from '../../assets/Images/defaultProfile.jpg';
 import { publishedAtFormatMsg } from '../../_utils/functions/functions';
@@ -16,13 +15,14 @@ import { Room } from '../../_utils/model/rooms-model';
 import { RoomsInterface } from './../../_utils/model/rooms-model';
 import { useParams } from 'react-router';
 import AnnounceService from '../../services/announce-service';
+import { User } from '../../_utils/model/user-model';
+import UserServices from '../../services/user.service';
 const HandleLocation = () => {
     const dispatch = useAppDispatch();
     const { id } = useParams();
     const announceId = id !== null ? id as string : "";
     const [announce, setAnnounce] = useState(null as unknown as RoomsInterface);
-    const [imageUrl, setImageUrl] = useState('');
-    
+    const [user, setUser] = useState(null as unknown as User);
     useEffect(() => {
         
         dispatch(detailAnnounce(announceId));
@@ -51,11 +51,29 @@ const HandleLocation = () => {
             setAnnounce(announcementValue);
             setActiveImg(announcementValue.principalPicture);
             
-            // return () => URL.revokeObjectURL(url);
+            UserServices.getUserById(res.ownerId).then((userInfo) => {
+                let user = new User(
+                    userInfo.lastname,
+                    userInfo.firstname,
+                    userInfo.sexe,
+                    userInfo.dateOfBirth,
+                    userInfo.phoneNumber,
+                    userInfo.email,
+                    userInfo.password,
+                    userInfo.isEmailVerified,
+                    userInfo.iscertified,
+                    userInfo.profileImg,
+                    userInfo.autorizeHaldleTel,
+                    userInfo.autorizeHaldleEmail,
+                    userInfo.roles
+                );
+                user.id = res.ownerId;
+                setUser(user);
+            })
+
         })
     }, [announceId, dispatch]);
-    
-    const user= getMockUser(announce?.ownerId);
+
     const [activeImg, setActiveImg] = useState(announce?.principalPicture);
 
 
@@ -68,15 +86,21 @@ const HandleLocation = () => {
 
                     <div className="flex  center my-half text-primary shadow announce-head">
                         {/* <img src={`data:image/png;base64,${announce.principalPicture}`} alt={announce.title} /> */}
-                        <img src={!user?.profileImg? defaultProfile: '/Images/'+user.profileImg} alt="profile" className='br-1 small-img m-1'/>
+                        <img src={!user?.profileImg? defaultProfile: `data:image/png;base64,${user?.profileImg}`} alt="profile" className='br-1  m-1 rounded-full small-circle-img'/>
                         <h2>{announce.title}</h2>
                     </div>
                     
                     <div className='flex reative wrap center shadow my-1'>
                         <div className='relative pt-1 w-half'>
+                            
                             <img src={!announce.principalPicture?defaultpng: `data:image/png;base64,${activeImg}`} alt="profile" className='img-md w-full'/>
                             
+                            
                             <div className="absolute flex wrap bottom-0 m-half w-full relative">
+                                {
+                                    announce.principalPicture &&
+                                    <img src={`data:image/png;base64,${announce?.principalPicture}`} alt="view" className='m-b-half mx-half small-img' onClick={()=> setActiveImg(announce.principalPicture)}/>
+                                }
                                 {
                                     announce.images.map((image, i) => 
                                         <img src={`data:image/png;base64,${image}`} alt="view" className='m-b-half mx-half small-img' onClick={()=> setActiveImg(image)} key={i}/>

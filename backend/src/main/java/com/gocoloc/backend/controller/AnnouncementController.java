@@ -3,6 +3,7 @@ package com.gocoloc.backend.controller;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,6 +25,9 @@ public interface AnnouncementController {
 	
 	@GetMapping("/announce/{id}")
 	public ResponseEntity<?> getAnnouncementById(@PathVariable String id);
+	
+	@DeleteMapping("/announce/{announceID}")
+	public ResponseEntity<?> deleAnnouncementById(@PathVariable String announceID);
 	
 	@GetMapping("announce/min-max")
 	public ResponseEntity<?> getAnnouncementsBetween(@RequestParam("start") int start, @RequestParam("end") int end);

@@ -1,4 +1,3 @@
-import { USERS } from "../_utils/mocks/users-mock";
 import { UserInterface } from "../_utils/model/user-model";
 import Axios from "./axios.service";
 
@@ -10,19 +9,34 @@ const getAllUsers = () => {
     return Axios.get('/app/users');
 }
 
-const getUser = (uid: number) => {
-    return Axios.get('/app/users/'+ uid);
+const getUserById = async (userId: string) => {
+    const res = await Axios.get('/auth/user/' + userId);
+    return res.data;
 }
 
-export const getMockUser = (uid: string) => {
-    return USERS.find(user => user.id === uid);
+const updateUser = async (userId: string, user: UserInterface) => {
+    return Axios.put('/auth/user/' + userId, user);
 }
 
+const saveUserProfile = (formdata: FormData) => {
+    return Axios.post('/auth/user/saveprofile', formdata, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+    });
+}
+
+const getUserAnnounces = (ownerId: string) => {
+    return Axios.get('/auth/user/announces/' + ownerId).then((res)=> res.data);
+}
 
 const UserServices = {
     RegisterUser,
     getAllUsers,
-    getUser,
+    getUserById,
+    updateUser,
+    saveUserProfile,
+    getUserAnnounces,
 };
 
 export default UserServices ;

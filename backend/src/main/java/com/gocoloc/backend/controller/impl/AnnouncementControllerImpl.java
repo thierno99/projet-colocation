@@ -86,6 +86,8 @@ public class AnnouncementControllerImpl implements AnnouncementController, Servl
 				//save(file);
 			}
 			
+			log.info(announceStr);
+			
 			
 			announce.setImages(images);
 			
@@ -120,11 +122,22 @@ public class AnnouncementControllerImpl implements AnnouncementController, Servl
 			return null;
 		}
 	}
+	
+	@Override
+	public ResponseEntity<?> deleAnnouncementById(String announceID) {
+		announcementService.deleAnnouncementById(announceID);
+		return ResponseEntity.ok("");
+	}
+	
+	
+	
 
 	@Override
 	public void setServletContext(ServletContext servletContext) {
 		this.servletContext = servletContext;
 		
 	}
+
+	
 
 }

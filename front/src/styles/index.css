@@ -7,12 +7,20 @@
 body {
   margin: 0 auto;
   color: #514f4f;
-  background: rgb(2,0,36);
-  background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(236,237,193,0.062237394957983194) 0%, rgba(233,169,232,0.16867997198879547) 50%, rgba(242,231,155,0.09304971988795518) 68%, rgba(62,186,211,0.10425420168067223) 81%);
+  /* background: rgb(2,0,36);
+  background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(236,237,193,0.062237394957983194) 0%, rgba(233,169,232,0.16867997198879547) 50%, rgba(242,231,155,0.09304971988795518) 68%, rgba(62,186,211,0.10425420168067223) 81%); */
 
+}
+
+.mw-220{
+  min-width: 220px;
 }
 .auto{
   margin: auto;
+}
+.mx-auto{
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .background-login{
@@ -150,7 +158,13 @@ li{
 .w-100 {
   width: 100%;
 }
+.w-80 {
+  width: 80%;
+}
 
+.w-70 {
+  width: 70%;
+}
 .w-50 {
   width: 50;
 }
@@ -158,6 +172,10 @@ li{
 .w-half{
   width: 48%;
 }
+.w-30 {
+  width: 30%;
+}
+
 .xs-width{
   max-width: 500px;
 }
@@ -369,7 +387,9 @@ li{
 .absolute {
   position: absolute;
 }
-
+.btn:hover {
+  cursor: pointer;
+}
 .relative {
   position: relative;
 }
@@ -404,6 +424,23 @@ li{
   font-size: 1.2rem;
 }
 
+.rounded-full{
+  border-radius: 50%;
+}
+.small-circle-img{
+  width: 100px;
+  height: 100px;
+}
+.profile-img {
+  width: 100px;
+  height: 100px;
+  padding: 5px;
+  border: 1px solid #ccc;
+  overflow: hidden;
+}
+.overflow-scroll {
+  overflow: scroll;
+}
 /* 
 .text-xs {
   
@@ -431,7 +468,12 @@ li{
 .text-3xl {
 
 } */
+
+.bg-none {
+  background: none;
+}
 /* fonts */
+
 .bold{
   font-weight: bold;
 }
@@ -442,7 +484,10 @@ li{
 .text-dark-chocolate{
   color: #240424c9;
 }
-
+.success{
+  background-color: #09ff0026;
+  color: #07ff00;
+}
 .text-success{
   color: #07ff00;
 }
@@ -473,6 +518,10 @@ li{
 
 .text-red{
   color: rgb(251, 57, 57);
+}
+
+.text-gray {
+  color: #ccc;
 }
 
 .text-skyeblue{
@@ -624,7 +673,7 @@ li{
 }
 
 .border-1{
-  border: 1px solid;
+  border: 1px solid #ccc;
 }
 .br-1 {
   border-radius: 1rem;
@@ -739,6 +788,22 @@ li{
   background-color: #f9f9f9;
 }
 
+/* table */
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.table tbody tr:nth-of-type(odd) {
+  background-color: #f4f4f4;
+}
+
+.table td,
+.table th {
+  text-align: center;
+  border: 0.1rem solid #e4e4e4;
+  padding: 0.5rem;
+}
+
 
 @media screen and (max-width: 1080px) {
   .md-center{
@@ -811,6 +876,9 @@ li{
     max-width: 300px !important;
     max-height: 10px !important;
   } */
+  .mw-220 {
+    width: 80%;
+  }
 }
 
 @media screen and (max-width: 300px) {
