@@ -26,10 +26,11 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.gocoloc.backend.controller.AnnouncementController;
 import com.gocoloc.backend.domain.Announcement;
 import com.gocoloc.backend.service.AnnouncementService;
-
 import jakarta.servlet.ServletContext;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+
+//import com.mongodb.BasicBinary;
 
 @RestController
 @RequiredArgsConstructor
@@ -136,6 +137,77 @@ public class AnnouncementControllerImpl implements AnnouncementController, Servl
 	public void setServletContext(ServletContext servletContext) {
 		this.servletContext = servletContext;
 		
+	}
+	
+	
+
+	@Override
+	public ResponseEntity<?> editAnnounce(MultipartFile[] files, List<byte[]> bytefiles, String announceStr, MultipartFile imagePrincipale) {
+
+		try {
+			ObjectMapper objectMapper = new ObjectMapper();
+			objectMapper.registerModule(new JavaTimeModule());
+			Announcement announce = objectMapper.readValue(announceStr, Announcement.class);
+			
+			announce.setPrincipalPicture(imagePrincipale.getBytes());
+			
+			Set<byte[]> images = new HashSet<>();
+						
+			for (MultipartFile file: files) {
+				images.add(file.getBytes());
+			}
+			
+			for(byte[] file: bytefiles) {
+				images.add(file);
+			}
+			
+			log.info(announceStr);
+			
+			
+			announce.setImages(images);
+			
+			
+			URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/announces/saveannounce").toUriString());
+			
+	        return ResponseEntity.created(uri).body(announcementService.saveAnnounce(announce));
+	        
+		} catch (Exception e) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+	}
+
+	@Override
+	public ResponseEntity<?> editAnnounceBinImgpp(MultipartFile[] files, List<byte[]> bytefiles, String announceStr,
+			byte[] imagePrincipale) {
+		try {
+			ObjectMapper objectMapper = new ObjectMapper();
+			objectMapper.registerModule(new JavaTimeModule());
+			Announcement announce = objectMapper.readValue(announceStr, Announcement.class);
+			announce.setPrincipalPicture(imagePrincipale);
+			
+			Set<byte[]> images = new HashSet<>();
+						
+			for (MultipartFile file: files) {
+				images.add(file.getBytes());
+			}
+			
+			for(byte[] file: bytefiles) {
+				images.add(file);
+			}
+			
+			log.info(announceStr);
+			
+			
+			announce.setImages(images);
+			
+			
+			URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/announces/saveannounce").toUriString());
+			
+	        return ResponseEntity.created(uri).body(announcementService.saveAnnounce(announce));
+	        
+		} catch (Exception e) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
 	}
 
 	

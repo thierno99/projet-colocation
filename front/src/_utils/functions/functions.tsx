@@ -83,3 +83,15 @@ export const BytesToString = (bytes: BufferSource) => {
     const decoder = new TextDecoder();
    return decoder.decode(bytes);
 }
+
+export function bindataToFile(bindata: any, filename: string, mimeType: any) {
+    const bytes = new Uint8Array(bindata);
+    const blob = new Blob([bytes], { type: mimeType });
+    return new File([blob], filename, { type: mimeType });
+}
+
+export const createFileFromBindata = (bindata: BlobPart, fileName: string, fileType: any) => {
+    const blob = new Blob([bindata], { type: fileType });
+    const file = new File([blob], fileName, { type: fileType });
+    return file;
+  }

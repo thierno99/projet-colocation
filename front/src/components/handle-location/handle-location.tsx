@@ -17,6 +17,8 @@ import { useParams } from 'react-router';
 import AnnounceService from '../../services/announce-service';
 import { User } from '../../_utils/model/user-model';
 import UserServices from '../../services/user.service';
+import { CandidacyDto } from '../../_utils/model/dto/CandidacyDto';
+import CandidacyService from '../../services/candidacy.service';
 const HandleLocation = () => {
     const dispatch = useAppDispatch();
     const { id } = useParams();
@@ -76,6 +78,24 @@ const HandleLocation = () => {
 
     const [activeImg, setActiveImg] = useState(announce?.principalPicture);
 
+
+    const sendCandidacy = () => {
+        const candidacy = new CandidacyDto(
+            announce.id,
+            announce.ownerId,
+            user.id,
+            "ENCOURS"
+        )
+        console.info("posting candidacy ....");
+        CandidacyService.saveCandidacy(candidacy)
+        .then(() => {
+            console.info("posted");
+        })
+        .catch((err) => {
+            console.info("some problem occured when posting");
+            console.error(err);
+        })
+    }
 
 
     return (
@@ -195,7 +215,7 @@ const HandleLocation = () => {
                                     null
                                 }
                             </div>
-                            <button className='p-half br-half pointer mt-half bg-light-gold bold absolute bottom-0 right-0'> 
+                            <button className='p-half br-half pointer mt-half bg-light-gold bold absolute bottom-0 right-0' onClick={()=>sendCandidacy()}> 
                                 Adresser ma candidature
                             </button>
                         </div>

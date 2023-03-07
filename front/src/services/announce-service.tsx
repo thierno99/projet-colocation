@@ -28,6 +28,23 @@ const saveAnnounce = (formdata: FormData) => {
         },
     });
 }
+
+const editAnnounce = (formdata: FormData) => {
+    return Axios.post('/announces/editannounce', formdata, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+    });
+}
+
+
+const editAnnouncebin = (formdata: FormData) => {
+    return Axios.post('/announces/editannounce/bin', formdata, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+    });
+}
 const AnnounceService = {
     getAnnouncements,
     getAnnouncementById,
@@ -35,6 +52,8 @@ const AnnounceService = {
     postAnnouncement,
     saveAnnounce,
     deleteAnnounceById,
+    editAnnounce,
+    editAnnouncebin,
 }
 
 export default AnnounceService;

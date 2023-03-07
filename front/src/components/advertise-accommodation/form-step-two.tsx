@@ -4,7 +4,7 @@ import { ChangeEvent, FC, useState } from 'react';
 import Form, { CheckboxProps } from '../shared/forms/forms';
 import { FormStepProps } from './form-step-one';
 
-const Checkbox:FC<CheckboxProps> = (props) => {
+export const Checkbox:FC<CheckboxProps> = (props) => {
     const { name, label,handleCheckboxChange, checked } = props;
 
     return (

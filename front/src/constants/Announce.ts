@@ -16,3 +16,6 @@ export const GET_ANNOUNCES_BY_ID_FAIL = 'get announcement by id fail';
 export const GET_ANNOUNCES_BETWEEN_START_END_REQUEST = 'get announcement between start and end request';
 export const GET_ANNOUNCES_BETWEEN_START_END_SUCCESS = 'get announcement between start and end success';
 export const GET_ANNOUNCES_BETWEEN_START_END_FAIL = 'get announcement between start and end fail';
+
+
+export const MAX_IMG_PER_ANNOUNCE = 4;

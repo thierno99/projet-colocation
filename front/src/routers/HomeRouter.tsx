@@ -1,6 +1,7 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import AdvertiseAccommodation from '../components/advertise-accommodation/advertise-accommodation';
+import EditAnnouncement from '../components/edit-announcement/edit-announcement';
 import HandleLocationList from '../components/handle-location-list/handle-location-list';
 import HandleLocation from '../components/handle-location/handle-location';
 import Home from '../components/home/Home';
@@ -8,6 +9,7 @@ import Footer from '../components/shared/footer/Footer';
 import Login from '../components/users/login';
 import Register from '../components/users/registerv2';
 import Guards from '../_utils/guards/Guards';
+import { DefaultAnnonce } from '../_utils/model/rooms-model';
 import UserRouter from './UserRouter';
 
 function HomeRouter() {
@@ -24,10 +26,20 @@ function HomeRouter() {
                 <Route path='/app/rooms/make-announce/'element = 
                     {
                         <Guards.AuthGard>
-                            <AdvertiseAccommodation/>
+                            <AdvertiseAccommodation defaultAnnonce = {DefaultAnnonce}/>
                         </Guards.AuthGard>
                     }
-                 /> 
+                 />
+
+                <Route path='/app/room/edit-announce/:id'element = 
+                    {
+                        <Guards.AuthGard>
+                            <EditAnnouncement/>
+                        </Guards.AuthGard>
+                    }
+                 />
+                 
+                 
                 <Route path='/app/rooms'element = {<HandleLocationList/>} />  
                 <Route path='/'element = {<UserRouter/>} />
             </Routes>

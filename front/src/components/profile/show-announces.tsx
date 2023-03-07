@@ -10,7 +10,6 @@ import { UserAnnouncesAction } from '../../store/actions/user-action';
 import { useAppDispatch } from '../../store/store';
 import { replaceDotDot } from '../../_utils/functions/functions';
 import { Room, RoomsInterface } from '../../_utils/model/rooms-model';
-import Modal from '../shared/modals/modals';
 
 const ShowAnnounces:FC<any> = (props) => {
     const { userInfo } = props;
@@ -110,7 +109,7 @@ const ShowAnnounces:FC<any> = (props) => {
                                             <td>{replaceDotDot(announce.id,10)}</td>
                                             <td>{replaceDotDot(announce.title,10)}</td>
                                             <td>
-                                                <button className='px-1 bg-light-gold border-1' onClick={()=>navigate("/app/rooms/"+announce.id)}> <AiFillEdit/> </button>
+                                                <button className='px-1 bg-light-gold border-1' onClick={()=>navigate("/app/room/edit-announce/"+announce.id)}> <AiFillEdit/> </button>
                                             </td>
                                             <td>
                                                 <button className='px-1 danger border-1' onClick={()=>delteAnnounce(announce.id)}><AiFillDelete/></button>

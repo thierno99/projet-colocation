@@ -3,17 +3,17 @@ import React, { ChangeEvent, FC, useEffect, useState } from 'react';
 import { BiEdit } from 'react-icons/bi';
 import { MdAddPhotoAlternate } from 'react-icons/md';
 import { IoMdNotificationsOutline } from 'react-icons/io';
+import { AiFillDelete, AiOutlineClose, AiFillEdit, AiOutlineSave, AiOutlineCheck } from 'react-icons/ai';
 
 
 import UserServices from '../../services/user.service';
 import { UserInfoAction } from '../../store/actions/user-action';
 import { useAppDispatch } from '../../store/store';
 import { User, UserInterface } from '../../_utils/model/user-model';
-import { AiOutlineCheck, AiOutlineReload, AiOutlineSave } from 'react-icons/ai';
 import { EMAIL_REG, FR_PHONE_NUMBER_FORMAT_REG } from '../../constants/regex';
 import { UserDto } from '../../_utils/model/dto/userDto';
-import { useNavigate } from 'react-router-dom';
 import ShowAnnounces from './show-announces';
+import CandidacyService from '../../services/candidacy.service';
 
 interface InputImgFileProp {
     clickLoadImgFile: () => void,
@@ -26,7 +26,7 @@ const InputImgFile:FC<InputImgFileProp> = (props) => {
     console.log(user);
     return (
         <div className='flex center rounded-full profile-img pointer hover-success m-half' onClick={() => clickLoadImgFile()}>
-            <MdAddPhotoAlternate fontSize={30} className="upload"/>
+            <MdAddPhotoAlternate fontSize={30} className={"upload" + (!user?.profileImg?"":' hide') }/>
             <input 
                 type="file" 
                 name="principalImg" 
@@ -35,14 +35,18 @@ const InputImgFile:FC<InputImgFileProp> = (props) => {
                 onChange={(e)=>handleImageFileChange(e)}
             />            
             {/*FIXME: adapte src image from changeFile or currentfile  */}
-            <img src={user?.profileImg?`data:image/png;base64,${user?.profileImg}`:'#'} alt="" className={`w-full br-1 images-dest`+ (user?.profileImg?"":'hide')}/>
+            <img 
+                src={
+                    (user?.profileImg && user?.profileImg.type !=="image/png")?`data:image/png;base64,${user?.profileImg}`:(user?.profileImg?URL.createObjectURL(user?.profileImg):"#")
+                } 
+                alt="" className={`w-full br-1 images-dest`+ (user?.profileImg?"":' hide')}
+            />
         </div>
     );
 }
 
 const UserProfile:FC<any> = (props) => {
     const dispatch = useAppDispatch();
-    const navigate = useNavigate();
     const userId = (localStorage.getItem('userId') as string);
     const [userInfo, setUerInfo] = useState(null as unknown as User);
     const [isEditModeActive, setIsEditModeActive] = useState(false);
@@ -97,6 +101,11 @@ const UserProfile:FC<any> = (props) => {
                     phoneNumber: userInfo?.phoneNumber
                 }
             )
+        }).catch(error => {
+            if(error.code === "ERR_NETWORK") {
+                localStorage.removeItem("token");
+                localStorage.removeItem("userId");
+            }
         })
     }, [userId, dispatch]);
 
@@ -109,6 +118,11 @@ const UserProfile:FC<any> = (props) => {
 
     const saveProfile = () => {
         console.log("profile updating ................");
+
+        CandidacyService.getCandidacyByOwnerId(userId)
+            .then((candidacy) => { console.log(candidacy)})
+            .catch((err) => { console.log(err) });
+            
         const formdata: FormData = new FormData();
 
         const user = new UserDto(
@@ -163,7 +177,6 @@ const UserProfile:FC<any> = (props) => {
                 if(imagesDestination[0].classList.contains('hide')) {
                     imagesDestination[0].classList.remove('hide');
                 }
-                // TODO: send profile image to back with user id info
                 if(files && files.length>0) {
                     userInfo.profileImg = files[0];
                     setIsProfileChanged(true);
@@ -225,149 +238,176 @@ const UserProfile:FC<any> = (props) => {
     }
     return (
         <div className='p-1'>
-            {
-                responseMsg.message!=="" &&
-                <div className={`text-center ${responseMsg.style} w-full p-1 flex space-around`}>
-                    {responseMsg.message}
-                    <button className='bg-none border-1 p-1 flex center'
-                        onClick={()=> window.location.reload()}
-                    >
-                        <h4>
-                            rafraichir
-                        </h4>
-                        <AiOutlineReload fontSize={30}/>
-                    </button>
-                </div>
-            }
-            <div className="flex center">
-                <InputImgFile clickLoadImgFile={clickLoadImgFile} handleImageFileChange={handleImageFileChange} user={userInfo}/>
-                {
-                    isProfileChanged && <AiOutlineSave fontSize={30} color={'green'} onClick={saveProfile}/>
-                }
-
-            </div>    
-            <h4 className="text-center mt-half">
-                Thierno Mamadou Mouctar Bah
-            </h4>
-
-            <div className="container flex mt-1 wrap">
-                <div className="w-half relative border-1 br-1 auto mw-220 mt-half">
-                    <h4 className='text-center py-1 mt-2'>Mes informations</h4>
-                    <div className="absolute top-0 right-0 p-half">
+            {<>
+                    {
+                        responseMsg.message!=="" &&
+                        <div className={`text-center ${responseMsg.style} w-100 p-1 flex space-around`}>
+                            {responseMsg.message}
+                            <button className='bg-none border-1 flex flex-end'
+                                onClick={()=> setResponseMsg({...responseMsg, message:""})}
+                            >
+                                <AiOutlineClose fontSize={30}/>
+                            </button>
+                        </div>
+                    }
+                    <div className="flex center">
+                        <InputImgFile clickLoadImgFile={clickLoadImgFile} handleImageFileChange={handleImageFileChange} user={userInfo}/>
                         {
-                            !isEditModeActive?
-                                <BiEdit fontSize={26} onClick={(e) => setIsEditModeActive(true)} className='btn'/>
-                            :
-                                <AiOutlineCheck fontSize={26} color={validatebtnColor}  className='btn' onClick={updateInformation}/>
+                            isProfileChanged && <AiOutlineSave fontSize={30} color={'green'} onClick={saveProfile}/>
                         }
+
+                    </div>    
+                    <h4 className="text-center mt-half">
+                        Thierno Mamadou Mouctar Bah
+                    </h4>
+
+                    <div className="container flex mt-1 wrap">
+                        <div className={"relative border-1 br-1 auto mw-220 mt-half"+(userInfo?.roles.map(a => a.name).indexOf("MANAGER")!==-1?" w-half": " w-100")}>
+                            <h4 className='text-center py-1 mt-2'>Mes informations</h4>
+                            <div className="absolute top-0 right-0 p-half">
+                                {
+                                    !isEditModeActive?
+                                        <BiEdit fontSize={26} onClick={(e) => setIsEditModeActive(true)} className='btn'/>
+                                    :
+                                        <AiOutlineCheck fontSize={26} color={validatebtnColor}  className='btn' onClick={updateInformation}/>
+                                }
+                            </div>
+                            <div className="mt-1 p-1">
+                                <div className="flex items-center py-half">
+                                    <h4 className='w-30'>
+                                        Nom: 
+                                    </h4>
+
+                                    {
+                                        !isEditModeActive?
+                                            <p className='px-1'>{userInfo?.lastname}</p>
+                                        : <input 
+                                            name='lastname'
+                                            type="text" 
+                                            className='w-70 br-half p-half mx-1' 
+                                            value={userInformations.lastname}
+                                            onChange={(e)=>handleInputChange(e)}
+                                            required
+                                        />
+                                    }
+
+                                </div>
+                                <div className="flex items-center py-half">
+                                    <h4 className='w-30'>
+                                        Prenom: 
+                                    </h4>
+
+                                    {
+                                        !isEditModeActive?
+                                            <p className='px-1'>{userInfo?.firstname }</p>
+                                        : <input 
+                                            name='firstname'
+                                            type="text" 
+                                            className='w-70 br-half p-half mx-1' 
+                                            value={userInformations.firstname}
+                                            onChange={(e)=>handleInputChange(e)}
+                                            required
+                                        />
+                                    }
+
+                                    
+                                </div>
+
+                                <div className="flex items-center py-half">
+                                    <h4 className='w-30'>
+                                        mail: 
+                                    </h4>
+
+                                    {
+                                        !isEditModeActive?
+                                            <p className='px-1'>{userInfo?.email}</p>
+                                        : <input 
+                                            name='email'
+                                            type="mail" 
+                                            className='w-70 br-half p-half mx-1' 
+                                            value={userInformations.email}
+                                            onChange={(e)=>handleInputChange(e)}
+                                            required
+                                        />
+                                    }
+
+                                    
+                                </div>
+
+                                <div className="flex items-center py-half">
+                                    <h4 className='w-30'>
+                                        adresse: 
+                                    </h4>
+
+                                    {
+                                        !isEditModeActive?
+                                            <p className='px-1'>5 rue tyri, 64560, pau</p>
+                                            : <input 
+                                            name='adress'
+                                            type="text" 
+                                            className='w-70 br-half p-half mx-1' 
+                                            value={userInformations.adress}
+                                            onChange={(e)=>handleInputChange(e)}
+                                            required
+                                        />
+                                    }
+                                </div>
+
+                                <div className="flex items-center py-half">
+                                    <h4 className='w-30'>
+                                        Tél: 
+                                    </h4>
+
+                                    {
+                                        !isEditModeActive?
+                                            <p className='px-1'>{userInfo?.phoneNumber}</p>
+                                            : <input 
+                                            name='phoneNumber'
+                                            type="tel" 
+                                            className='w-70 br-half p-half mx-1' 
+                                            value={userInformations.phoneNumber}
+                                            onChange={(e)=>handleInputChange(e)}
+                                            required
+                                        />
+                                    }
+                                </div>
+                            </div>
+                        </div>
+
+                        {
+                            userInfo?.roles.map(a => a.name).indexOf("MANAGER")!==-1 && (
+
+                                <div className="mx-auto  relative border-1 br-1 w-half flex column mw-220 mt-half">
+                                    <h4 className='text-center py-1'>Tâches</h4>
+
+                                    <div className="flex column center w-100 relative">
+                                        <div className='w-full my-1'>
+                                            <h5 className='text-center text-gray'>Aucune Tâche Pour le moment</h5>
+                                        </div>
+
+                                        <div className="flex space-between w-100">
+
+                                            <button className="ml-half w-half btn bg-light-blue w-full py-half px-1 my-1">
+                                                Tâches
+                                            </button>
+
+                                            <button className="mr-half w-half btn bg-light-blue w-full py-half px-1 my-1">
+                                                + Tâches
+                                            </button>
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+                            ) 
+
+                        }
+
                     </div>
-                    <div className="mt-1 p-1">
-                        <div className="flex items-center py-half">
-                            <h4 className='w-30'>
-                                Nom: 
-                            </h4>
 
-                            {
-                                !isEditModeActive?
-                                    <p className='px-1'>{userInfo?.lastname}</p>
-                                : <input 
-                                    name='lastname'
-                                    type="text" 
-                                    className='w-70 br-half p-half mx-1' 
-                                    value={userInformations.lastname}
-                                    onChange={(e)=>handleInputChange(e)}
-                                    required
-                                />
-                            }
-
-                        </div>
-                        <div className="flex items-center py-half">
-                            <h4 className='w-30'>
-                                Prenom: 
-                            </h4>
-
-                            {
-                                !isEditModeActive?
-                                    <p className='px-1'>{userInfo?.firstname }</p>
-                                : <input 
-                                    name='firstname'
-                                    type="text" 
-                                    className='w-70 br-half p-half mx-1' 
-                                    value={userInformations.firstname}
-                                    onChange={(e)=>handleInputChange(e)}
-                                    required
-                                />
-                            }
-
-                            
-                        </div>
-
-                        <div className="flex items-center py-half">
-                            <h4 className='w-30'>
-                                mail: 
-                            </h4>
-
-                            {
-                                !isEditModeActive?
-                                    <p className='px-1'>{userInfo?.email}</p>
-                                : <input 
-                                    name='email'
-                                    type="mail" 
-                                    className='w-70 br-half p-half mx-1' 
-                                    value={userInformations.email}
-                                    onChange={(e)=>handleInputChange(e)}
-                                    required
-                                />
-                            }
-
-                            
-                        </div>
-
-                        <div className="flex items-center py-half">
-                            <h4 className='w-30'>
-                                adresse: 
-                            </h4>
-
-                            {
-                                !isEditModeActive?
-                                    <p className='px-1'>5 rue tyri, 64560, pau</p>
-                                    : <input 
-                                    name='adress'
-                                    type="text" 
-                                    className='w-70 br-half p-half mx-1' 
-                                    value={userInformations.adress}
-                                    onChange={(e)=>handleInputChange(e)}
-                                    required
-                                />
-                            }
-                        </div>
-
-                        <div className="flex items-center py-half">
-                            <h4 className='w-30'>
-                                Tél: 
-                            </h4>
-
-                            {
-                                !isEditModeActive?
-                                    <p className='px-1'>{userInfo?.phoneNumber}</p>
-                                    : <input 
-                                    name='phoneNumber'
-                                    type="tel" 
-                                    className='w-70 br-half p-half mx-1' 
-                                    value={userInformations.phoneNumber}
-                                    onChange={(e)=>handleInputChange(e)}
-                                    required
-                                />
-                            }
-                        </div>
-                    </div>
-                </div>
-
-                {
-                    userInfo?.roles.map(a => a.name).indexOf("MANAGER")!==-1 && (
-
-                        <div className="mx-auto  relative border-1 br-1 w-half flex column mw-220 mt-half">
-                            <h4 className='text-center py-1'>Tâches</h4>
+                    <div className="container flex mt-1 wrap">
+                    
+                        <div className={"mx-auto  relative border-1 br-1 w-full flex column mt-half p-1"+(userInfo?.roles.map(a => a.name).indexOf("MANAGER")!==-1?" w-half": " w-100")}>
+                            <h4 className='text-center py-1'>Candidatures</h4>
 
                             <div className="flex column center w-100 relative">
                                 <div className='w-full my-1'>
@@ -375,77 +415,152 @@ const UserProfile:FC<any> = (props) => {
                                 </div>
 
                                 <div className="flex space-between w-100">
+                                    <table className='table w-100'>
+                                        <thead>
+                                            <tr>
+                                                <th className='relative'>N°</th>
+                                                
+                                                <th>nom</th>
 
-                                    <button className="ml-half w-half btn bg-light-blue w-full py-half px-1 my-1">
-                                        Tâches
-                                    </button>
+                                                <th>date</th>
 
-                                    <button className="mr-half w-half btn bg-light-blue w-full py-half px-1 my-1">
-                                        + Tâches
-                                    </button>
+                                                <th>etat</th>
+                                                
+                                                <th>del</th>
+                                            </tr>
+
+                                        </thead>
+                                        <tbody className=''>
+                                            <tr>
+                                                <td>1</td>
+                                                <td>recherche coloc</td>
+                                                <td>
+                                                    <p className='px-1 w-full p-half'> {new Date().getDate()+"-"+(new Date().getMonth()+1)+"-"+new Date().getFullYear()} </p>
+                                                </td>
+
+                                                <td>
+                                                    <p className='px-1 w-full p-half text-danger'>Refus</p>
+                                                </td>
+
+                                                <td>
+                                                    <button className='px-1 danger border-1 w-full p-half'><AiFillDelete/></button>
+                                                </td>
+                                            </tr>
+                                            {
+
+                                            }
+                                        </tbody>
+                                    </table>
                                 </div>
                                 
                             </div>
+                        </div>        
+
+                        <div className={"mx-auto  relative border-1 br-1 w-full flex column p-1 mt-half"+(userInfo?.roles.map(a => a.name).indexOf("MANAGER")!==-1?" w-half": " w-100")}>
+                            <h4 className='text-center py-1'>Candidatures</h4>
+
+                            <div className="flex column center w-100 relative">
+                                <div className='w-full my-1'>
+                                    <h5 className='text-center text-gray'>Aucune Tâche Pour le moment</h5>
+                                </div>
+
+                                <div className="flex space-between w-100">
+                                    <table className='table w-100'>
+                                        <thead>
+                                            <tr>
+                                                <th className='relative'>N°</th>
+                                                
+                                                <th>nom</th>
+
+                                                <th>date</th>
+
+                                                <th>etat</th>
+                                                
+                                                <th>del</th>
+                                            </tr>
+
+                                        </thead>
+                                        <tbody className=''>
+                                            <tr>
+                                                <td>1</td>
+                                                <td>recherche coloc</td>
+                                                <td>
+                                                    <p className='px-1 w-full p-half'> {new Date().getDate()+"-"+(new Date().getMonth()+1)+"-"+new Date().getFullYear()} </p>
+                                                </td>
+
+                                                <td>
+                                                    <p className='px-1 w-full p-half text-danger'>Refus</p>
+                                                </td>
+
+                                                <td>
+                                                    <button className='px-1 danger border-1 w-full p-half'><AiFillDelete/></button>
+                                                </td>
+                                            </tr>
+                                            {
+
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                                
+                            </div>
+                        </div> 
+
+                    </div>                
+
+
+
+                    <div className="container flex mt-1 wrap">
+                        
+                        {
+                            userInfo?.roles.map(a => a.name).indexOf("USER")!==-1 && (
+                                <ShowAnnounces userInfo={userInfo}/>
+                            ) 
+
+                        }
+
+                        <div className="w-half relative border-1 br-1 auto mw-220 mt-half">
+                            <div className="flex center">
+                                <h4 className='text-center py-1'>Echanges et Notifs </h4>   
+                            </div>
+                            <div className="absolute top-0 right-0 p-half">
+                                <IoMdNotificationsOutline fontSize={26} color={'gold'}/>
+                            </div>
+                            <div className="mt-1 p-1">
+                                <>
+                                    <div className="flex space-between p-1">
+                                        <p> <strong>Luffy</strong> </p>
+                                        <p>hello j'ai crée une tâche ...</p>
+                                        <p>02-03-2022</p>
+                                    </div>
+                                    <hr />
+
+                                    <div className="flex space-between p-1">
+                                        <p> <strong>Zoro</strong> </p>
+                                        <p>okay mark je gère ...</p>
+                                        <p>02-03-2022</p>
+                                    </div>
+                                    <hr />
+
+                                    <div className="flex space-between p-1">
+                                        <p> <strong>Nami</strong> </p>
+                                        <p>Merci les gars! :)</p>
+                                        <p>02-03-2022</p>
+                                    </div>
+                                    <hr />
+
+                                    <button className="mr-half w-half btn w-100 py-half px-1 my-1">
+                                        +
+                                    </button>
+                                </>
+                            </div>
                         </div>
-                    ) 
-
-                }
-
-            </div>
-
-
-
-
-
-
-            <div className="container flex mt-1 wrap">
-                
-                {
-                    userInfo?.roles.map(a => a.name).indexOf("USER")!==-1 && (
-                        <ShowAnnounces userInfo={userInfo}/>
-                    ) 
-
-                }
-
-                <div className="w-half relative border-1 br-1 auto mw-220 mt-half">
-                    <div className="flex center">
-                        <h4 className='text-center py-1'>Echanges et Notifs </h4>   
                     </div>
-                    <div className="absolute top-0 right-0 p-half">
-                        <IoMdNotificationsOutline fontSize={26} color={'gold'}/>
-                    </div>
-                    <div className="mt-1 p-1">
-                        <>
-                            <div className="flex space-between p-1">
-                                <p> <strong>Luffy</strong> </p>
-                                <p>hello j'ai crée une tâche ...</p>
-                                <p>02-03-2022</p>
-                            </div>
-                            <hr />
 
-                            <div className="flex space-between p-1">
-                                <p> <strong>Zoro</strong> </p>
-                                <p>okay mark je gère ...</p>
-                                <p>02-03-2022</p>
-                            </div>
-                            <hr />
+                    
+                </>
 
-                            <div className="flex space-between p-1">
-                                <p> <strong>Nami</strong> </p>
-                                <p>Merci les gars! :)</p>
-                                <p>02-03-2022</p>
-                            </div>
-                            <hr />
-
-                            <button className="mr-half w-half btn w-100 py-half px-1 my-1">
-                                +
-                            </button>
-                        </>
-                    </div>
-                </div>
-
-
-            </div>
+            }
         </div>
     );
 }

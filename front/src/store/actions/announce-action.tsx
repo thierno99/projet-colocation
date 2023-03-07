@@ -25,29 +25,27 @@ export const AnnounceLocationListAction = () => async (dispatch: any) =>{
 export const detailAnnounce = (announceId: string) => async (dispatch: any) => {
     AnnounceService.getAnnouncementById(announceId)
         .then((res) => {
-            let rooms: RoomsInterface[] = [];
-            res.forEach((room: any) => {
-                rooms.push(new Room(
-                    room.id,
-                    room.title,
-                    room.description,
-                    room.ownerId,
-                    room.state,
-                    room.city,
-                    room.postalCode,
-                    room.address,
-                    room.nbRoomatesSeached,
-                    room.publishedAt,
-                    room.price,
-                    room.principalPicture,
-                    room.announceType,
-                    room.ownerCertified,
-                    room.roomType,
-                    room.roomfurnishedType,
-                    room.genderSearched
-                ));
-            });
-            dispatch({ type: GET_ANNOUNCES_BY_ID_SUCCESS, payload: rooms });
+            let room: RoomsInterface = new Room(
+                    res.id,
+                    res.title,
+                    res.description,
+                    res.ownerId,
+                    res.state,
+                    res.city,
+                    res.postalCode,
+                    res.address,
+                    res.nbRoomatesSeached,
+                    res.publishedAt,
+                    res.price,
+                    res.principalPicture,
+                    res.announceType,
+                    res.ownerCertified,
+                    res.roomType,
+                    res.roomfurnishedType,
+                    res.genderSearched
+                )
+                
+            dispatch({ type: GET_ANNOUNCES_BY_ID_SUCCESS, payload: room });
         })
         .catch((err) => {
             dispatch({ type: GET_ANNOUNCES_BY_ID_FAIL, payload: err.message });

@@ -92,8 +92,8 @@ const FormStepThree: FC<FormStepProps> = (props) => {
     }
 
     const postAd = () => {
-        if(!announce.principalPicture || !announce.principalPicture){
-            setErroeMessage("L'annonce doit avoir au moins l'iamge principale");
+        if(!announce.principalPicture){
+            setErroeMessage("L'annonce doit avoir au moins l'image principale");
         }else {
             const ownerId = AccountServices.getUserId(); 
             if(ownerId && localStorage.getItem('token')){

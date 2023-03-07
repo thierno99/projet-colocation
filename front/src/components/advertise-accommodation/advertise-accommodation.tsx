@@ -1,21 +1,13 @@
-import React, { useState } from 'react';
+import React, { FC, useState } from 'react';
 
 
 import FormStepOne from './form-step-one';
 import FormStepTwo from './form-step-two';
 import FormStepThree from './form-step-three';
-// import { useSelector, useDispatch } from 'react-redux';
-// import { RootState } from '../../store/store';
-import { DefaultAnnonce, /*RoomsInterface */} from '../../_utils/model/rooms-model';
-
-const AdvertiseAccommodation = () => {
+const AdvertiseAccommodation:FC<any> = (props) => {
+    const { defaultAnnonce } = props;
     const [stepActive, setStepActive] = useState('FormStepOne');
-    const [announce, setAnnounce] = useState(DefaultAnnonce)
-
-    // const dispatch = useDispatch();
-
-    // const advertiseAccommodation = useSelector((state: RootState) => state.advertiseAccommodation);
-
+    const [announce, setAnnounce] = useState(defaultAnnonce)
     const changeStepActive = (sa: string) => {
         setStepActive(sa);
     }

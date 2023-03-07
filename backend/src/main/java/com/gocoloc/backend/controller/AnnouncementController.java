@@ -35,4 +35,10 @@ public interface AnnouncementController {
 	@PostMapping("saveannounce")
 	public ResponseEntity<?> saveAnnounce(@RequestParam("files") MultipartFile[] files, @RequestParam("announce") String announceStr, @RequestParam("imagepp") MultipartFile imagePrincipale);
 	
+	@PostMapping("editannounce")
+	public ResponseEntity<?> editAnnounce(@RequestParam(value = "files",required = false) MultipartFile[] files, @RequestParam(value="bytefiles",required = false) List<byte[]> bytefiles, @RequestParam("announce") String announceStr, @RequestParam("imagepp") MultipartFile imagePrincipale);
+	
+	@PostMapping("editannounce/bin")
+	public ResponseEntity<?> editAnnounceBinImgpp(@RequestParam("files") MultipartFile[] files, @RequestParam("bytefiles") List<byte[]> bytefiles, @RequestParam("announce") String announceStr, @RequestParam("imagepp") byte[] imagePrincipale);
+	
 }
