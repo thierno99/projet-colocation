@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.gocoloc.backend.constants.CandidacyStatus;
 import com.gocoloc.backend.controller.CandidacyController;
 import com.gocoloc.backend.domain.Candidacy;
 import com.gocoloc.backend.service.CandidacyService;
@@ -54,6 +55,11 @@ public class CandidacyControllerImpl implements CandidacyController {
 	@Override
 	public ResponseEntity<?> findByOwnerIdAndAnnounceIdAndUserId(String ownerId, String announceId, String userId) {
 		return ResponseEntity.ok(candidacyService.findByOwnerIdAndAnnounceIdAndUserId(ownerId, announceId, userId));
+	}
+
+	@Override
+	public ResponseEntity<String> updateCandidacyStatus(String id, CandidacyStatus status) {
+		return ResponseEntity.ok(candidacyService.updateCandidacyStatus(id, status));
 	}
 
 }

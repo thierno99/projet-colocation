@@ -5,6 +5,10 @@ const saveCandidacy = (candidacy: CandidacyDto) => {
     return Axios.post('/candidacy/save', candidacy);
 }
 
+const updateCandidacyStatus = (candidacyId: string, status: string) => {
+    return Axios.post('/candidacy/update/'+status.toUpperCase(), candidacyId);
+}
+
 const getCandidacyById = async (id: string) => {
     const res = await Axios.get('/candidacy/get/' + id);
     return res.data;
@@ -26,6 +30,7 @@ const getByOwnerIdAndAnnounceIdAndUserId = async (ownerId: string, announceId: s
 
 const CandidacyService = {
     saveCandidacy,
+    updateCandidacyStatus,
     getCandidacyById,
     getCandidacyByOwnerId,
     getCandidacyByUserId,

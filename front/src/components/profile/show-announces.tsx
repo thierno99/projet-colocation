@@ -64,7 +64,7 @@ const ShowAnnounces:FC<any> = (props) => {
         }
     }
     return (
-        <div className="mx-auto  relative border-1 br-1 w-half flex column mw-220 mt-half overflow-scroll">
+        <div className="mx-auto  relative border-1 br-1 w-half flex column mw-220 mt-half overflow-scroll max-h-400">
             <h4 className='text-center py-1'>Announce</h4>
 
             <div className="flex column center w-100 relative">
@@ -105,7 +105,7 @@ const ShowAnnounces:FC<any> = (props) => {
                             <tbody>
                                 {
                                     announces.map((announce,i) => 
-                                        <tr>
+                                        <tr key={announce.id}>
                                             <td>{replaceDotDot(announce.id,10)}</td>
                                             <td>{replaceDotDot(announce.title,10)}</td>
                                             <td>

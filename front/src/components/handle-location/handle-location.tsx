@@ -83,7 +83,7 @@ const HandleLocation = () => {
         const candidacy = new CandidacyDto(
             announce.id,
             announce.ownerId,
-            user.id,
+            localStorage.getItem('userId') as string,
             "ENCOURS"
         )
         console.info("posting candidacy ....");
@@ -107,7 +107,7 @@ const HandleLocation = () => {
                     <div className="flex  center my-half text-primary shadow announce-head">
                         {/* <img src={`data:image/png;base64,${announce.principalPicture}`} alt={announce.title} /> */}
                         <img src={!user?.profileImg? defaultProfile: `data:image/png;base64,${user?.profileImg}`} alt="profile" className='br-1  m-1 rounded-full small-circle-img'/>
-                        <h2>{announce.title}</h2>
+                        <h2>{user?.firstname+" "+ user?.lastname}</h2>
                     </div>
                     
                     <div className='flex reative wrap center shadow my-1'>
@@ -215,9 +215,12 @@ const HandleLocation = () => {
                                     null
                                 }
                             </div>
-                            <button className='p-half br-half pointer mt-half bg-light-gold bold absolute bottom-0 right-0' onClick={()=>sendCandidacy()}> 
-                                Adresser ma candidature
-                            </button>
+                            {
+                                localStorage.getItem('userId')!== announce.ownerId &&
+                                <button className='p-half br-half pointer mt-half bg-light-gold bold absolute bottom-0 right-0' onClick={()=>sendCandidacy()}> 
+                                    Adresser ma candidature
+                                </button>
+                            }
                         </div>
                     </div>
                 </>

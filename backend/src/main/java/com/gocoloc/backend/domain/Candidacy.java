@@ -10,6 +10,8 @@ import com.gocoloc.backend.constants.AnnounceType;
 import com.gocoloc.backend.constants.CandidacyStatus;
 import com.gocoloc.backend.constants.RoomType;
 
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -26,6 +28,7 @@ public class Candidacy {
 	private String announceId;
 	private String ownerId;
 	private String userId;
+	@Enumerated(EnumType.STRING)
 	private CandidacyStatus status;
 	public Candidacy(String announceId, String ownerId, String userId, CandidacyStatus status) {
 		super();

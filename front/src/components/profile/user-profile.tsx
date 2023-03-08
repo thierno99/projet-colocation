@@ -3,7 +3,7 @@ import React, { ChangeEvent, FC, useEffect, useState } from 'react';
 import { BiEdit } from 'react-icons/bi';
 import { MdAddPhotoAlternate } from 'react-icons/md';
 import { IoMdNotificationsOutline } from 'react-icons/io';
-import { AiFillDelete, AiOutlineClose, AiFillEdit, AiOutlineSave, AiOutlineCheck } from 'react-icons/ai';
+import { AiOutlineClose, AiOutlineSave, AiOutlineCheck } from 'react-icons/ai';
 
 
 import UserServices from '../../services/user.service';
@@ -13,7 +13,8 @@ import { User, UserInterface } from '../../_utils/model/user-model';
 import { EMAIL_REG, FR_PHONE_NUMBER_FORMAT_REG } from '../../constants/regex';
 import { UserDto } from '../../_utils/model/dto/userDto';
 import ShowAnnounces from './show-announces';
-import CandidacyService from '../../services/candidacy.service';
+import ShowCandidacies from './show-candidacies';
+import ShowUserDmd from './show-user-demand';
 
 interface InputImgFileProp {
     clickLoadImgFile: () => void,
@@ -34,7 +35,6 @@ const InputImgFile:FC<InputImgFileProp> = (props) => {
                 accept="image/*" hidden={true}
                 onChange={(e)=>handleImageFileChange(e)}
             />            
-            {/*FIXME: adapte src image from changeFile or currentfile  */}
             <img 
                 src={
                     (user?.profileImg && user?.profileImg.type !=="image/png")?`data:image/png;base64,${user?.profileImg}`:(user?.profileImg?URL.createObjectURL(user?.profileImg):"#")
@@ -119,9 +119,6 @@ const UserProfile:FC<any> = (props) => {
     const saveProfile = () => {
         console.log("profile updating ................");
 
-        CandidacyService.getCandidacyByOwnerId(userId)
-            .then((candidacy) => { console.log(candidacy)})
-            .catch((err) => { console.log(err) });
             
         const formdata: FormData = new FormData();
 
@@ -377,7 +374,7 @@ const UserProfile:FC<any> = (props) => {
                         {
                             userInfo?.roles.map(a => a.name).indexOf("MANAGER")!==-1 && (
 
-                                <div className="mx-auto  relative border-1 br-1 w-half flex column mw-220 mt-half">
+                                <div className="mx-auto  relative border-1 br-1 w-half flex column mw-220 mt-half bg-light-blue">
                                     <h4 className='text-center py-1'>Tâches</h4>
 
                                     <div className="flex column center w-100 relative">
@@ -406,105 +403,8 @@ const UserProfile:FC<any> = (props) => {
 
                     <div className="container flex mt-1 wrap">
                     
-                        <div className={"mx-auto  relative border-1 br-1 w-full flex column mt-half p-1"+(userInfo?.roles.map(a => a.name).indexOf("MANAGER")!==-1?" w-half": " w-100")}>
-                            <h4 className='text-center py-1'>Candidatures</h4>
-
-                            <div className="flex column center w-100 relative">
-                                <div className='w-full my-1'>
-                                    <h5 className='text-center text-gray'>Aucune Tâche Pour le moment</h5>
-                                </div>
-
-                                <div className="flex space-between w-100">
-                                    <table className='table w-100'>
-                                        <thead>
-                                            <tr>
-                                                <th className='relative'>N°</th>
-                                                
-                                                <th>nom</th>
-
-                                                <th>date</th>
-
-                                                <th>etat</th>
-                                                
-                                                <th>del</th>
-                                            </tr>
-
-                                        </thead>
-                                        <tbody className=''>
-                                            <tr>
-                                                <td>1</td>
-                                                <td>recherche coloc</td>
-                                                <td>
-                                                    <p className='px-1 w-full p-half'> {new Date().getDate()+"-"+(new Date().getMonth()+1)+"-"+new Date().getFullYear()} </p>
-                                                </td>
-
-                                                <td>
-                                                    <p className='px-1 w-full p-half text-danger'>Refus</p>
-                                                </td>
-
-                                                <td>
-                                                    <button className='px-1 danger border-1 w-full p-half'><AiFillDelete/></button>
-                                                </td>
-                                            </tr>
-                                            {
-
-                                            }
-                                        </tbody>
-                                    </table>
-                                </div>
-                                
-                            </div>
-                        </div>        
-
-                        <div className={"mx-auto  relative border-1 br-1 w-full flex column p-1 mt-half"+(userInfo?.roles.map(a => a.name).indexOf("MANAGER")!==-1?" w-half": " w-100")}>
-                            <h4 className='text-center py-1'>Candidatures</h4>
-
-                            <div className="flex column center w-100 relative">
-                                <div className='w-full my-1'>
-                                    <h5 className='text-center text-gray'>Aucune Tâche Pour le moment</h5>
-                                </div>
-
-                                <div className="flex space-between w-100">
-                                    <table className='table w-100'>
-                                        <thead>
-                                            <tr>
-                                                <th className='relative'>N°</th>
-                                                
-                                                <th>nom</th>
-
-                                                <th>date</th>
-
-                                                <th>etat</th>
-                                                
-                                                <th>del</th>
-                                            </tr>
-
-                                        </thead>
-                                        <tbody className=''>
-                                            <tr>
-                                                <td>1</td>
-                                                <td>recherche coloc</td>
-                                                <td>
-                                                    <p className='px-1 w-full p-half'> {new Date().getDate()+"-"+(new Date().getMonth()+1)+"-"+new Date().getFullYear()} </p>
-                                                </td>
-
-                                                <td>
-                                                    <p className='px-1 w-full p-half text-danger'>Refus</p>
-                                                </td>
-
-                                                <td>
-                                                    <button className='px-1 danger border-1 w-full p-half'><AiFillDelete/></button>
-                                                </td>
-                                            </tr>
-                                            {
-
-                                            }
-                                        </tbody>
-                                    </table>
-                                </div>
-                                
-                            </div>
-                        </div> 
+                        <ShowCandidacies userInfo={userInfo}/>        
+                        <ShowUserDmd userInfo={userInfo}/>
 
                     </div>                
 
@@ -519,7 +419,7 @@ const UserProfile:FC<any> = (props) => {
 
                         }
 
-                        <div className="w-half relative border-1 br-1 auto mw-220 mt-half">
+                        <div className="w-half relative border-1 br-1 auto mw-220 mt-half overflow-scroll  bg-light-sucess">
                             <div className="flex center">
                                 <h4 className='text-center py-1'>Echanges et Notifs </h4>   
                             </div>

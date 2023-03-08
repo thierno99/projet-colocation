@@ -3,9 +3,11 @@ package com.gocoloc.backend.constants;
 public enum CandidacyStatus {
 	ENCOURS("en cours"),
 	
-	REFUSED("needRoom"),
+	REFUSED("refus"),
 	
-	ACCEPTED("accepted");
+	ABORTED("annulé"),
+	
+	ACCEPTED("accepter");
 	
 	private String type;
 	

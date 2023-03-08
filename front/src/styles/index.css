@@ -441,6 +441,18 @@ li{
 .overflow-scroll {
   overflow: scroll;
 }
+
+.small-font{
+  font-size: .6rem;
+}
+.desabled{
+  /* cursor: not-allowed; */
+  pointer-events: none;
+}
+
+.max-h-400 {
+  max-height: 400px;
+}
 /* 
 .text-xs {
   
@@ -468,6 +480,11 @@ li{
 .text-3xl {
 
 } */
+
+.mini-img {
+  width: 30px;
+  height: 30px;
+}
 
 .bg-none {
   background: none;

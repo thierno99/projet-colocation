@@ -9,12 +9,16 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.gocoloc.backend.constants.CandidacyStatus;
 import com.gocoloc.backend.domain.Candidacy;
 
 @RequestMapping("/api/candidacy")
 public interface CandidacyController {
 	@PostMapping("/save")
 	public ResponseEntity<Candidacy> saveCandidacy(@RequestBody Candidacy candidacy);
+	
+	@PostMapping("/update/{status}")
+	public ResponseEntity<String> updateCandidacyStatus(@RequestBody String id, @PathVariable CandidacyStatus status);
 	
 	@GetMapping("/get/{id}")
 	public ResponseEntity<?> getCandidacyById(@PathVariable String id);
