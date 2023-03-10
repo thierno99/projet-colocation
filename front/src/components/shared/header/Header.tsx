@@ -36,7 +36,7 @@ const Navigation = () => {
                                 className='px-px text-light text-center flex center' 
                                 >
                                 <CgProfile/>
-                                <span className="px-px pb-px">Bah Thierno</span>
+                                <span className="px-px pb-px">{localStorage.getItem('userName')}</span>
                             </Link>
                         </li>
                     </>

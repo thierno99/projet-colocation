@@ -29,6 +29,7 @@ function Login() {
                 if (res.status === 200) {
                     AccountServices.saveToken(res.data.accessToken);
                     localStorage.setItem('userId', res.data.id);
+                    localStorage.setItem('userName', res.data.name);
                     navigate('/app/users');
                 }
             })

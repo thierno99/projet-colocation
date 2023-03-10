@@ -87,8 +87,6 @@ const FormStepThree: FC<FormStepProps> = (props) => {
                 imagesDestination[0].classList.add('hide');
             }
         }
-
-        console.log(announce);
     }
 
     const postAd = () => {

@@ -8,7 +8,7 @@ import { POSTAL_ADDRESS_REG, POSTAL_CODE_REG, TTITLE_REG } from '../../constants
 import AccountServices from '../../services/account.service';
 import AnnounceService from '../../services/announce-service';
 import Axios from '../../services/axios.service';
-import { bindataToFile, createFileFromBindata, getCitiesOfDepartement, getDepartementOfCountry, getDepartmentByStatecode } from '../../_utils/functions/functions';
+import { getCitiesOfDepartement, getDepartementOfCountry, getDepartmentByStatecode } from '../../_utils/functions/functions';
 import { AnnounceDTO } from '../../_utils/model/dto/announceDto';
 import { Room } from '../../_utils/model/rooms-model';
 import { Checkbox } from '../advertise-accommodation/form-step-two';
@@ -161,7 +161,6 @@ const  EditAnnouncement:FC<any> = (props) => {
                 if(id===0){
                     handleFileChange('principalPicture',files[0]);
                 }else {
-                    console.log(files[0]);
                     let images:File[] = announce.images;
                     images[id-1] = files[0];
                     handleFileChange('images',images);

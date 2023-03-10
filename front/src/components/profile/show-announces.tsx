@@ -64,7 +64,7 @@ const ShowAnnounces:FC<any> = (props) => {
         }
     }
     return (
-        <div className="mx-auto  relative border-1 br-1 w-half flex column mw-220 mt-half overflow-scroll max-h-400">
+        <div className="mx-auto  relative border-1 br-1 w-half flex column mw-220 mt-half overflow-scroll p-card">
             <h4 className='text-center py-1'>Announce</h4>
 
             <div className="flex column center w-100 relative">

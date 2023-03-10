@@ -1,21 +1,25 @@
 import React, { FC, useEffect, useState } from 'react';
 import { AiFillDelete, AiOutlineCheck, AiOutlineClose, AiOutlineReload } from 'react-icons/ai';
-import { ABORTED, ACCEPTED, REFRESH } from '../../constants/constants';
+import { ABORTED, ACCEPTED, REFRESH, REFUSED } from '../../constants/constants';
+import AccountServices from '../../services/account.service';
 import CandidacyService from '../../services/candidacy.service';
 import RoomateService from '../../services/roomate.service';
+import UserServices from '../../services/user.service';
 import { useAppDispatch } from '../../store/store';
 import { Candidacy } from '../../_utils/model/candidacy-model';
 import { CandidacyResponseDto } from '../../_utils/model/dto/candacyResDto';
 import { RoomsInterface } from '../../_utils/model/rooms-model';
-import { UserInterface } from '../../_utils/model/user-model';
+import { User, UserInterface } from '../../_utils/model/user-model';
 interface ShowUserDmdProps {
-    userInfo: UserInterface
+    // userInfo: UserInterface
 };
 
 const ShowUserDmd:FC<ShowUserDmdProps> = (props) => {
     const dispatch = useAppDispatch();
     const [candidacies, setCandidacies] = useState([] as CandidacyResponseDto[])
-    const { userInfo } = props;
+    const [userInfo, setUerInfo] = useState(null as unknown as User);
+    const userId = (localStorage.getItem('userId') as string);
+    console.log(userId);
 
     const [responseMsg, setResponseMsg] = useState(
         {
@@ -26,25 +30,72 @@ const ShowUserDmd:FC<ShowUserDmdProps> = (props) => {
     );
 
     useEffect(() => {
-        CandidacyService.getCandidacyByUserId(userInfo?.id)
-        .then((res) => { 
-            let candidacies: CandidacyResponseDto[] = []; 
-            console.info(res);
-            res.forEach((candidate: { id: string; announce: RoomsInterface; user: UserInterface; status: string; }) => {
-                candidacies.push(new CandidacyResponseDto(candidate.id, candidate.announce, candidate.user, candidate.status))
-            });
 
-            setCandidacies(candidacies);
-        })
-        .catch(error => {
+        UserServices.getUserById(userId).then((user) => {
+            let usr = new User(
+                user.lastname,
+                user.firstname,
+                user.sexe,
+                user.dateOfBirth,
+                user.phoneNumber,
+                user.email,
+                user.password,
+                user.isEmailVerified,
+                user.iscertified,
+                user.profileImg,
+                user.autorizeHaldleTel,
+                user.autorizeHaldleEmail,
+                user.roles
+            );
+            usr.id = userId;
+            setUerInfo(usr);
+        }).catch(error => {
             if(error.code === "ERR_NETWORK") {
-                localStorage.removeItem("token");
-                localStorage.removeItem("userId");
+                AccountServices.logout();
             }
         })
-    }, [dispatch, userInfo?.id]);
+
+        if(userInfo?.id && userInfo?.id !== "null") {
+            CandidacyService.getCandidacyByUserId(userInfo?.id)
+            .then((res) => { 
+                let candidacies: CandidacyResponseDto[] = []; 
+                console.info(res);
+                res.forEach((candidate: { id: string; announce: RoomsInterface; user: UserInterface; status: string; }) => {
+                    candidacies.push(new CandidacyResponseDto(candidate.id, candidate.announce, candidate.user, candidate.status))
+                });
+    
+                setCandidacies(candidacies);
+            })
+            .catch(error => {
+                if(error.code === "ERR_NETWORK") {
+                    AccountServices.logout();
+                }
+            })
+
+        }
+
+    }, [dispatch, userId, userInfo?.id]);
 
     const delCandidacy = (candidacy: CandidacyResponseDto) => {
+        if(candidacy.status===REFUSED) {
+            CandidacyService.removeCandidacy(candidacy.id)
+            .then(()=> {
+                setResponseMsg({
+                    message: "Suppression effectuée avec succès actualiser pour la mise à jour",
+                    style: "success",
+                    type: REFRESH
+                });
+            })
+            .catch((err) => { 
+                setResponseMsg({
+                    message: "un problème est survenue veillez reessayer plus tard",
+                    style: "danger",
+                    type: 'quit'
+                });
+             });
+
+             return;
+        }
         const confirm = window.confirm(`êtes vous sur de vouloir Annuler votre candidature pour ce logement?`);
         if(confirm) {
             const c = new Candidacy(
@@ -66,7 +117,7 @@ const ShowUserDmd:FC<ShowUserDmdProps> = (props) => {
                 setResponseMsg({
                     message: "un problème est survenue veillez reessayer plus tard",
                     style: "danger",
-                    type: REFRESH
+                    type: 'quit'
                 });
              });
         }
@@ -93,13 +144,13 @@ const ShowUserDmd:FC<ShowUserDmdProps> = (props) => {
                 setResponseMsg({
                     message: "un problème est survenue veillez reessayer plus tard",
                     style: "danger",
-                    type: REFRESH
+                    type: 'quit'
                 });
             });
         }
     }
     return (
-        <div className={"mx-auto  relative border-1 br-1 w-full flex column mt-half p-1 overflow-scroll max-h-400"+(userInfo?.roles.map(a => a.name).indexOf("MANAGER")!==-1?" w-half": " w-100")}>
+        <div className={"my-2 mx-auto  relative border-1 br-1 w-full flex column mt-half p-1 overflow-scroll mh-80"}>
             <h4 className='text-center py-1'>Mes Demandes</h4>
 
             {
@@ -151,7 +202,7 @@ const ShowUserDmd:FC<ShowUserDmdProps> = (props) => {
                                         if(c.status !==ABORTED)
                                             return (
                                                 
-                                                <tr>
+                                                <tr key={c.id}>
                                                     <td>{i+1}</td>
                                                     <td>{c.announce.title}</td>
                                                     <td>

@@ -7,9 +7,6 @@
 body {
   margin: 0 auto;
   color: #514f4f;
-  /* background: rgb(2,0,36);
-  background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(236,237,193,0.062237394957983194) 0%, rgba(233,169,232,0.16867997198879547) 50%, rgba(242,231,155,0.09304971988795518) 68%, rgba(62,186,211,0.10425420168067223) 81%); */
-
 }
 
 .mw-220{
@@ -450,12 +447,40 @@ li{
   cursor: not-allowed;
 }
 
-.max-h-400 {
-  max-height: 400px;
+.p-card {
+  max-height: 350px;
+}
+
+.p-card-in {
+  max-height: 330px;
 }
 
 .hover-shadow:hover{
   box-shadow: 4px 4px #00020a57, -.4em 0 .4em #a6c5ee;
+}
+
+.border {
+  border: #070f1e solid;
+}
+.util {
+  width: 120px;
+  height: 100px;
+  overflow: hidden;
+  margin-bottom: 1rem;
+  font-size: larger;
+  cursor: pointer;
+  box-shadow: 4px 4px #00020a57, -.4em 0 .4em #a6c5ee;
+  transition: box-shadow, transform ease-out .3s;
+  text-align: center;
+}
+
+.util:hover {
+  transform: translateY(10%);
+  box-shadow:none
+}
+
+.util:hover::before {
+  content: "colocation";
 }
 /* 
 .text-xs {
@@ -666,7 +691,15 @@ li{
 }
 
 .bg-light-brown{
-  background-color: #f4a5a5;
+  background-color: #7e22227d;
+}
+
+.bg-light-move{
+  background-color: #16012040;
+}
+
+.bg-light-pink{
+  background-color: #c443a83e;
 }
 
 .bg-light-sucess{
@@ -760,7 +793,7 @@ li{
 .mh-20{
   min-height: 40px;
 }
-
+.mh-80 {min-height: 80vh;}
 .mh-100{
   min-height: calc(100vh - 57px);
 }

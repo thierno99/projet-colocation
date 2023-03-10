@@ -1,23 +1,25 @@
 import React, { FC, useEffect, useState } from 'react';
-import { AiFillDelete, AiOutlineCheck, AiOutlineClose, AiOutlineReload } from 'react-icons/ai';
+import { AiFillDelete, AiOutlineClose, AiOutlineReload } from 'react-icons/ai';
 import { FcAcceptDatabase } from 'react-icons/fc';
-import { IoIosRemoveCircleOutline } from 'react-icons/io';
-import { TiInputChecked } from 'react-icons/ti';
 import { ABORTED, ACCEPTED, ENCOURS, REFRESH, REFUSED } from '../../constants/constants';
+import AccountServices from '../../services/account.service';
 import CandidacyService from '../../services/candidacy.service';
+import UserServices from '../../services/user.service';
 import { useAppDispatch } from '../../store/store';
 import { Candidacy } from '../../_utils/model/candidacy-model';
 import { CandidacyResponseDto } from '../../_utils/model/dto/candacyResDto';
 import { RoomsInterface } from '../../_utils/model/rooms-model';
-import { UserInterface } from '../../_utils/model/user-model';
+import { User, UserInterface } from '../../_utils/model/user-model';
 interface ShowCandidaciesProps {
-    userInfo: UserInterface
+    // userInfo: UserInterface 
 };
 
 const ShowCandidacies:FC<ShowCandidaciesProps> = (props) => {
     const dispatch = useAppDispatch();
-    const [candidacies, setCandidacies] = useState([] as CandidacyResponseDto[])
-    const { userInfo } = props;
+    const [candidacies, setCandidacies] = useState([] as CandidacyResponseDto[]);
+    const [userInfo, setUerInfo] = useState(null as unknown as User);
+    const userId = (localStorage.getItem('userId') as string);
+    // const { userInfo } = props;
 
     const [responseMsg, setResponseMsg] = useState(
         {
@@ -28,23 +30,49 @@ const ShowCandidacies:FC<ShowCandidaciesProps> = (props) => {
     );
 
     useEffect(() => {
-        CandidacyService.getCandidacyByOwnerId(userInfo?.id)
-        .then((res) => { 
-            let candidacies: CandidacyResponseDto[] = []; 
-            console.info(res);
-            res.forEach((candidate: { id: string; announce: RoomsInterface; user: UserInterface; status: string; }) => {
-                candidacies.push(new CandidacyResponseDto(candidate.id, candidate.announce, candidate.user, candidate.status))
-            });
-
-            setCandidacies(candidacies);
-        })
-        .catch(error => {
+        UserServices.getUserById(userId).then((user) => {
+            let usr = new User(
+                user.lastname,
+                user.firstname,
+                user.sexe,
+                user.dateOfBirth,
+                user.phoneNumber,
+                user.email,
+                user.password,
+                user.isEmailVerified,
+                user.iscertified,
+                user.profileImg,
+                user.autorizeHaldleTel,
+                user.autorizeHaldleEmail,
+                user.roles
+            );
+            usr.id = userId;
+            setUerInfo(usr);
+        }).catch(error => {
             if(error.code === "ERR_NETWORK") {
-                localStorage.removeItem("token");
-                localStorage.removeItem("userId");
+                AccountServices.logout();
             }
         })
-    }, [dispatch, userInfo?.id]);
+
+        if(userInfo?.id && userInfo?.id !== "null") {
+            CandidacyService.getCandidacyByOwnerId(userInfo?.id)
+            .then((res) => { 
+                let candidacies: CandidacyResponseDto[] = []; 
+                console.info(res);
+                res.forEach((candidate: { id: string; announce: RoomsInterface; user: UserInterface; status: string; }) => {
+                    candidacies.push(new CandidacyResponseDto(candidate.id, candidate.announce, candidate.user, candidate.status))
+                });
+    
+                setCandidacies(candidacies);
+            })
+            .catch(error => {
+                if(error.code === "ERR_NETWORK") {
+                    AccountServices.logout();
+                }
+            })
+        }
+
+    }, [dispatch, userId, userInfo?.id]);
 
     const acceptCandidacy = (candidacy: CandidacyResponseDto) => {
         const confirm = window.confirm(`êtes vous sur de vouloir ACCEPTER la démande de ${candidacy.user.firstname} ?`);
@@ -96,11 +124,13 @@ const ShowCandidacies:FC<ShowCandidaciesProps> = (props) => {
                 setResponseMsg({
                     message: "un problème est survenue veillez reessayer plus tard",
                     style: "danger",
-                    type: REFRESH
+                    type: 'quit'
                 });
              });
         }
     }
+
+    
 
     const delCandidacy = (candidacy: CandidacyResponseDto) =>{
         CandidacyService.removeCandidacy(candidacy.id)
@@ -115,12 +145,12 @@ const ShowCandidacies:FC<ShowCandidaciesProps> = (props) => {
             setResponseMsg({
                 message: "un problème est survenue veillez reessayer plus tard",
                 style: "danger",
-                type: REFRESH
+                type: 'quit'
             });
          });
     }
     return (
-        <div className={"mx-auto  relative border-1 br-1 w-full flex column mt-half p-1  overflow-scroll bg-light-blue"+(userInfo?.roles.map(a => a.name).indexOf("MANAGER")!==-1?" w-half": " w-100")}>
+        <div className={"mx-auto  relative border-1 br-1 w-full flex column mt-half p-1  overflow-scroll mh-80"}>
             <h4 className='text-center py-1'>Candidatures</h4>
 
             {

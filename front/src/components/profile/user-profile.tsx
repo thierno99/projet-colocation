@@ -2,8 +2,10 @@ import React, { ChangeEvent, FC, useEffect, useState } from 'react';
 
 import { BiEdit } from 'react-icons/bi';
 import { MdAddPhotoAlternate } from 'react-icons/md';
-import { IoMdNotificationsOutline } from 'react-icons/io';
+import { IoMdAddCircleOutline, IoMdNotificationsOutline } from 'react-icons/io';
 import { AiOutlineClose, AiOutlineSave, AiOutlineCheck, AiOutlineReload } from 'react-icons/ai';
+import { GrTask } from 'react-icons/gr';
+import { GiOpenPalm, GiShakingHands } from 'react-icons/gi';
 
 
 import UserServices from '../../services/user.service';
@@ -13,8 +15,9 @@ import { User, UserInterface } from '../../_utils/model/user-model';
 import { EMAIL_REG, FR_PHONE_NUMBER_FORMAT_REG } from '../../constants/regex';
 import { UserDto } from '../../_utils/model/dto/userDto';
 import ShowAnnounces from './show-announces';
-import ShowCandidacies from './show-candidacies';
-import ShowUserDmd from './show-user-demand';
+import { FaUsers } from 'react-icons/fa';
+import AccountServices from '../../services/account.service';
+import { useNavigate } from 'react-router-dom';
 
 interface InputImgFileProp {
     clickLoadImgFile: () => void,
@@ -47,6 +50,7 @@ const InputImgFile:FC<InputImgFileProp> = (props) => {
 
 const UserProfile:FC<any> = (props) => {
     const dispatch = useAppDispatch();
+    const navigate = useNavigate();
     const userId = (localStorage.getItem('userId') as string);
     const [userInfo, setUerInfo] = useState(null as unknown as User);
     const [isEditModeActive, setIsEditModeActive] = useState(false);
@@ -104,8 +108,7 @@ const UserProfile:FC<any> = (props) => {
             )
         }).catch(error => {
             if(error.code === "ERR_NETWORK") {
-                localStorage.removeItem("token");
-                localStorage.removeItem("userId");
+                AccountServices.logout();
             }
         })
     }, [userId, dispatch]);
@@ -237,7 +240,7 @@ const UserProfile:FC<any> = (props) => {
         }
     }
     return (
-        <div className='p-1'>
+        <div className='p-1 mb-2'>
             {<>
                     {
                         responseMsg.message!=="" &&
@@ -268,7 +271,7 @@ const UserProfile:FC<any> = (props) => {
 
                     </div>    
                     <h4 className="text-center mt-half">
-                        Thierno Mamadou Mouctar Bah
+                        {userInfo?.firstname+ " "+ userInfo?.lastname}
                     </h4>
 
                     <div className="container flex mt-1 wrap">
@@ -414,16 +417,7 @@ const UserProfile:FC<any> = (props) => {
 
                     </div>
 
-                    <div className="container flex mt-1 wrap">
-                    
-                        <ShowCandidacies userInfo={userInfo}/>        
-                        <ShowUserDmd userInfo={userInfo}/>
-
-                    </div>                
-
-
-
-                    <div className="container flex mt-1 wrap">
+                    <div className="container flex mt-1 wrap mb-2">
                         
                         {
                             userInfo?.roles.map(a => a.name).indexOf("USER")!==-1 && (
@@ -432,7 +426,47 @@ const UserProfile:FC<any> = (props) => {
 
                         }
 
-                        <div className="w-half relative border-1 br-1 auto mw-220 mt-half overflow-scroll  bg-light-sucess">
+                        <div className="w-half relative border-1 br-1 auto mw-220 mt-half ">
+                            <div className="m-half my-half auto overflow-scroll p-card-in">
+                                <div className="flex center">
+                                    <h3 className='text-center py-1'>Activités </h3>   
+                                </div>
+                                <div className="mt-1 p-1 flex wrap auto w-full">
+                                    <div className="rounded-full util flex column center border bg-light-brown p-1 relative mx-1 my-1" onClick={()=> navigate("/app/user-profile/view/dmd")}>
+                                        <GiOpenPalm fontSize={30} className="after"/>
+                                        <small className='bold'>demandes</small>
+                                    </div>
+
+                                    <div className="rounded-full util flex column center border bg-light-blue p-1 relative mx-1 my-1" onClick={()=> navigate("/app/user-profile/view/candidacies")}>
+                                        <GiShakingHands className='w-full' fontSize={25}/>
+                                        <small className='bold'>Annonces</small>
+                                    </div>
+
+                                    <div className="rounded-full util flex column center border bg-light-move p-1 relative mx-1 my-1">
+                                        <FaUsers className='w-full' fontSize={25}/>
+                                        <small className='bold'>Colocs</small>
+                                    </div>
+
+                                    <div className="rounded-full util flex column center border bg-light-pink p-1 relative mx-1 my-1">
+                                        <GrTask className='w-full' fontSize={25}/>
+                                        <small className='bold'>Tâches</small>
+                                    </div>
+
+                                    <div className="rounded-full util flex column center border bg-light-sucess p-1 relative mx-1 my-1" onClick={() => navigate('/app/rooms/make-announce')}>
+                                        <IoMdAddCircleOutline className='w-full' fontSize={25}/>
+                                        <small className='bold'>Annonce</small>
+                                    </div>
+
+                                    <div className="rounded-full util flex column center border bg-light-gold p-1 relative mx-1 my-1">
+                                        <IoMdNotificationsOutline className='w-full' fontSize={25}/>
+                                        <small className='bold'>Notifs</small>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        {/* <div className="w-half relative border-1 br-1 auto mw-220 mt-half overflow-scroll  bg-light-sucess">
                             <div className="flex center">
                                 <h4 className='text-center py-1'>Echanges et Notifs </h4>   
                             </div>
@@ -467,7 +501,7 @@ const UserProfile:FC<any> = (props) => {
                                     </button>
                                 </>
                             </div>
-                        </div>
+                        </div> */}
                     </div>
 
                     

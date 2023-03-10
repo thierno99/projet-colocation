@@ -59,7 +59,12 @@ public class RoomateServiceImpl implements RoomateService {
 		}
 		
 		Roomate roomate = optRoomate.get();
-		Set<String> userIds = new HashSet<>(roomate.getUserIds());
+		Set<String> userIds;
+		if(roomate.getUserIds() != null &&roomate.getUserIds().isEmpty()) {
+			userIds = new HashSet<>(roomate.getUserIds());
+		}else {
+			userIds = new HashSet<>();
+		}
 		userIds.add(userId);
 		
 		roomateRepository.save(roomate);

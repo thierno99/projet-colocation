@@ -37,7 +37,7 @@ function HomeRouter() {
                             <EditAnnouncement/>
                         </Guards.AuthGard>
                     }
-                 />
+                />
                  
                  
                 <Route path='/app/rooms'element = {<HandleLocationList/>} />  

@@ -9,6 +9,8 @@ const saveToken = (token:any) => {
 
 const logout = () => {
     localStorage.removeItem('token');
+    localStorage.removeItem("userName");
+    localStorage.removeItem("userId");
 }
 
 const isLoggedIn = () => {
