@@ -68,7 +68,6 @@ public class AnnouncementControllerImpl implements AnnouncementController, Servl
 
 	@Override
 	public ResponseEntity<?> getAnnouncementsBetween(int start, int end) {
-		//List<Announcement> announces = announcementService.getAnnouncementsBetween(start, end);
 		return ResponseEntity.ok().body(announcementService.getAnnouncementsBetween(start, end));
 	}
 

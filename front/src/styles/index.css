@@ -446,12 +446,16 @@ li{
   font-size: .6rem;
 }
 .desabled{
-  /* cursor: not-allowed; */
   pointer-events: none;
+  cursor: not-allowed;
 }
 
 .max-h-400 {
   max-height: 400px;
+}
+
+.hover-shadow:hover{
+  box-shadow: 4px 4px #00020a57, -.4em 0 .4em #a6c5ee;
 }
 /* 
 .text-xs {

@@ -1,14 +1,9 @@
 package com.gocoloc.backend.domain;
 
-import java.time.LocalDateTime;
-import java.util.Set;
-
 import org.springframework.data.mongodb.core.index.CompoundIndex;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import com.gocoloc.backend.constants.AnnounceType;
 import com.gocoloc.backend.constants.CandidacyStatus;
-import com.gocoloc.backend.constants.RoomType;
 
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;

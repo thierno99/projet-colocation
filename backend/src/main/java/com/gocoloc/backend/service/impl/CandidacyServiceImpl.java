@@ -6,13 +6,9 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.gocoloc.backend.constants.CandidacyStatus;
 import com.gocoloc.backend.domain.Candidacy;
 import com.gocoloc.backend.domain.dto.CandidacyResponseDto;
 import com.gocoloc.backend.repository.CandidacyRepository;
@@ -49,7 +45,6 @@ public class CandidacyServiceImpl implements CandidacyService {
 	@Override
 	public void deleteCandidacyById(String candidacyId) {
 		candidacyRepository.deleteById(candidacyId);
-
 	}
 
 	@Override
@@ -119,15 +114,10 @@ public class CandidacyServiceImpl implements CandidacyService {
 	}
 
 	@Override
-	public String updateCandidacyStatus(String id, CandidacyStatus status) {
+	public String updateCandidacyStatus(Candidacy candidacy) {
 		String message ="";
 		try {
-			Query query = new Query(Criteria.where("_id").is(id));
-			Update update = new Update().set("status", status);
-
-			mongoTemplate.updateFirst(query, update, Candidacy.class);
-			message = "updated";
-			log.info(id+"---------"+status.getType());
+			candidacyRepository.save(candidacy);
 		} catch (Exception e) {
 			message = "not updated";
 			log.info(e.getMessage());

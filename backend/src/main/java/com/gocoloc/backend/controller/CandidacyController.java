@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.gocoloc.backend.constants.CandidacyStatus;
 import com.gocoloc.backend.domain.Candidacy;
 
 @RequestMapping("/api/candidacy")
@@ -17,8 +16,8 @@ public interface CandidacyController {
 	@PostMapping("/save")
 	public ResponseEntity<Candidacy> saveCandidacy(@RequestBody Candidacy candidacy);
 	
-	@PostMapping("/update/{status}")
-	public ResponseEntity<String> updateCandidacyStatus(@RequestBody String id, @PathVariable CandidacyStatus status);
+	@PostMapping("/update/")
+	public ResponseEntity<String> updateCandidacyStatus(@RequestBody Candidacy candidacy);
 	
 	@GetMapping("/get/{id}")
 	public ResponseEntity<?> getCandidacyById(@PathVariable String id);
@@ -33,6 +32,6 @@ public interface CandidacyController {
 	public ResponseEntity<?> findByOwnerIdAndAnnounceIdAndUserId(@RequestParam("ownerId") String ownerId, @RequestParam("announceId") String announceId, @RequestParam("userId") String userId);
 	
 	
-	@DeleteMapping("/del/{announceID}")
+	@DeleteMapping("/del/{candidacyID}")
 	public ResponseEntity<?> deleCandidacyById(@PathVariable String candidacyID);
 }

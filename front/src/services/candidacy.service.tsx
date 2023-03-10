@@ -1,3 +1,4 @@
+import { Candidacy } from "../_utils/model/candidacy-model";
 import { CandidacyDto } from "../_utils/model/dto/CandidacyDto";
 import Axios from "./axios.service";
 
@@ -5,8 +6,8 @@ const saveCandidacy = (candidacy: CandidacyDto) => {
     return Axios.post('/candidacy/save', candidacy);
 }
 
-const updateCandidacyStatus = (candidacyId: string, status: string) => {
-    return Axios.post('/candidacy/update/'+status.toUpperCase(), candidacyId);
+const updateCandidacyStatus = (candidacy: Candidacy) => {
+    return Axios.post('/candidacy/update/', candidacy);
 }
 
 const getCandidacyById = async (id: string) => {
@@ -28,6 +29,10 @@ const getByOwnerIdAndAnnounceIdAndUserId = async (ownerId: string, announceId: s
     return await Axios.get(`/candidacy/get?ownerId=${ownerId}&announceId=${announceId}&userId=${userId}`).then((res)=> {return res.data});
 }
 
+const removeCandidacy = (candidacyId: string) => {
+    return Axios.delete(`/candidacy/del/${candidacyId}`);
+}
+
 const CandidacyService = {
     saveCandidacy,
     updateCandidacyStatus,
@@ -35,6 +40,7 @@ const CandidacyService = {
     getCandidacyByOwnerId,
     getCandidacyByUserId,
     getByOwnerIdAndAnnounceIdAndUserId,
+    removeCandidacy,
 }
 
 export default CandidacyService;

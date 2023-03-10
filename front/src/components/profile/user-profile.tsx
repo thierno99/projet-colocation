@@ -3,7 +3,7 @@ import React, { ChangeEvent, FC, useEffect, useState } from 'react';
 import { BiEdit } from 'react-icons/bi';
 import { MdAddPhotoAlternate } from 'react-icons/md';
 import { IoMdNotificationsOutline } from 'react-icons/io';
-import { AiOutlineClose, AiOutlineSave, AiOutlineCheck } from 'react-icons/ai';
+import { AiOutlineClose, AiOutlineSave, AiOutlineCheck, AiOutlineReload } from 'react-icons/ai';
 
 
 import UserServices from '../../services/user.service';
@@ -56,7 +56,8 @@ const UserProfile:FC<any> = (props) => {
     const [responseMsg, setResponseMsg] = useState(
         {
             message: "",
-            style: ""
+            style: "",
+            type: ""
         }
     );
 
@@ -148,12 +149,14 @@ const UserProfile:FC<any> = (props) => {
             console.log(res);
             setResponseMsg({
                 message: "profile modifier avec succès",
-                style: "success"
+                style: "success",
+                type: "quit"
             });
         }).catch((err)=>{
             setResponseMsg({
                 message: "echeck de modification",
-                style: "danger"
+                style: "danger",
+                type: "refresh"
             });
         });
 
@@ -241,9 +244,19 @@ const UserProfile:FC<any> = (props) => {
                         <div className={`text-center ${responseMsg.style} w-100 p-1 flex space-around`}>
                             {responseMsg.message}
                             <button className='bg-none border-1 flex flex-end'
-                                onClick={()=> setResponseMsg({...responseMsg, message:""})}
+                                onClick={()=> responseMsg.type === 'refresh'? window.location.reload(): setResponseMsg({...responseMsg, message:"", type:""})}
                             >
-                                <AiOutlineClose fontSize={30}/>
+                                {
+                                    responseMsg.type==="refresh" ?
+                                    <>
+                                        <h4>
+                                            rafraichir
+                                        </h4>
+                                        <AiOutlineReload fontSize={30}/>
+                                    </>
+                                    :
+                                    <AiOutlineClose fontSize={30}/>
+                                }
                             </button>
                         </div>
                     }

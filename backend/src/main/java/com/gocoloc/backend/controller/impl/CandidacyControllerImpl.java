@@ -58,8 +58,8 @@ public class CandidacyControllerImpl implements CandidacyController {
 	}
 
 	@Override
-	public ResponseEntity<String> updateCandidacyStatus(String id, CandidacyStatus status) {
-		return ResponseEntity.ok(candidacyService.updateCandidacyStatus(id, status));
+	public ResponseEntity<String> updateCandidacyStatus(Candidacy candidacy) {
+		return ResponseEntity.ok(candidacyService.updateCandidacyStatus(candidacy));
 	}
 
 }
