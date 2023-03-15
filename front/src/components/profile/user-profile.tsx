@@ -442,7 +442,7 @@ const UserProfile:FC<any> = (props) => {
                                         <small className='bold'>Annonces</small>
                                     </div>
 
-                                    <div className="rounded-full util flex column center border bg-light-move p-1 relative mx-1 my-1">
+                                    <div className="rounded-full util flex column center border bg-light-move p-1 relative mx-1 my-1" onClick={() => navigate('/app/user-profile/view/roomates')}>
                                         <FaUsers className='w-full' fontSize={25}/>
                                         <small className='bold'>Colocs</small>
                                     </div>
@@ -457,7 +457,7 @@ const UserProfile:FC<any> = (props) => {
                                         <small className='bold'>Annonce</small>
                                     </div>
 
-                                    <div className="rounded-full util flex column center border bg-light-gold p-1 relative mx-1 my-1">
+                                    <div className="rounded-full util flex column center border bg-light-gold p-1 relative mx-1 my-1" onClick={() => navigate('/app/user-profile/view/notifs')}>
                                         <IoMdNotificationsOutline className='w-full' fontSize={25}/>
                                         <small className='bold'>Notifs</small>
                                     </div>
@@ -466,42 +466,7 @@ const UserProfile:FC<any> = (props) => {
                             </div>
                         </div>
 
-                        {/* <div className="w-half relative border-1 br-1 auto mw-220 mt-half overflow-scroll  bg-light-sucess">
-                            <div className="flex center">
-                                <h4 className='text-center py-1'>Echanges et Notifs </h4>   
-                            </div>
-                            <div className="absolute top-0 right-0 p-half">
-                                <IoMdNotificationsOutline fontSize={26} color={'gold'}/>
-                            </div>
-                            <div className="mt-1 p-1">
-                                <>
-                                    <div className="flex space-between p-1">
-                                        <p> <strong>Luffy</strong> </p>
-                                        <p>hello j'ai crée une tâche ...</p>
-                                        <p>02-03-2022</p>
-                                    </div>
-                                    <hr />
-
-                                    <div className="flex space-between p-1">
-                                        <p> <strong>Zoro</strong> </p>
-                                        <p>okay mark je gère ...</p>
-                                        <p>02-03-2022</p>
-                                    </div>
-                                    <hr />
-
-                                    <div className="flex space-between p-1">
-                                        <p> <strong>Nami</strong> </p>
-                                        <p>Merci les gars! :)</p>
-                                        <p>02-03-2022</p>
-                                    </div>
-                                    <hr />
-
-                                    <button className="mr-half w-half btn w-100 py-half px-1 my-1">
-                                        +
-                                    </button>
-                                </>
-                            </div>
-                        </div> */}
+                        
                     </div>
 
                     

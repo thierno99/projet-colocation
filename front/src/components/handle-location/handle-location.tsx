@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 
 import { ImLocation } from 'react-icons/im';
 import { MdVerified } from 'react-icons/md';
-import { AiOutlineMail } from 'react-icons/ai';
+import { AiOutlineCheck, AiOutlineClose, AiOutlineMail, AiOutlineReload } from 'react-icons/ai';
 import { FaCalendarAlt } from 'react-icons/fa';
 import { BsFillTelephoneFill } from 'react-icons/bs';
 
@@ -13,18 +13,29 @@ import { useAppDispatch } from '../../store/store';
 import { detailAnnounce } from '../../store/actions/announce-action';
 import { Room } from '../../_utils/model/rooms-model';
 import { RoomsInterface } from './../../_utils/model/rooms-model';
-import { useParams } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
 import AnnounceService from '../../services/announce-service';
 import { User } from '../../_utils/model/user-model';
 import UserServices from '../../services/user.service';
 import { CandidacyDto } from '../../_utils/model/dto/CandidacyDto';
 import CandidacyService from '../../services/candidacy.service';
+import { REFRESH } from '../../constants/constants';
 const HandleLocation = () => {
     const dispatch = useAppDispatch();
+    const navigate = useNavigate();
     const { id } = useParams();
     const announceId = id !== null ? id as string : "";
     const [announce, setAnnounce] = useState(null as unknown as RoomsInterface);
     const [user, setUser] = useState(null as unknown as User);
+
+    const [responseMsg, setResponseMsg] = useState(
+        {
+            message: "",
+            style: "",
+            type: ""
+        }
+    );
+
     useEffect(() => {
         
         dispatch(detailAnnounce(announceId));
@@ -90,8 +101,18 @@ const HandleLocation = () => {
         CandidacyService.saveCandidacy(candidacy)
         .then(() => {
             console.info("posted");
+            setResponseMsg({
+                message: "Demande Envoyé, le manager prendra contact avec vous très prochainement",
+                style: "success",
+                type: REFRESH
+            });
         })
         .catch((err) => {
+            setResponseMsg({
+                message: "un problème est survenue, verifier si vous n'avez pas déjà envoyer votre candidature pour ce logement et reessayer plus tard",
+                style: "danger",
+                type: 'quit'
+            });
             console.info("some problem occured when posting");
             console.error(err);
         })
@@ -100,6 +121,28 @@ const HandleLocation = () => {
 
     return (
         <div className='container relative mb-2'>
+            {
+                responseMsg.message!=="" &&
+                <div className={`text-center ${responseMsg.style} w-100 p-1 flex space-around`}>
+                    {responseMsg.message}
+                    <button className='bg-none border-1 flex flex-end'
+                        onClick={()=> responseMsg.type === 'refresh'? navigate('/app/user-profile/view/dmd'): setResponseMsg({...responseMsg, message:"", type:""})}
+                    >
+                        {
+                            responseMsg.type===REFRESH ?
+                            <>
+                                <h4>
+                                    Voir
+                                </h4>
+                                <AiOutlineCheck fontSize={30}/>
+                            </>
+                            :
+                            <AiOutlineClose fontSize={30}/>
+                        }
+                    </button>
+                </div>
+            }
+
             {
                 announce!==null &&
                 <>

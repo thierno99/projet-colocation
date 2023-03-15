@@ -53,6 +53,7 @@ public class RoomateServiceImpl implements RoomateService {
 			roomate.setManagerId(managerId);
 			Set<String> userIds = new HashSet<>();
 			userIds.add(userId);
+			roomate.setUserIds(userIds);
 			roomateRepository.save(roomate);
 			log.info("user added as roomates !");
 			return roomate;		
@@ -60,13 +61,14 @@ public class RoomateServiceImpl implements RoomateService {
 		
 		Roomate roomate = optRoomate.get();
 		Set<String> userIds;
-		if(roomate.getUserIds() != null &&roomate.getUserIds().isEmpty()) {
+		if(roomate.getUserIds() != null && !roomate.getUserIds().isEmpty()) {
 			userIds = new HashSet<>(roomate.getUserIds());
+			log.info(String.join(", ", roomate.getUserIds()));
 		}else {
 			userIds = new HashSet<>();
 		}
 		userIds.add(userId);
-		
+		roomate.setUserIds(userIds);
 		roomateRepository.save(roomate);
 		log.info("user added as roomates !");
 		return roomate;
@@ -134,7 +136,7 @@ public class RoomateServiceImpl implements RoomateService {
 
 	@Override
 	public RoomateResponseDto getRoomateByUserId(String userId) {
-		Query query = new Query().addCriteria(Criteria.where("userIds").in("userId"));
+		Query query = new Query().addCriteria(Criteria.where("userIds").in(userId));
 		Roomate roomate = mongoTemplate.findOne(query, Roomate.class);
 		
 		RoomateResponseDto roomateRes = new RoomateResponseDto();

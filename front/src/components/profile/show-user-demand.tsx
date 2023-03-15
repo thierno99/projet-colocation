@@ -1,5 +1,6 @@
 import React, { FC, useEffect, useState } from 'react';
 import { AiFillDelete, AiOutlineCheck, AiOutlineClose, AiOutlineReload } from 'react-icons/ai';
+import { useNavigate } from 'react-router-dom';
 import { ABORTED, ACCEPTED, REFRESH, REFUSED } from '../../constants/constants';
 import AccountServices from '../../services/account.service';
 import CandidacyService from '../../services/candidacy.service';
@@ -16,6 +17,7 @@ interface ShowUserDmdProps {
 
 const ShowUserDmd:FC<ShowUserDmdProps> = (props) => {
     const dispatch = useAppDispatch();
+    const navigate = useNavigate();
     const [candidacies, setCandidacies] = useState([] as CandidacyResponseDto[])
     const [userInfo, setUerInfo] = useState(null as unknown as User);
     const userId = (localStorage.getItem('userId') as string);
@@ -180,6 +182,12 @@ const ShowUserDmd:FC<ShowUserDmdProps> = (props) => {
                     candidacies.length <= 0 ?
                         <div className='w-full my-1'>
                             <h5 className='text-center text-gray'>Vous n'avez aucune démande</h5>
+                            <div className="flex w-100 center">
+
+                                <button className="mr-half w-half btn bg-light-pink w-full py-half px-1 my-1" onClick={() => navigate('/app/rooms')}>
+                                    Trouver 
+                                </button>
+                            </div>
                         </div>
                     :
                     <div className="flex space-between w-100 small-font">
