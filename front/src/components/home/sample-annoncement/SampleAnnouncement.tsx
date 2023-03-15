@@ -1,37 +1,61 @@
-import React from 'react';
-import { FcManager } from "react-icons/fc";
-import { ImFinder } from "react-icons/im";
-import { TfiAnnouncement } from "react-icons/tfi";
+import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+import AnnounceService from '../../../services/announce-service';
+import { getAnnouncementsBetween } from '../../../store/actions/announce-action';
+import { RootState, useAppDispatch } from '../../../store/store';
+import { Room, RoomsInterface } from '../../../_utils/model/rooms-model';
 import RowCard from "../../shared/cards/row-card";
-import { CardProps } from "../../shared/Interfaces";
 
 const SampleAnnouncement = () => {
-  const services: CardProps[] = [
-    {
-        image: <ImFinder fontSize={100} color={'pink'}/>,
-        title: "Richard, 35 ans",
-        description: "Vous avez la possibilité de voir toutes les propositons de logement à votre proximité..",// de logement à votre proximité
-        urlStr:''
-    },
+    const dispatch = useAppDispatch();
+    const announceLocationList = useSelector((state: RootState) => state.announceLocationList);
+    const {announceList} = announceLocationList;
+    const [announces, setAnnounces] = useState([] as RoomsInterface[]);
+    useEffect(() => {
+        dispatch(getAnnouncementsBetween(1,5));
 
-    {
-        image: <TfiAnnouncement fontSize={100} color={'brown'}/>,
-        title: "Zoé, 23 ans",
-        description: "Vous avez la possibilité de publier des annonces de logement.",
-        urlStr: ''
-    },
-
-    {
-        image: <FcManager fontSize={100} color={'brown'}/>,
-        title: "Michelle, 28 ans",
-        description: `Vous avez la possibilité de gerer vos factures, vos tâches, contacter le proprio ...`, // vos tâches, contacter le proprio
-        urlStr: ''
-    },
-];
+        AnnounceService.getAnnouncementsBetween(1, 3)
+        .then((res) => {
+            let rooms: RoomsInterface[] = [];
+            res.forEach((room: any) => {
+                rooms.push(new Room(
+                    room.id,
+                    room.title,
+                    room.description,
+                    room.ownerId,
+                    room.state,
+                    room.city,
+                    room.postalCode,
+                    room.address,
+                    room.nbRoomatesSeached,
+                    room.publishedAt,
+                    room.price,
+                    room.principalPicture,
+                    room.announceType,
+                    room.ownerCertified,
+                    room.roomType,
+                    room.roomfurnishedType,
+                    room.genderSearched
+                ));
+            });
+            setAnnounces(rooms);
+        })
+        .catch((err) => {
+            console.error(err);
+        })        
+    }, [announceList, dispatch])
+    
 return (
-    <div className='flex space-between wrap'>
+    <div className='flex space-between wrap my-3 w-100'>
         {
-            services.map(service => <RowCard image={service.image} title={service.title} description={service.description} key={service.title} urlStr={service.urlStr} />)
+            announces.map((anounce) => {
+                return <RowCard 
+                    ownerId={anounce.ownerId}
+                    description={anounce.description}
+                    key={anounce.id}
+                    urlStr={"/app/rooms/"+ anounce.id} 
+                />
+            })
         }
     </div>
 );

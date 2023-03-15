@@ -2,6 +2,7 @@ package com.gocoloc.backend.service.impl;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -12,7 +13,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
+import org.springframework.web.multipart.MultipartFile;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.gocoloc.backend.config.jwt.JwtGenerator;
 import com.gocoloc.backend.domain.Role;
 import com.gocoloc.backend.domain.User;
@@ -53,6 +56,17 @@ public class UserServiceImpl implements UserService{
         addRoleToUser(createdUser.getEmail(), "USER");
         return createdUser;
     }
+    
+    @Override
+	public Optional<User> getUserById(String userId) {
+    	
+		return userRepository.findById(userId);
+	}
+
+	@Override
+	public User updateUser(User user) {
+		return userRepository.save(user);
+	}
 
     @Override
     public void addRoleToUser(String email, String roleName) {
@@ -73,12 +87,7 @@ public class UserServiceImpl implements UserService{
     public List<User> getUsers() {
         return userRepository.findAll();
     }
-
-    @Override
-    public List<User> getUserLimit(int start, int end) {
-        // TODO
-        return null;
-    }
+    
 
     @Override
     public boolean existsByuserEmail(String email) {
@@ -102,17 +111,11 @@ public class UserServiceImpl implements UserService{
 			try {
 				token = jwtGenerator.generateToken(authentication);
 				log.info("token ====>", token);
-				return new AuthResponseDto(token, "loged in");
+				return new AuthResponseDto(token, "loged in", user.getId(), user.getLastname());
 			} catch (Exception e) {
 				e.printStackTrace();
 				throw e;
 			}
-			
-        
-//        if(user!=null && user.getEmail().equals(login.getEmail()) && user.getPassword().equals(login.getPassword())) {
-//            return new AuthResponseDto("logged in");
-//        }
-//        return new AuthResponseDto("Incorrect username or password");
     }
     
 
@@ -127,5 +130,19 @@ public class UserServiceImpl implements UserService{
         return roleRepository.findByName(name);
     }
 
-
+	@Override
+	public User saveUserProfile(MultipartFile file, String userStr) {
+		try {
+			ObjectMapper objectMapper = new ObjectMapper();
+			objectMapper.registerModule(new JavaTimeModule());
+			log.info(userStr);
+			User user = objectMapper.readValue(userStr, User.class);
+			user.setProfileImg(file.getBytes());	
+	        return updateUser(user);
+	        
+		} catch (Exception e) {
+			log.error(e.getMessage());
+			return new User();
+		}
+	}
 }

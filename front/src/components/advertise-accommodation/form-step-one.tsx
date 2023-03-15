@@ -94,6 +94,7 @@ const FormStepOne: FC<FormStepProps> = (props) => {
 
 
             <Form.SelectForm 
+                label='Departement'
                 name ={'state'}
                 options={
                     getDepartementOfCountry('FR').map(departement=>  (
@@ -110,6 +111,7 @@ const FormStepOne: FC<FormStepProps> = (props) => {
             />
 
             <Form.SelectForm 
+                label='Ville'
                 name ={'city'}
                 options={
                     getCitiesOfDepartement('FR', announce.state).map((city,i)=>  (

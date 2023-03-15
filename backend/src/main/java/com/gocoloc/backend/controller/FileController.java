@@ -16,7 +16,7 @@ import jakarta.servlet.http.HttpServletRequest;
 @RequestMapping("/files")
 public interface FileController {
 	@PutMapping
-	public ResponseEntity<FileResponseDto> uplopadFile(@RequestParam("file[]") MultipartFile file);	
+	public ResponseEntity<FileResponseDto> uplopadFile(@RequestParam("file") MultipartFile file);	
 	
 	@GetMapping("/{filename:.+}")
 	public ResponseEntity<Resource> downloadFile(@PathVariable String filename, HttpServletRequest request);

@@ -2,11 +2,10 @@ import React, { useEffect, useState } from 'react';
 
 import { ImLocation } from 'react-icons/im';
 import { MdVerified } from 'react-icons/md';
-import { AiOutlineMail } from 'react-icons/ai';
+import { AiOutlineCheck, AiOutlineClose, AiOutlineMail, AiOutlineReload } from 'react-icons/ai';
 import { FaCalendarAlt } from 'react-icons/fa';
 import { BsFillTelephoneFill } from 'react-icons/bs';
 
-import { getMockUser } from '../../services/user.service';
 import defaultpng from '../../assets/Images/defaultpng.png';
 import defaultProfile from '../../assets/Images/defaultProfile.jpg';
 import { publishedAtFormatMsg } from '../../_utils/functions/functions';
@@ -14,14 +13,29 @@ import { useAppDispatch } from '../../store/store';
 import { detailAnnounce } from '../../store/actions/announce-action';
 import { Room } from '../../_utils/model/rooms-model';
 import { RoomsInterface } from './../../_utils/model/rooms-model';
-import { useParams } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
 import AnnounceService from '../../services/announce-service';
+import { User } from '../../_utils/model/user-model';
+import UserServices from '../../services/user.service';
+import { CandidacyDto } from '../../_utils/model/dto/CandidacyDto';
+import CandidacyService from '../../services/candidacy.service';
+import { REFRESH } from '../../constants/constants';
 const HandleLocation = () => {
     const dispatch = useAppDispatch();
+    const navigate = useNavigate();
     const { id } = useParams();
     const announceId = id !== null ? id as string : "";
     const [announce, setAnnounce] = useState(null as unknown as RoomsInterface);
-    
+    const [user, setUser] = useState(null as unknown as User);
+
+    const [responseMsg, setResponseMsg] = useState(
+        {
+            message: "",
+            style: "",
+            type: ""
+        }
+    );
+
     useEffect(() => {
         
         dispatch(detailAnnounce(announceId));
@@ -43,36 +57,121 @@ const HandleLocation = () => {
                 res.isOwnerCertified,
                 res.roomType,
                 res.roomfurnishedType,
-                res.genderSearched
+                res.genderSearched,
+                res.images,
             )
+
             setAnnounce(announcementValue);
+            setActiveImg(announcementValue.principalPicture);
+            
+            UserServices.getUserById(res.ownerId).then((userInfo) => {
+                let user = new User(
+                    userInfo.lastname,
+                    userInfo.firstname,
+                    userInfo.sexe,
+                    userInfo.dateOfBirth,
+                    userInfo.phoneNumber,
+                    userInfo.email,
+                    userInfo.password,
+                    userInfo.isEmailVerified,
+                    userInfo.iscertified,
+                    userInfo.profileImg,
+                    userInfo.autorizeHaldleTel,
+                    userInfo.autorizeHaldleEmail,
+                    userInfo.roles
+                );
+                user.id = res.ownerId;
+                setUser(user);
+            })
+
         })
     }, [announceId, dispatch]);
-    
-    const user= getMockUser(announce?.ownerId);
+
     const [activeImg, setActiveImg] = useState(announce?.principalPicture);
+
+
+    const sendCandidacy = () => {
+        const candidacy = new CandidacyDto(
+            announce.id,
+            announce.ownerId,
+            localStorage.getItem('userId') as string,
+            "ENCOURS"
+        )
+        console.info("posting candidacy ....");
+        CandidacyService.saveCandidacy(candidacy)
+        .then(() => {
+            console.info("posted");
+            setResponseMsg({
+                message: "Demande Envoyé, le manager prendra contact avec vous très prochainement",
+                style: "success",
+                type: REFRESH
+            });
+        })
+        .catch((err) => {
+            setResponseMsg({
+                message: "un problème est survenue, verifier si vous n'avez pas déjà envoyer votre candidature pour ce logement et reessayer plus tard",
+                style: "danger",
+                type: 'quit'
+            });
+            console.info("some problem occured when posting");
+            console.error(err);
+        })
+    }
+
+
     return (
         <div className='container relative mb-2'>
+            {
+                responseMsg.message!=="" &&
+                <div className={`text-center ${responseMsg.style} w-100 p-1 flex space-around`}>
+                    {responseMsg.message}
+                    <button className='bg-none border-1 flex flex-end'
+                        onClick={()=> responseMsg.type === 'refresh'? navigate('/app/user-profile/view/dmd'): setResponseMsg({...responseMsg, message:"", type:""})}
+                    >
+                        {
+                            responseMsg.type===REFRESH ?
+                            <>
+                                <h4>
+                                    Voir
+                                </h4>
+                                <AiOutlineCheck fontSize={30}/>
+                            </>
+                            :
+                            <AiOutlineClose fontSize={30}/>
+                        }
+                    </button>
+                </div>
+            }
+
             {
                 announce!==null &&
                 <>
 
                     <div className="flex  center my-half text-primary shadow announce-head">
-                        <img src={!user?.profileImg? defaultProfile: '/Images/'+user.profileImg} alt="profile" className='br-1 small-img m-1'/>
-                        <h2>{announce.title}</h2>
+                        {/* <img src={`data:image/png;base64,${announce.principalPicture}`} alt={announce.title} /> */}
+                        <img src={!user?.profileImg? defaultProfile: `data:image/png;base64,${user?.profileImg}`} alt="profile" className='br-1  m-1 rounded-full small-circle-img'/>
+                        <h2>{user?.firstname+" "+ user?.lastname}</h2>
                     </div>
                     
                     <div className='flex reative wrap center shadow my-1'>
-                        <div className='relative pt-1'>
-                            <img src={!announce.principalPicture?defaultpng: '/Images/'+activeImg} alt="profile mx-half" className='img-md'/>
-                            <div className="absolute flex wrap bottom-0 m-half">
-                                <img src={defaultpng} alt="" className='m-b-half mx-half small-img pointer' onClick={()=> setActiveImg('defaultpng.png')}/>
-                                <img src={!announce.principalPicture?defaultpng: '/Images/'+announce.principalPicture} alt="" className='m-b-half mx-half small-img' onClick={()=> setActiveImg(!announce.principalPicture?'defaultpng.png': announce.principalPicture)}/>
-                                <img src={defaultpng} alt="" className='m-b-half mx-half small-img'/>
-                                <img src={defaultpng} alt="" className='m-b-half mx-half small-img'/>
+                        <div className='relative pt-1 w-half'>
+                            
+                            <img src={!announce.principalPicture?defaultpng: `data:image/png;base64,${activeImg}`} alt="profile" className='img-md w-full'/>
+                            
+                            
+                            <div className="absolute flex wrap bottom-0 m-half w-full relative">
+                                {
+                                    announce.principalPicture &&
+                                    <img src={`data:image/png;base64,${announce?.principalPicture}`} alt="view" className='m-b-half mx-half small-img' onClick={()=> setActiveImg(announce.principalPicture)}/>
+                                }
+                                {
+                                    announce.images.map((image, i) => 
+                                        <img src={`data:image/png;base64,${image}`} alt="view" className='m-b-half mx-half small-img' onClick={()=> setActiveImg(image)} key={i}/>
+                                    )
+                                }
                             </div>
                         </div>
-                        <div className='p-half'>
+                        <div className='p-half w-half'>
                             {
                                 announce.city?
                                     <p className='py-half'>
@@ -159,9 +258,12 @@ const HandleLocation = () => {
                                     null
                                 }
                             </div>
-                            <button className='p-half br-half pointer mt-half bg-light-gold bold absolute bottom-0 right-0'> 
-                                Adresser ma candidature
-                            </button>
+                            {
+                                localStorage.getItem('userId')!== announce.ownerId &&
+                                <button className='p-half br-half pointer mt-half bg-light-gold bold absolute bottom-0 right-0' onClick={()=>sendCandidacy()}> 
+                                    Adresser ma candidature
+                                </button>
+                            }
                         </div>
                     </div>
                 </>

@@ -4,7 +4,7 @@ import { ChangeEvent, FC, useState } from 'react';
 import Form, { CheckboxProps } from '../shared/forms/forms';
 import { FormStepProps } from './form-step-one';
 
-const Checkbox:FC<CheckboxProps> = (props) => {
+export const Checkbox:FC<CheckboxProps> = (props) => {
     const { name, label,handleCheckboxChange, checked } = props;
 
     return (
@@ -37,7 +37,6 @@ const FormStepTwo: FC<FormStepProps> = (props) => {
         }else if(index!==-1){
             genders.splice(index,1);
         }
-        console.log(genders);
 
         setAnnounce({
             ...announce,
@@ -95,9 +94,9 @@ const FormStepTwo: FC<FormStepProps> = (props) => {
             <div className='my-half flex column'>
                 <fieldset className='br-half'>
                     <legend><strong>Type de colocation:</strong></legend>
-                    <Form.InputRadio name={'roomType'} label={'Appartement'} value={'Appartement'} handleInputRadioChange={handleInputRadioChange} checked={announce.roomType==="Appartement"}/>
-                    <Form.InputRadio name={'roomType'} label={'Maison'} value={'Maison'}  handleInputRadioChange={handleInputRadioChange}  checked={announce.roomType==="Maison"}/>
-                    <Form.InputRadio name={'roomType'} label={'Studio'} value={'Studio'} handleInputRadioChange={handleInputRadioChange}  checked={announce.roomType==="Studio"}/>
+                    <Form.InputRadio name={'roomType'} label={'Appartement'} value={'APPARTEMENT'} handleInputRadioChange={handleInputRadioChange} checked={announce.roomType==="APPARTEMENT"}/>
+                    <Form.InputRadio name={'roomType'} label={'Maison'} value={'MAISON'}  handleInputRadioChange={handleInputRadioChange}  checked={announce.roomType==="MAISON"}/>
+                    <Form.InputRadio name={'roomType'} label={'Studio'} value={'STUDIO'} handleInputRadioChange={handleInputRadioChange}  checked={announce.roomType==="STUDIO"}/>
                 </fieldset>
             </div>
 

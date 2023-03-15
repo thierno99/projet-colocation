@@ -1,9 +1,9 @@
-import React, { FC } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import { FaCalendarAlt } from 'react-icons/fa';
 import { ImLocation } from 'react-icons/im';
 import { AiOutlineMail } from 'react-icons/ai';
 
-import defaultProfile from '../../../assets/Images/defaultProfile.jpg';
+// import defaultProfile from '../../../assets/Images/defaultProfile.jpg';
 import defaultpng from '../../../assets/Images/defaultpng.png';
 import { formatLongText, publishedAtFormatMsg, replaceDotDot } from '../../../_utils/functions/functions';
 import { BsFillTelephoneFill } from 'react-icons/bs';
@@ -11,18 +11,42 @@ import { MdVerified } from 'react-icons/md';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch } from '../../../store/store';
 import { detailAnnounce } from '../../../store/actions/announce-action';
+import UserServices from '../../../services/user.service';
+import { User } from '../../../_utils/model/user-model';
 
 const ColumnCard:FC<any> = (props) => {
     const dispatch = useAppDispatch();
-    const {cardValues, user, announceId} = props;
+    const {cardValues, announceId} = props;
+    const [user, setUser] = useState(null as unknown as User);
     const navigate = useNavigate();
-    
-    console.table(cardValues);
+
+    useEffect(() => {
+
+        UserServices.getUserById(cardValues.ownerId).then((userInfo) => {
+            let user = new User(
+                userInfo.lastname,
+                userInfo.firstname,
+                userInfo.sexe,
+                userInfo.dateOfBirth,
+                userInfo.phoneNumber,
+                userInfo.email,
+                userInfo.password,
+                userInfo.isEmailVerified,
+                userInfo.iscertified,
+                userInfo.profileImg,
+                userInfo.autorizeHaldleTel,
+                userInfo.autorizeHaldleEmail,
+                userInfo.roles
+            );
+            user.id = cardValues.ownerId;
+            setUser(user);
+        })
+    }, [cardValues.ownerId, dispatch])
     return (
         <div className='flex column my-1'>
             <div className='card relative border-1 p-half br-1' onClick={() => { dispatch(detailAnnounce(announceId)); navigate("/app/rooms/"+announceId);} }>
                 <div className="card-hearder relative">
-                    <img src={!cardValues.principalPicture?defaultpng: '/Images/'+cardValues.principalPicture} alt="profile" />
+                    <img src={!cardValues.principalPicture?defaultpng: `data:image/png;base64,${cardValues.principalPicture}`} alt="profile" />
                     <hr />
                     {
                         cardValues.price?
@@ -32,14 +56,6 @@ const ColumnCard:FC<any> = (props) => {
                         :
                         null
                     }
-                    {
-                        user ?(
-                            <div className="absolute bottom-0 left-0 mb-1 ml-half">
-                                <img src={!user.profileImg? defaultProfile: '/Images/'+user.profileImg} alt="profile" className='small-card-profile-img br-1'/>
-                            </div>
-                        ):
-                        null
-                    }
                 </div>
                 <div className='card-body p-half'>
                     <h3 className="card-title">
@@ -47,7 +63,7 @@ const ColumnCard:FC<any> = (props) => {
                     </h3>
                     <div className='pt-1'>
                         {
-                            formatLongText(replaceDotDot(cardValues.description,70),4).map((des,i) => {
+                            formatLongText(replaceDotDot(cardValues.description,20),4).map((des,i) => {
                                 return <p key={i}>{des} <br/> </p>
                             })
                         }

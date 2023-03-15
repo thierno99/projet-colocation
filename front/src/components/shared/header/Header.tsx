@@ -2,6 +2,8 @@ import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 import { RiLogoutBoxRLine } from 'react-icons/ri';
+import { CgProfile } from 'react-icons/cg';
+
 import AccountServices from '../../../services/account.service';
 import { BiUserCircle } from 'react-icons/bi';
 
@@ -17,15 +19,27 @@ const Navigation = () => {
             <ul className='flex row'>
                 {
                     AccountServices.isLoggedIn()?
-                    <li className='px-half flex center pointer'>
-                        <RiLogoutBoxRLine/>
-                        <span 
-                            onClick={logout}
-                            className='px-px text-light text-center' 
-                        >
-                            Deconnexion
-                        </span>
-                    </li>
+                    <>
+                        <li className='px-half flex center pointer'>
+                            <RiLogoutBoxRLine/>
+                            <span 
+                                onClick={logout}
+                                className='px-px text-light text-center' 
+                            >
+                                Deconnexion
+                            </span>
+                        </li>
+
+                        <li className='px-half flex center pointer'>
+                            <Link 
+                                to={"/app/user-profile"}
+                                className='px-px text-light text-center flex center' 
+                                >
+                                <CgProfile/>
+                                <span className="px-px pb-px">{localStorage.getItem('userName')}</span>
+                            </Link>
+                        </li>
+                    </>
                     :
                     <>
                         <li className='px-half flex center pointer'>

@@ -51,10 +51,6 @@ function Login() {
 
     const onSubmit  = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        const testencode = stringToBytes("bonjour test");
-        console.log(testencode);
-
-        console.log(BytesToString(testencode));
 
         if(isValidForm()) {
             const user = new User(
@@ -67,10 +63,10 @@ function Login() {
                 credentials.password,
                 false,
                 false,
-                [],
+                (null as unknown as File),
                 true,
                 true,
-                ['USER']
+                []
             );
 
             UserServices.RegisterUser(user)
@@ -84,14 +80,8 @@ function Login() {
                     console.error(err);
                 })
             ;
-
-            
-            
-            console.table(user);
             setErroeMessage("");
         } else {
-            console.log('sdsdsdsd')
-            console.table(credentials);
             setErroeMessage("Veillez remplir correctement tous les champs svp ! \n pour le mot de passe Minimum huit caractères, au moins une lettre majuscule, \nune lettre minuscule, un chiffre et un caractère spécial :")
         }
 

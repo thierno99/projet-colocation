@@ -1,14 +1,18 @@
-import { ChangeEvent, FC, useState } from 'react';
+import { ChangeEvent, FC, useEffect, useState } from 'react';
 
 import { AiOutlineQuestionCircle } from 'react-icons/ai';
 import { MdAddPhotoAlternate } from 'react-icons/md';
 import { useNavigate } from 'react-router-dom';
+import AccountServices from '../../services/account.service';
+import AnnounceService from '../../services/announce-service';
+import Axios from '../../services/axios.service';
+import { Announce } from '../../_utils/model/dto/announceDto';
 
 import { FormStepProps } from './form-step-one';
 
 interface InputImgFileProp {
     clickLoadImgFile: (id: number) => void,
-    handleImageFileChange: (e: React.ChangeEvent<HTMLInputElement>, id: number) => void
+    handleImageFileChange: (e: ChangeEvent<HTMLInputElement>, id: number) => void
     id: number
 }
 
@@ -31,6 +35,11 @@ const InputImgFile:FC<InputImgFileProp> = (props) => {
 
 const FormStepThree: FC<FormStepProps> = (props) => {
     const { announce, stepActive, setStepActive, setAnnounce } = props;
+    
+    useEffect(() => {
+        announce.images = [];
+    },[])
+    
 
     const [isInfoPrincipalActive, setisInfoPrincipalActive] = useState(false);
     const [erroeMessage, setErroeMessage] = useState('');
@@ -78,15 +87,51 @@ const FormStepThree: FC<FormStepProps> = (props) => {
                 imagesDestination[0].classList.add('hide');
             }
         }
-
-        console.log(announce);
     }
 
     const postAd = () => {
-        if(!announce.principalPicture || !announce.principalPicture){
-            setErroeMessage("L'annonce doit avoir au moins l'iamge principale");
+        if(!announce.principalPicture){
+            setErroeMessage("L'annonce doit avoir au moins l'image principale");
         }else {
-            navigate('/app/rooms/1');
+            const ownerId = AccountServices.getUserId(); 
+            if(ownerId && localStorage.getItem('token')){
+                Axios.defaults.headers.common["Authorization"] = `Bearer ${localStorage.getItem('token')}`;
+                announce.ownerId = ownerId;
+                
+                const formdata: FormData = new FormData();
+
+                const announcement = new Announce(
+                    announce.title,
+                    announce.description,
+                    announce.ownerId,
+                    announce.state,
+                    announce.city,
+                    announce.postalCode,
+                    announce.address,
+                    announce.nbRoomatesSeached,
+                    new Date(announce.publishedAt.getTime()),
+                    announce.price,
+                    announce.announceType,
+                    announce.isOwnerCertified,
+                    announce.roomType,
+                    announce.roomfurnishedType,
+                    announce.genderSearched,
+                );
+
+                announce.images.forEach((file, i) => {
+                    formdata.append("files", file, file.name);
+                });
+                formdata.append("announce", JSON.stringify(announcement));
+                formdata.append("imagepp", announce.principalPicture);
+    
+                AnnounceService.saveAnnounce(formdata).then((res)=>{
+                    navigate('/app/rooms/');
+                }).catch((err)=>{
+                    console.log(err);
+                });
+
+
+            }
         }
     }
     return (

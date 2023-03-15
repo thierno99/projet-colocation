@@ -5,6 +5,7 @@ import java.io.IOException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.NonNull;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
@@ -43,9 +44,10 @@ public class JwtAuthFilter extends OncePerRequestFilter{
             	UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(userDetails,null, userDetails.getAuthorities());
             	
             	authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-//            	SecurityContext context = SecurityContextHolder.createEmptyContext();
-//            	context.setAuthentication(authenticationToken);
+            	SecurityContext context = SecurityContextHolder.createEmptyContext();
+            	context.setAuthentication(authenticationToken);
             	SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+            	SecurityContextHolder.setContext(context);
             	filterChain.doFilter(request,response);
             	
             }
