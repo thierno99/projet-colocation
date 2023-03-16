@@ -7,6 +7,7 @@
 body {
   margin: 0 auto;
   color: #514f4f;
+  font-size: .8rem;
 }
 
 .mw-220{
@@ -113,6 +114,17 @@ li{
   transition: width 0.3s ease 0s, left 0.3s ease 0s;
   width: 0;
 }
+.word-wrap {
+  overflow-wrap: break-word;
+}
+.reply:hover::after {
+  content: "repondre";
+}
+
+.reply-all:hover::after {
+  content: "repondre à tous";
+}
+
 
 .hover-underline-animation:hover:after { 
   width: 100%; 
@@ -533,6 +545,11 @@ li{
 .text-light {
   color: #e8ecf4;
 }
+
+.bg-light {
+  background: #ffffff;
+  color:#000000 #000000;
+}
 .text-dark-chocolate{
   color: #240424c9;
 }
@@ -695,6 +712,10 @@ li{
   background-color: #e7faff;
 }
 
+.hover-light-blue:hover {
+  background-color: #e7faff;
+}
+
 .bg-light-gold{
   background-color: #f4eba5;
 }
@@ -798,7 +819,9 @@ li{
 .mh-350{
   min-height: 350px;
 }
-
+.mh-250{
+  min-height: 250px;
+}
 .mh-20{
   min-height: 40px;
 }

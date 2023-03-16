@@ -4,18 +4,19 @@ import AccountServices from '../../services/account.service';
 import RoomateService from '../../services/roomate.service';
 import UserServices from '../../services/user.service';
 import { RoomateResDto } from '../../_utils/model/dto/roomateResDto';
-import { User } from '../../_utils/model/user-model';
 import defaultpng from '../../assets/Images/defaultpng.png';
+import { UserResDto } from '../../_utils/model/dto/userResDto';
 
 const ShowRoomates:FC<any> = (props) =>{
-    const [userInfo, setUerInfo] = useState(null as unknown as User);
+    const [userInfo, setUerInfo] = useState(null as unknown as UserResDto);
     const [roomates, setRoomates] = useState(null as unknown as RoomateResDto)
     const userId = (localStorage.getItem('userId') as string);
     const [noRoomates, setNoRoomates] = useState("");
     useEffect(() => {
 
         UserServices.getUserById(userId).then((user) => {
-            let usr = new User(
+            let usr = new UserResDto(
+                user.id,
                 user.lastname,
                 user.firstname,
                 user.sexe,
@@ -43,9 +44,10 @@ const ShowRoomates:FC<any> = (props) =>{
             .then((res) => { 
                 if(res) {
                     console.info(res);
-                    let users: User[] = []; 
+                    let users: UserResDto[] = []; 
                     res.roomates.forEach((usr:any) => users.push(
-                        new User(
+                        new UserResDto(
+                            usr.id,
                             usr.lastname,
                             usr.firstname,
                             usr.sexe,
@@ -100,30 +102,8 @@ const ShowRoomates:FC<any> = (props) =>{
 
                     <tbody>
                         {
-                            (roomates?.manager && roomates.manager?.id !== userId) &&
-                            <tr>
-                                <td>
-                                    <img 
-                                        src={roomates.manager?.profileImg?`data:image/png;base64,${roomates.manager?.profileImg}`:defaultpng} 
-                                        alt={roomates.manager?.firstname} 
-                                        className="mini-img rounded-full"
-                                    />
-                                </td>
-                                <td>
-                                    {roomates.manager?.firstname}
-                                </td>
-
-                                <td>
-                                    {roomates.manager?.phoneNumber}
-                                </td>
-                                <td className='pointer'>
-                                    <BiMessageRounded fontSize={20} color={'#1276ff'}/>
-                                </td>
-                            </tr>
-                        }
-
-                        {
                             roomates?.roomates?.map(roomate =>{
+                                console.log("---",roomate, userId)
                                 if(roomate.id !== roomates.manager?.id && roomate.id!==userId){
                                     return (
                                         <tr>
@@ -154,6 +134,55 @@ const ShowRoomates:FC<any> = (props) =>{
                         
                     </tbody>
                 </table>
+                :
+                <h4 className='text-center p-1'>{noRoomates}</h4>
+            }
+
+            {
+                noRoomates===""? 
+                <div className='w-100 my-2'>
+                    <h2 className='text-center'>Proprio</h2>
+                    <table className='table w-100 my-2'>
+                        <thead>
+                            <tr>
+                                <th className='relative'>profile</th>
+                                
+                                <th>nom usuel</th>
+
+                                <th>contact</th>
+                                
+                                <th>contacter</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            {
+                                (roomates?.manager && roomates.manager?.id !== userId) &&
+                                <tr>
+                                    <td>
+                                        <img 
+                                            src={roomates.manager?.profileImg?`data:image/png;base64,${roomates.manager?.profileImg}`:defaultpng} 
+                                            alt={roomates.manager?.firstname} 
+                                            className="mini-img rounded-full"
+                                        />
+                                    </td>
+                                    <td>
+                                        {roomates.manager?.firstname}
+                                    </td>
+
+                                    <td>
+                                        {roomates.manager?.phoneNumber}
+                                    </td>
+                                    <td className='pointer'>
+                                        <BiMessageRounded fontSize={20} color={'#1276ff'}/>
+                                    </td>
+                                </tr>
+                            }
+
+                            
+                        </tbody>
+                    </table>
+                </div>
                 :
                 <h4 className='text-center p-1'>{noRoomates}</h4>
             }
