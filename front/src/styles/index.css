@@ -125,6 +125,28 @@ li{
   content: "repondre à tous";
 }
 
+.mark-done:hover::after {
+  content: "complete";
+}
+/*----*/
+.task {
+  border: 1px solid #ccc;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.task button {
+  margin-left: 10px;
+}
+
+.task-list {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+
+/*--------*/
 
 .hover-underline-animation:hover:after { 
   width: 100%; 
@@ -465,6 +487,14 @@ li{
   cursor: not-allowed;
 }
 
+.desabled select{
+  background-color: #53545436;
+}
+
+.bg-gray {
+  background-color: #53545436 !important;
+}
+
 .p-card {
   max-height: 350px;
 }
@@ -733,7 +763,7 @@ li{
 }
 
 .bg-light-sucess{
-  background-color: #ddf2d7;
+  background-color: #ddf2d7 !important;
 }
 
 .danger{

@@ -275,8 +275,8 @@ const UserProfile:FC<any> = (props) => {
                     </h4>
 
                     <div className="container flex mt-1 wrap">
-                        <div className={"relative border-1 br-1 auto mw-220 mt-half"+(userInfo?.roles.map(a => a.name).indexOf("MANAGER")!==-1?" w-half": " w-100")}>
-                            <h4 className='text-center py-1 mt-2'>Mes informations</h4>
+                        <div className={"relative border-1 br-1 auto mw-220 mt-half w-70"}>
+                            <h4 className='text-center py-1 mt-2'>Mes </h4>
                             <div className="absolute top-0 right-0 p-half">
                                 {
                                     !isEditModeActive?
@@ -387,34 +387,6 @@ const UserProfile:FC<any> = (props) => {
                             </div>
                         </div>
 
-                        {
-                            userInfo?.roles.map(a => a.name).indexOf("MANAGER")!==-1 && (
-
-                                <div className="mx-auto  relative border-1 br-1 w-half flex column mw-220 mt-half bg-light-blue">
-                                    <h4 className='text-center py-1'>Tâches</h4>
-
-                                    <div className="flex column center w-100 relative">
-                                        <div className='w-full my-1'>
-                                            <h5 className='text-center text-gray'>Aucune Tâche Pour le moment</h5>
-                                        </div>
-
-                                        <div className="flex space-between w-100">
-
-                                            <button className="ml-half w-half btn bg-light-blue w-full py-half px-1 my-1">
-                                                Tâches
-                                            </button>
-
-                                            <button className="mr-half w-half btn bg-light-blue w-full py-half px-1 my-1">
-                                                + Tâches
-                                            </button>
-                                        </div>
-                                        
-                                    </div>
-                                </div>
-                            ) 
-
-                        }
-
                     </div>
 
                     <div className="container flex mt-1 wrap mb-2">
@@ -447,7 +419,7 @@ const UserProfile:FC<any> = (props) => {
                                         <small className='bold'>Colocs</small>
                                     </div>
 
-                                    <div className="rounded-full util flex column center border bg-light-pink p-1 relative mx-1 my-1">
+                                    <div className="rounded-full util flex column center border bg-light-pink p-1 relative mx-1 my-1" onClick={() => navigate('/app/user-profile/view/task')}>
                                         <GrTask className='w-full' fontSize={25}/>
                                         <small className='bold'>Tâches</small>
                                     </div>
