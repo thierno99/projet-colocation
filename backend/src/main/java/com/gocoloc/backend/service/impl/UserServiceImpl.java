@@ -52,6 +52,7 @@ public class UserServiceImpl implements UserService{
     @Override
     public User SaveUser(User user) {
         log.info("Saving User to the Database");
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         User createdUser = userRepository.save(user);
         addRoleToUser(createdUser.getEmail(), "USER");
         return createdUser;
@@ -73,7 +74,7 @@ public class UserServiceImpl implements UserService{
         User user = userRepository.findByEmail(email);
         Role role = roleRepository.findByName(roleName);
         user.getRoles().add(role);
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        //user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
         log.info("Adding Role {} to the User {}", role.getName(), user.getLastname()+' '+user.getFirstname());
     }
