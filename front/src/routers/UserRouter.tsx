@@ -5,6 +5,7 @@ import ShowCandidacies from '../components/profile/show-candidacies';
 import ShowRoomates from '../components/profile/show-roomates';
 import ShowUserDmd from '../components/profile/show-user-demand';
 import UserProfile from '../components/profile/user-profile';
+import ViewTask from '../components/profile/view-task';
 import Guards from '../_utils/guards/Guards';
 import Home from './../components/home/Home';
 
@@ -51,6 +52,14 @@ function UserRouter() {
                 {
                     <Guards.AuthGard>
                         <Notification/>
+                    </Guards.AuthGard>
+                }
+            />
+            
+            <Route path='/app/user-profile/view/task'element = 
+                {
+                    <Guards.AuthGard>
+                        <ViewTask/>
                     </Guards.AuthGard>
                 }
             />

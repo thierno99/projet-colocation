@@ -5,12 +5,22 @@ import { FaRegEye, FaRegEyeSlash } from 'react-icons/fa';
 
 import AccountServices from '../../services/account.service';
 import { goUp } from '../../_utils/functions/functions';
+import { REFRESH } from '../../constants/constants';
+import { AiOutlineClose, AiOutlineReload } from 'react-icons/ai';
 
 function Login() {
     goUp();
     const navigate = useNavigate();
     const [credentials, setCredentials] = useState({
     })
+
+    const [responseMsg, setResponseMsg] = useState(
+        {
+            message: "",
+            style: "",
+            type: ""
+        }
+    );
 
     const[passwordIsVisible, setPasswordIsVisible] = useState(false);
 
@@ -34,12 +44,38 @@ function Login() {
                 }
             })
             .catch((err) => {
-                console.log(err)
+                setResponseMsg({
+                    message: "Identifiant ou mot de passe Incorrect",
+                    style: "danger",
+                    type: 'quit'
+                });
+
             })
         ;
     }
     return (
-        <div className='background-login mh-100 flex column j-center'>
+        <div className='background-login mh-100 flex column j-center relative'>
+            {
+                responseMsg.message!=="" && 
+                <div className={`text-center ${responseMsg.style} w-100 p-1 flex space-around absolute top-0 text-light`}>
+                    {responseMsg.message}
+                    <button className='bg-none border-1 flex flex-end'
+                        onClick={()=> responseMsg.type === 'refresh'? window.location.reload(): setResponseMsg({...responseMsg, message:"", type:""})}
+                    >
+                        {
+                            responseMsg.type===REFRESH ?
+                            <>
+                                <h4>
+                                    rafraichir
+                                </h4>
+                                <AiOutlineReload fontSize={30}/>
+                            </>
+                            :
+                            <AiOutlineClose fontSize={30}/>
+                        }
+                    </button>
+                </div>
+            }
             <div className='flex column center'>
                 <div className='w-full xs-width'>
                     <h3 className='text-center flex center text-white'> 

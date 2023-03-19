@@ -1,11 +1,12 @@
 import { MessageDto } from "../_utils/model/dto/messageDto";
+import { Message } from "../_utils/model/message-model";
 import Axios from "./axios.service";
 
 const saveMessage = (message: MessageDto) => {
     return Axios.post('/message/save', message);
 }
 
-const updateMessage = (message: MessageDto) => {
+const updateMessage = (message: Message) => {
     return Axios.put('/message/update', message);
 }
 
