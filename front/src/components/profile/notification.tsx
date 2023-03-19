@@ -395,8 +395,14 @@ const Notification:FC<any> = (props) => {
     return (
         <div className='w-100 relative'>
             {
-                loading?
-                <Loader/>
+                (loading || !roomatesUsers || !roomatesUsers.announce || roomatesUsers.roomates.length<=0 )?
+                (
+                    loading?
+                    <Loader/>:
+                    <div className='w-full my-1 text-center text-gray'>
+                        <h2>Vous N'avez Pas de Colocataire pour le moment</h2>
+                    </div>
+                )
                 :
             
                 <>

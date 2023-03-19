@@ -177,10 +177,16 @@ const ShowCandidacies:FC<ShowCandidaciesProps> = (props) => {
 
             <div className="flex column center w-100 relative">
                 {
-                    candidacies.length <= 0 ?
+                    candidacies.length <= 0 ?(
+                        userInfo?.roles?.map(r=>r.name).includes("ADMIN") ?
                         <div className='w-full my-1'>
                             <h5 className='text-center text-gray'>Aucune Candidature Pour le moment</h5>
                         </div>
+                        :
+                        <div className='w-full my-1'>
+                            <h2 className='text-center text-gray'>Vous N'avez Pas de Propriété</h2>
+                        </div>
+                    )
                     :
                     
                     <div className="flex space-between w-100 small-font">

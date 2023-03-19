@@ -69,7 +69,8 @@ const ShowRoomates:FC<any> = (props) =>{
                     setNoRoomates("");
                     setRoomates(roomatesTmp);
                 }else {
-                    setNoRoomates("Vous n'avez pas de Colocataire pour le moment");
+                    const msgErr = "Vous n'avez pas de Colocataire pour le moment";
+                    setNoRoomates(msgErr);
                 }
             })
             .catch(error => {
@@ -87,62 +88,8 @@ const ShowRoomates:FC<any> = (props) =>{
             <h2 className='text-center p-1'>Vos Colocs</h2>
             {
                 noRoomates===""? 
-                <table className='table w-100'>
-                    <thead>
-                        <tr>
-                            <th className='relative'>profile</th>
-                            
-                            <th>nom usuel</th>
-
-                            <th>contact</th>
-                            
-                            <th>contacter</th>
-                        </tr>
-                    </thead>
-
-                    <tbody>
-                        {
-                            roomates?.roomates?.map(roomate =>{
-                                console.log("---",roomate, userId)
-                                if(roomate.id !== roomates.manager?.id && roomate.id!==userId){
-                                    return (
-                                        <tr>
-                                            <td>
-                                                <img 
-                                                    src={roomates.manager?.profileImg?`data:image/png;base64,${roomate.profileImg}`:defaultpng} 
-                                                    alt={roomate.firstname} 
-                                                    className="mini-img rounded-full"
-                                                />
-                                            </td>
-                                            <td>
-                                                {roomate.firstname}
-                                            </td>
-
-                                            <td>
-                                                {roomate.phoneNumber}
-                                            </td>
-                                            <td className='pointer'>
-                                                <BiMessageRounded fontSize={20} color={'#1276ff'}/>
-                                            </td>
-                                        </tr>
-                                    )
-                                }
-                            }
-                            )
-                        }
-
-                        
-                    </tbody>
-                </table>
-                :
-                <h4 className='text-center p-1'>{noRoomates}</h4>
-            }
-
-            {
-                noRoomates===""? 
-                <div className='w-100 my-2'>
-                    <h2 className='text-center'>Proprio</h2>
-                    <table className='table w-100 my-2'>
+                <>
+                    <table className='table w-100'>
                         <thead>
                             <tr>
                                 <th className='relative'>profile</th>
@@ -157,32 +104,83 @@ const ShowRoomates:FC<any> = (props) =>{
 
                         <tbody>
                             {
-                                (roomates?.manager && roomates.manager?.id !== userId) &&
-                                <tr>
-                                    <td>
-                                        <img 
-                                            src={roomates.manager?.profileImg?`data:image/png;base64,${roomates.manager?.profileImg}`:defaultpng} 
-                                            alt={roomates.manager?.firstname} 
-                                            className="mini-img rounded-full"
-                                        />
-                                    </td>
-                                    <td>
-                                        {roomates.manager?.firstname}
-                                    </td>
+                                roomates?.roomates?.map(roomate =>{
+                                    console.log("---",roomate, userId)
+                                    if(roomate.id !== roomates.manager?.id && roomate.id!==userId){
+                                        return (
+                                            <tr>
+                                                <td>
+                                                    <img 
+                                                        src={roomates.manager?.profileImg?`data:image/png;base64,${roomate.profileImg}`:defaultpng} 
+                                                        alt={roomate.firstname} 
+                                                        className="mini-img rounded-full"
+                                                    />
+                                                </td>
+                                                <td>
+                                                    {roomate.firstname}
+                                                </td>
 
-                                    <td>
-                                        {roomates.manager?.phoneNumber}
-                                    </td>
-                                    <td className='pointer'>
-                                        <BiMessageRounded fontSize={20} color={'#1276ff'}/>
-                                    </td>
-                                </tr>
+                                                <td>
+                                                    {roomate.phoneNumber}
+                                                </td>
+                                                <td className='pointer'>
+                                                    <BiMessageRounded fontSize={20} color={'#1276ff'}/>
+                                                </td>
+                                            </tr>
+                                        )
+                                    }
+                                }
+                                )
                             }
 
                             
                         </tbody>
                     </table>
-                </div>
+
+                    <div className='w-100 my-2'>
+                        <h2 className='text-center'>Proprio</h2>
+                        <table className='table w-100 my-2'>
+                            <thead>
+                                <tr>
+                                    <th className='relative'>profile</th>
+                                    
+                                    <th>nom usuel</th>
+
+                                    <th>contact</th>
+                                    
+                                    <th>contacter</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                {
+                                    (roomates?.manager && roomates.manager?.id !== userId) &&
+                                    <tr>
+                                        <td>
+                                            <img 
+                                                src={roomates.manager?.profileImg?`data:image/png;base64,${roomates.manager?.profileImg}`:defaultpng} 
+                                                alt={roomates.manager?.firstname} 
+                                                className="mini-img rounded-full"
+                                            />
+                                        </td>
+                                        <td>
+                                            {roomates.manager?.firstname}
+                                        </td>
+
+                                        <td>
+                                            {roomates.manager?.phoneNumber}
+                                        </td>
+                                        <td className='pointer'>
+                                            <BiMessageRounded fontSize={20} color={'#1276ff'}/>
+                                        </td>
+                                    </tr>
+                                }
+
+                                
+                            </tbody>
+                        </table>
+                    </div>
+                </>
                 :
                 <h4 className='text-center p-1'>{noRoomates}</h4>
             }

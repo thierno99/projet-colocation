@@ -323,32 +323,41 @@ const ViewTask = () => {
     
     return (
         <div className='container auto relative'>
+            {
+                (!users || !users.announce || users.roomates.length<=0 )?
+                <div className='w-full my-1 text-center text-gray'>
+                    <h2>Vous N'avez Pas de Colocataire pour le moment</h2>
+                    <p>Néamoins vous pouvez manager vos tâche pour vous seulement :)</p>
+                </div>
+                :null
+            }
 
-                {
-                    responseMsg.message!=="" && 
-                    <div className={`text-center ${responseMsg.style} w-100 p-1 flex space-around`}>
-                        {responseMsg.message}
-                        <button className='bg-none border-1 flex flex-end'
-                            onClick={()=> responseMsg.type === 'refresh'? window.location.reload(): setResponseMsg({...responseMsg, message:"", type:""})}
-                        >
-                            {
-                                responseMsg.type===REFRESH ?
-                                <>
-                                    <h4>
-                                        rafraichir
-                                    </h4>
-                                    <AiOutlineReload fontSize={30}/>
-                                </>
-                                :
-                                <AiOutlineClose fontSize={30}/>
-                            }
-                        </button>
-                    </div>
-                }
+            {
+                responseMsg.message!=="" && 
+                <div className={`text-center ${responseMsg.style} w-100 p-1 flex space-around`}>
+                    {responseMsg.message}
+                    <button className='bg-none border-1 flex flex-end'
+                        onClick={()=> responseMsg.type === 'refresh'? window.location.reload(): setResponseMsg({...responseMsg, message:"", type:""})}
+                    >
+                        {
+                            responseMsg.type===REFRESH ?
+                            <>
+                                <h4>
+                                    rafraichir
+                                </h4>
+                                <AiOutlineReload fontSize={30}/>
+                            </>
+                            :
+                            <AiOutlineClose fontSize={30}/>
+                        }
+                    </button>
+                </div>
+            }
 
             <h3 className="mt-2 mb-1 text-center">
                 Trier par:
             </h3>
+
             <div className="flex auto w-70 relative">
                 <div className='w-30 relative mr-half'>
                     <h4>creer | assigné</h4>
@@ -383,6 +392,7 @@ const ViewTask = () => {
                 </div>
 
             </div>
+
             <table className='table w-100 my-2'>
                 <thead>
                     <tr>
@@ -398,125 +408,125 @@ const ViewTask = () => {
                 </thead>
 
                 <tbody>
-        {tasks.map((task,index) => {
-            if(
-                (taskFilter.task.includes('assigned')?task.assignedTo?.id?.includes(userId): (taskFilter.task.includes('created')?task.createdBy?.id?.includes(userId): true)) &&
-                task.status.toLowerCase().includes(taskFilter.status.toLowerCase()) &&
-                task.priority.toLowerCase().includes(taskFilter.priority.toLowerCase())
-            )
-            return (
-                <tr key={task.id} className={task.status==="Terminé"?" bg-gray":""}>
-                <td>{index+1}</td>
-                <td>{task.title}</td>
-                <td>{new Intl.DateTimeFormat('fr-FR').format(new Date(task.createdAt))+""}</td>
-                <td>{task.createdBy.firstname}</td>
-                <td className={task.status==="Terminé"?"desabled":""}>
-                    <select value={task.assignedTo?.id} onChange={(e)=>onUpdate(task,index,e)} name="assignedTo" >
-                    <option value="">-- Sélectionner --</option>
-                    { users && users.roomates && users.roomates.length > 0 &&
-                        users.roomates.map((user) => 
-                            <option value={user.id} key={user.id}>{user.firstname}</option>
-                        )
-                    }
-                    </select>
-                </td>
-                <td>{task.status}</td>
-                <td className={task.status==="Terminé"?"desabled":""}>
-                    <select name="priority" id="" className='w-100' value={task.priority} onChange={(e)=>onUpdate(task,index,e)}>
-                        <option value="">-- Sélectionner --</option>
-                        <option value="Moyenne">Moyenne</option>
-                        <option value="Basse">Basse</option>
-                        <option value="Haute">Haute</option>
-                    </select>
-                </td>
-                <td>
-                    {
-                        task.createdBy.id === userId && (taskIndexsEdited.indexOf(index)===-1) &&
-                        <>
-                            <button className="px-half mr-half danger pointer" onClick={()=>deleteTask(task.id)}><FcFullTrash/></button>
-                            <button className={"px-half mr-half bg-light-gold pointer"+(task.status==="Terminé"?" desabled":"")} onClick={()=>editTask(task,index)}><AiOutlineEdit/></button>
-                            <button className={"px-half success pointer mark-done"+(task.status==="Terminé"?" desabled":"")} onClick={()=> updateTask(task,index,"Terminé")}><MdDone/></button>
-                        </>
-                    }
-                    {
-                        (taskIndexsEdited.indexOf(index)!==-1) &&
-                        <div className='w-80 flex flex-end auto'>
-                            <button className="px-half success pointer p-half flex center text-center" onClick={()=>updateTask(task,index)}>Enregistrer<MdDone/></button>
-                        </div>
-                    }
-                </td>
-                </tr>
-                )
-                return null;
-            })}
-        </tbody>
-        </table>
-        <div className="flex w-100 center">
-
-            <button className="mr-half w-half btn bg-light-blue w-full py-half px-1 my-1" onClick={()=>setShowPupup(true)}>
-                <IoIosAddCircleOutline fontSize={30}/>
-            </button>
-        </div>
-
-        {
-            showpopup &&
-            <Modal closeModal={closeModal}> 
-                <div className='my-1'>
-                {
-                    responseMsg.message!=="" &&
-                    <div className={`text-center ${responseMsg.style} w-100 p-1 flex space-around`}>
-                        {responseMsg.message}
-                        <button className='bg-none border-1 flex flex-end'
-                            onClick={()=> responseMsg.type === 'refresh'? window.location.reload(): setResponseMsg({...responseMsg, message:"", type:""})}
-                        >
-                            {
-                                responseMsg.type===REFRESH ?
-                                <>
-                                    <h4>
-                                        rafraichir
-                                    </h4>
-                                    <AiOutlineReload fontSize={30}/>
-                                </>
-                                :
-                                <AiOutlineClose fontSize={30}/>
+                    {tasks.map((task,index) => {
+                    if(
+                        (taskFilter.task.includes('assigned')?task.assignedTo?.id?.includes(userId): (taskFilter.task.includes('created')?task.createdBy?.id?.includes(userId): true)) &&
+                        task.status.toLowerCase().includes(taskFilter.status.toLowerCase()) &&
+                        task.priority.toLowerCase().includes(taskFilter.priority.toLowerCase())
+                    )
+                    return (
+                        <tr key={task.id} className={task.status==="Terminé"?" bg-gray":""}>
+                        <td>{index+1}</td>
+                        <td>{task.title}</td>
+                        <td>{new Intl.DateTimeFormat('fr-FR').format(new Date(task.createdAt))+""}</td>
+                        <td>{task.createdBy.firstname}</td>
+                        <td className={task.status==="Terminé"?"desabled":""}>
+                            <select value={task.assignedTo?.id} onChange={(e)=>onUpdate(task,index,e)} name="assignedTo" >
+                            <option value="">-- Sélectionner --</option>
+                            { users && users.roomates && users.roomates.length > 0 &&
+                                users.roomates.map((user) => 
+                                    <option value={user.id} key={user.id}>{user.firstname}</option>
+                                )
                             }
-                        </button>
-                    </div>
-                }
-                    <h3 className="text-center">Nouvelle Tâche</h3>
-                    <form action="" className='w-full my-2 auto'>
-                        <div className="my-1 flex column">
-                            <label htmlFor="title"><h4>Titre</h4></label>
-                            <input type="text" className='w-100 p-1' name='title' id='title' value={newTask.title} onChange={(e)=>handleInputAddTaskChange(e)}/>
-                        </div>
-
-                        <div className="my-1 flex column">
-                            <label htmlFor="description"><h4>Description</h4></label>
-                            <textarea className='w-100 p-1' rows={10} value={newTask.description} id="description" name='description' onChange={(e)=>handleTexteAreaAddTaskChange(e)}>
-                                {newTask.description}
-                            </textarea>
-                        </div>
-
-                        <div className="my-1 flex column">
-                            <label htmlFor="priority"><h4>Priorité</h4></label>
-                            <select name="priority" id="priority" className='w-100 p-1' value={newTask.priority} onChange={(e)=>handleSelectChange(e)}>
+                            </select>
+                        </td>
+                        <td>{task.status}</td>
+                        <td className={task.status==="Terminé"?"desabled":""}>
+                            <select name="priority" id="" className='w-100' value={task.priority} onChange={(e)=>onUpdate(task,index,e)}>
+                                <option value="">-- Sélectionner --</option>
                                 <option value="Moyenne">Moyenne</option>
                                 <option value="Basse">Basse</option>
                                 <option value="Haute">Haute</option>
                             </select>
-                        </div>
+                        </td>
+                        <td>
+                            {
+                                task.createdBy.id === userId && (taskIndexsEdited.indexOf(index)===-1) &&
+                                <>
+                                    <button className="px-half mr-half danger pointer" onClick={()=>deleteTask(task.id)}><FcFullTrash/></button>
+                                    <button className={"px-half mr-half bg-light-gold pointer"+(task.status==="Terminé"?" desabled":"")} onClick={()=>editTask(task,index)}><AiOutlineEdit/></button>
+                                    <button className={"px-half success pointer mark-done"+(task.status==="Terminé"?" desabled":"")} onClick={()=> updateTask(task,index,"Terminé")}><MdDone/></button>
+                                </>
+                            }
+                            {
+                                (taskIndexsEdited.indexOf(index)!==-1) &&
+                                <div className='w-80 flex flex-end auto'>
+                                    <button className="px-half success pointer p-half flex center text-center" onClick={()=>updateTask(task,index)}>Enregistrer<MdDone/></button>
+                                </div>
+                            }
+                        </td>
+                        </tr>
+                        )
+                        return null;
+                    })}
+                </tbody>
+            </table>
+            <div className="flex w-100 center">
 
-                        <div className="my-1 flex flex-end w-100 auto">
-                            <button className='bg-primary text-light p-1' onClick={(e)=>addTask(e)}>
-                                <h4>{EditMode?"Modifier": "Ajouter"}</h4>
+                <button className="mr-half w-half btn bg-light-blue w-full py-half px-1 my-1" onClick={()=>setShowPupup(true)}>
+                    <IoIosAddCircleOutline fontSize={30}/>
+                </button>
+            </div>
+
+            {
+                showpopup &&
+                <Modal closeModal={closeModal}> 
+                    <div className='my-1'>
+                    {
+                        responseMsg.message!=="" &&
+                        <div className={`text-center ${responseMsg.style} w-100 p-1 flex space-around`}>
+                            {responseMsg.message}
+                            <button className='bg-none border-1 flex flex-end'
+                                onClick={()=> responseMsg.type === 'refresh'? window.location.reload(): setResponseMsg({...responseMsg, message:"", type:""})}
+                            >
+                                {
+                                    responseMsg.type===REFRESH ?
+                                    <>
+                                        <h4>
+                                            rafraichir
+                                        </h4>
+                                        <AiOutlineReload fontSize={30}/>
+                                    </>
+                                    :
+                                    <AiOutlineClose fontSize={30}/>
+                                }
                             </button>
                         </div>
+                    }
+                        <h3 className="text-center">Nouvelle Tâche</h3>
+                        <form action="" className='w-full my-2 auto'>
+                            <div className="my-1 flex column">
+                                <label htmlFor="title"><h4>Titre</h4></label>
+                                <input type="text" className='w-100 p-1' name='title' id='title' value={newTask.title} onChange={(e)=>handleInputAddTaskChange(e)}/>
+                            </div>
 
-                    </form>
-                
-                </div>
-            </Modal>
-        }
+                            <div className="my-1 flex column">
+                                <label htmlFor="description"><h4>Description</h4></label>
+                                <textarea className='w-100 p-1' rows={10} value={newTask.description} id="description" name='description' onChange={(e)=>handleTexteAreaAddTaskChange(e)}>
+                                    {newTask.description}
+                                </textarea>
+                            </div>
+
+                            <div className="my-1 flex column">
+                                <label htmlFor="priority"><h4>Priorité</h4></label>
+                                <select name="priority" id="priority" className='w-100 p-1' value={newTask.priority} onChange={(e)=>handleSelectChange(e)}>
+                                    <option value="Moyenne">Moyenne</option>
+                                    <option value="Basse">Basse</option>
+                                    <option value="Haute">Haute</option>
+                                </select>
+                            </div>
+
+                            <div className="my-1 flex flex-end w-100 auto">
+                                <button className='bg-primary text-light p-1' onClick={(e)=>addTask(e)}>
+                                    <h4>{EditMode?"Modifier": "Ajouter"}</h4>
+                                </button>
+                            </div>
+
+                        </form>
+                    
+                    </div>
+                </Modal>
+            }
         </div>
     );
 }

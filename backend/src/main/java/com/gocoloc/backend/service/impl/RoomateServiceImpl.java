@@ -56,6 +56,8 @@ public class RoomateServiceImpl implements RoomateService {
 			roomate.setUserIds(userIds);
 			roomateRepository.save(roomate);
 			log.info("user added as roomates !");
+			userService.addRoleToUserById(userId, "ADMIN");
+			userService.addRoleToUserById(managerId, "MANAGER");
 			return roomate;		
 		}
 		
