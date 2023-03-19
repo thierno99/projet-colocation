@@ -20,6 +20,7 @@ public interface UserService {
     Role getRoleByNaRole(String name);
     
     void addRoleToUser(String email, String roleName);
+    void addRoleToUserById(String id, String roleName);
     
     boolean existsByuserEmail(String email);
     

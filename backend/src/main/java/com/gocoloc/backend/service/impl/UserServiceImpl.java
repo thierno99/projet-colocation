@@ -74,9 +74,20 @@ public class UserServiceImpl implements UserService{
         User user = userRepository.findByEmail(email);
         Role role = roleRepository.findByName(roleName);
         user.getRoles().add(role);
-        //user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
         log.info("Adding Role {} to the User {}", role.getName(), user.getLastname()+' '+user.getFirstname());
+    }
+    
+    @Override
+    public void addRoleToUserById(String id, String roleName) {
+        Optional<User> userOpt = userRepository.findById(id);
+        if(!userOpt.isEmpty()) {
+        	User user = userOpt.get();
+			Role role = roleRepository.findByName(roleName);
+        	user.getRoles().add(role);
+        	userRepository.save(user);
+        	log.info("Adding Role {} to the User {}", role.getName(), user.getLastname()+' '+user.getFirstname());
+        }
     }
 
     @Override

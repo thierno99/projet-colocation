@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.gocoloc.backend.domain.Announcement;
 import com.gocoloc.backend.repository.AnnouncementRepository;
 import com.gocoloc.backend.service.AnnouncementService;
+import com.gocoloc.backend.service.UserService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -28,11 +29,15 @@ public class AnnoucementServiceImpl implements AnnouncementService {
 	private AnnouncementRepository announcementRepository;
 	
 	@Autowired
+	private UserService userService;
+	
+	@Autowired
     private MongoOperations mongoOps;
 	
 	@Override
 	public Announcement saveAnnounce(Announcement announce) {
 		if(announce.isValid()) {
+			userService.addRoleToUserById(announce.getOwnerId(), "ADMIN");
 			return announcementRepository.save(announce);
 		}
 		return null;

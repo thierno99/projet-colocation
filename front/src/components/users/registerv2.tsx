@@ -71,9 +71,9 @@ function Login() {
 
             UserServices.RegisterUser(user)
                 .then((res) => {
-                    if (res.status === 200) {
+                    if (res.status === 200 || res.status === 201) {
                         alert("votre compte à été bien creer, veillez vous connecté pour profiter plainement des fonctionnaliés");
-                        navigate("/app/login");
+                        navigate("/app/signin");
                     }
                 })
                 .catch((err) => {
@@ -105,7 +105,7 @@ function Login() {
                                 <legend><strong>Type de colocation:</strong></legend>
                                 <Form.InputRadio name={'sexe'} label={'Mr'} value={'Mr'} handleInputRadioChange={handleInputRadioChange} checked={credentials?.sexe==="Mr"}/>
                                 <Form.InputRadio name={'sexe'} label={'Mme'} value={'Mme'}  handleInputRadioChange={handleInputRadioChange}  checked={credentials?.sexe==="Mme"}/>
-                                <Form.InputRadio name={'sexe'} label={'X'} value={'Autre'} handleInputRadioChange={handleInputRadioChange}  checked={credentials?.sexe==="X"}/>
+                                <Form.InputRadio name={'sexe'} label={'Autre'} value={'Autre'} handleInputRadioChange={handleInputRadioChange}  checked={credentials?.sexe==="X"}/>
                             </fieldset>
                         </div>
                         <div className='my-litle flex column'>
