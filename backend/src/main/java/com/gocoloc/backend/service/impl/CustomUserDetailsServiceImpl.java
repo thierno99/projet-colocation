@@ -27,8 +27,6 @@ public class CustomUserDetailsServiceImpl  implements CustomUserDetailsService{
         if(user == null) {
             log.error("User " + username + " not found");
             throw new UsernameNotFoundException("User " + username + " not found");
-        } else {
-            log.info("User {} with pwd= {} is founded",username, user.getPassword());
         }
         Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
         user.getRoles().forEach(role -> {
